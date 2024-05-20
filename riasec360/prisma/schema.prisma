@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model aplicacao {
+  id_aplicacao     Int       @id @default(autoincrement())
+  id_respondente   Int?
+  id_grupo         Int?
+  id_teste         Int?
+  local            String?   @db.VarChar(50)
+  data_agendamento DateTime? @db.Timestamp(0)
+  inicio_aplicacao DateTime? @db.Timestamp(0)
+  fim_aplicacao    DateTime? @db.Timestamp(0)
+}
+
+model cartao {
+  id_cartao    Int            @id @default(autoincrement())
+  pergunta     String?        @db.VarChar(300)
+  tipo         String?        @db.VarChar(50)
+  em_uso       Boolean?       @default(false)
+  teste_cartao teste_cartao[]
+}
+
+model teste {
+  id_teste      Int            @id @default(autoincrement())
+  descricao     String?        @db.VarChar(300)
+  quant_cartoes Int?
+  data_criacao  DateTime?      @db.Timestamp(0)
+  teste_cartao  teste_cartao[] @relation()
+}
+
+model teste_cartao {
+  id_teste  Int
+  id_cartao Int
+  teste     teste  @relation(fields: [id_teste], references: [id_teste], onDelete: Cascade, onUpdate: NoAction, map: "teste_cartao_ibfk_1")
+  cartao    cartao @relation(fields: [id_cartao], references: [id_cartao], onDelete: NoAction, onUpdate: NoAction, map: "teste_cartao_ibfk_2")
+
+  @@id([id_teste, id_cartao])
+  @@index([id_cartao], map: "id_cartao")
+}
+
+model resposta_cartao {
+  id_resposta   Int     @id @default(autoincrement())
+  id_aplicacao  Int?
+  id_cartao     Int?
+  resposta      String? @db.VarChar(50)
+  tipo_resposta String? @db.VarChar(50)
+}
+
+model grupo {
+  id_grupo      Int             @id @default(autoincrement())
+  nome          String?         @unique(map: "nome") @db.VarChar(50)
+  descricao     String?         @db.VarChar(300)
+  data_criacao  DateTime?       @db.Timestamp(0)
+  usuario_grupo usuario_grupo[]
+}
+
+model usuario {
+  id_user          Int             @id @default(autoincrement())
+  nome             String?         @db.VarChar(50)
+  data_nasc        DateTime?       @db.Date
+  login            String?         @unique(map: "login") @db.VarChar(50)
+  senha            String?         @db.VarChar(50)
+  data_criacao     DateTime?       @db.Timestamp(0)
+  data_atualizacao DateTime?       @db.Timestamp(0)
+  usuario_grupo    usuario_grupo[]
+}
+
+model usuario_grupo {
+  id_usuario Int
+  id_grupo   Int
+  usuario    usuario @relation(fields: [id_usuario], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "usuario_grupo_ibfk_1")
+  grupo      grupo   @relation(fields: [id_grupo], references: [id_grupo], onDelete: NoAction, onUpdate: NoAction, map: "usuario_grupo_ibfk_2")
+
+  @@id([id_usuario, id_grupo])
+  @@index([id_grupo], map: "id_grupo")
+}
