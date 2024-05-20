@@ -21,3 +21,4 @@
 - Validar se o tratamento de erros atual está certo
 - Arrumar um tratamento de erros melhor
 - Conferir se todas as funções estão com o tratamento de erro correto
+- Configurar melhor o git
