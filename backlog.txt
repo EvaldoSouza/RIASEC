@@ -1,3 +1,5 @@
+- Fazer a autenticação
+- Criar uma página de usuario
 - Adicionar lógica do cartão em uso
 - Adicionar Salvar como em Teste e Cartão quando não puder alterar
 - Metodo genérico para checar se algo está em uso. Conferir se o prisma tem uma função generica pra isso.

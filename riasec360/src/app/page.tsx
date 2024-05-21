@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import fs from "fs/promises";
+import Link from "next/link";
 
 export default async function Inicial() {
   try {
@@ -12,6 +14,11 @@ export default async function Inicial() {
     //criar arqivo template com : navbar, menu, pagina
     return (
       <>
+        <div>
+          <Link href="/login">
+            <Button> Login</Button>
+          </Link>
+        </div>
         <Box sx={{ width: "100%" }}>
           <Typography variant="h6" padding={"16px"}>
             {displayDesc.descricao_teste}
