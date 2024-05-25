@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { BuscarTodosTestes } from "../lib/testesActions";
+import { BuscarTodosTestes } from "../../actions/testesActions";
 
 export default async function gerenciarTestes() {
   //Perguntar

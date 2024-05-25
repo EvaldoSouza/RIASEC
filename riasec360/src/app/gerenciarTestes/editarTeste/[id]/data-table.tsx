@@ -41,7 +41,7 @@ import {
   criarTeste,
   criarTesteComID,
   DeletarTeste,
-} from "@/app/lib/testesActions";
+} from "@/actions/testesActions";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
@@ -202,7 +202,6 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </div>
-
       <div>
         <Form {...form}>
           <form

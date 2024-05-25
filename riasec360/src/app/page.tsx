@@ -15,7 +15,10 @@ export default async function Inicial() {
     return (
       <>
         <div>
-          <Link href="/login">
+          <Link href={"/usuarios/cadastrar"}>
+            <Button className="">Cadastrar</Button>
+          </Link>
+          <Link href="/usuarios/login">
             <Button> Login</Button>
           </Link>
         </div>

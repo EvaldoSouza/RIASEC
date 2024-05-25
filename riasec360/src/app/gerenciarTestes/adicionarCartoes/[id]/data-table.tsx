@@ -40,10 +40,8 @@ import { z } from "zod";
 import {
   adicionarCartoesATeste,
   criarTesteComID,
-  deletarListaCartoesEmTeste,
   DeletarTeste,
-  deletarTeste_Cartao,
-} from "@/app/lib/testesActions";
+} from "@/app/actions/testesActions";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
@@ -109,9 +107,11 @@ export function DataTable<TData, TValue>({
     const cartoes = Object.keys(rowSelection);
     console.log(cartoes);
     const ids = cartoes.map((numero) => +numero);
-    const testeEditado = await deletarListaCartoesEmTeste(+id_teste, ids);
-
-    router.push(`/gerenciarTestes/editarTeste?id_teste=${id_teste}`);
+    const novoTeste = await adicionarCartoesATeste(+id_teste, ids);
+    console.log(novoTeste);
+    if (novoTeste) {
+      router.push(`/gerenciarTestes/editarTeste?id_teste=${id_teste}`);
+    }
   }
 
   // useEffect(() => {
@@ -207,7 +207,7 @@ export function DataTable<TData, TValue>({
         </Button>
       </div>
 
-      <Button onClick={onSubmit}>Remover Cartões</Button>
+      <Button onClick={onSubmit}>Salvar Novos Cartões</Button>
     </div>
   );
 }

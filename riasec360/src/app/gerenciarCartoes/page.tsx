@@ -1,6 +1,6 @@
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { BuscarTodosCartoes } from "@/app/lib/cartoesActions";
+import { BuscarTodosCartoes } from "@/actions/cartoesActions";
 import { ProfileForm } from "./create-new-form";
 
 export default async function GerenciarCartoes() {

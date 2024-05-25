@@ -1,5 +1,5 @@
 "use server";
-import { BuscarTodosCartoes } from "../../lib/cartoesActions";
+import { BuscarTodosCartoes } from "../../actions/cartoesActions";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 

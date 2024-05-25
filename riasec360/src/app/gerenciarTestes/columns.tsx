@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { DeletarTeste } from "../lib/testesActions";
+import { DeletarTeste } from "../../actions/testesActions";
 
 import {
   Dialog,
@@ -72,30 +72,37 @@ export const columns: ColumnDef<Teste>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => {
-                  const textToCopy =
-                    teste.descricao !== null ? teste.descricao : "campo vazio";
-                  navigator.clipboard.writeText(textToCopy);
-                }}
-              >
-                Copiar Descrição
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link
                   href={{
-                    pathname: `/gerenciarTestes/editarTeste`,
-                    query: {
-                      id_teste: teste.id_teste,
-                    },
+                    pathname: `/gerenciarTestes/editarTeste/${teste.id_teste}`,
                   }}
                 >
-                  Editar
+                  Editar Descrição
                 </Link>
               </DropdownMenuItem>
-
+              <DropdownMenuItem>
+                <Link
+                  href={{
+                    pathname: `/gerenciarTestes/adicionarCartoes/${teste.id_teste}`,
+                  }}
+                >
+                  Adicionar Cartões
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  href={{
+                    pathname: `/gerenciarTestes/removerCartoes/${teste.id_teste}`,
+                  }}
+                >
+                  Remover Cartões
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator></DropdownMenuSeparator>
               <DropdownMenuItem
+                className="text-red-600 hover:!text-red-600 hover:!bg-red-100"
                 onClick={() => {
                   const id = teste.id_teste !== null ? teste.id_teste : -1;
                   setDeleteDialogOpen(true);
@@ -103,7 +110,7 @@ export const columns: ColumnDef<Teste>[] = [
                   router.refresh();
                 }}
               >
-                Deletar Teste
+                Apagar Teste
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

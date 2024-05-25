@@ -62,15 +62,35 @@ model grupo {
 
 model usuario {
   id_user          Int             @id @default(autoincrement())
-  nome             String?         @db.VarChar(50)
-  data_nasc        DateTime?       @db.Date
-  login            String?         @unique(map: "login") @db.VarChar(50)
-  senha            String?         @db.VarChar(50)
-  data_criacao     DateTime?       @db.Timestamp(0)
+  nome             String         @db.VarChar(50)
+  email            String         @unique
+  emailVerified    DateTime?
+  data_nasc        DateTime       @db.Date
+  senha            String         @db.VarChar(200)
+  data_criacao     DateTime       @db.Timestamp(0)
   data_atualizacao DateTime?       @db.Timestamp(0)
+  privilegio       String
   usuario_grupo    usuario_grupo[]
-}
 
+  sessao       sessao[]
+
+}
+//Vou usar sessão para gerenciar o acesso. Porque, eu não sei, só sei que to fazendo assim
+//Por cookies se pá é até melhor
+//Ok, vamos estudar para ver se eu descubro qual o melhor
+//Não descobri, só bora pra frente, se der merda a gente corrige
+model sessao {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         usuario     @relation(fields: [userId], references: [id_user])
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@index([userId])
+}
 model usuario_grupo {
   id_usuario Int
   id_grupo   Int
@@ -83,79 +103,4 @@ model usuario_grupo {
 
 //Tabelas usadas para autenticação. Pegando do tutorial da Auth.js
 //Talvez eu deva deletar meu usuário, e deixar só essas
-model User {
-  id            String          @id @default(cuid())
-  name          String?
-  username      String?         @unique
-  email         String?         @unique
-  emailVerified DateTime?
-  image         String?
-  Session       Session[]
-  Account       Account?
-  hashedPass    String //Ta certo isso aqui, salvar a senha no banco? ela ta hasheada e salgada, mas msm assim...
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
- 
-model Account {
-  id                       String  @id @default(cuid())
-  userId                   String  @unique
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String? @db.Text
-  access_token             String? @db.Text
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String? @db.Text
-  session_state            String?
-  refresh_token_expires_in Int?
-  user                     User?   @relation(fields: [userId], references: [id])
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
-  @@unique([provider, providerAccountId])
-  @@index([userId])
-}
- 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id])
- 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
-  @@index([userId])
-}
- 
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
- 
-  @@unique([identifier, token])
-}
- 
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
- 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@id([userId, credentialID])
-}
+//Removi pra não ficar criando confusão aqui. Se eu precisar de alguma coisa, acho o tutorial de novo.

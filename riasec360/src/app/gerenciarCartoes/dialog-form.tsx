@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { CriarCartao, EditarCartao } from "../lib/cartoesActions";
+import { CriarCartao, EditarCartao } from "../../actions/cartoesActions";
 import { useRouter } from "next/navigation";
 
 enum TipoPerguntaEnum {

@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DeletarCartao } from "../lib/cartoesActions";
+import { DeletarCartao } from "../../actions/cartoesActions";
 import { useRouter } from "next/navigation";
 
 import {
@@ -78,16 +78,7 @@ export const columns: ColumnDef<Cartao>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => {
-                  const textToCopy =
-                    cartao.pergunta !== null ? cartao.pergunta : "campo vazio";
-                  navigator.clipboard.writeText(textToCopy);
-                }}
-              >
-                Copiar Pergunta
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
+
               <DropdownMenuItem
                 onClick={() => {
                   setEditDialogOpen(true);
@@ -104,7 +95,7 @@ export const columns: ColumnDef<Cartao>[] = [
                   router.refresh();
                 }}
               >
-                Deletar
+                Apagar Cartão
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -38,7 +38,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 
 import { SavedDialog } from "./saved-dialog";
-import { criarTeste } from "@/app/lib/testesActions";
+import { criarTeste } from "@/app/actions/testesActions";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {

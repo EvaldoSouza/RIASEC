@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { CriarCartao } from "../lib/cartoesActions";
+import { CriarCartao } from "@/actions/cartoesActions";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({

@@ -5,7 +5,6 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import NavBar from "../components/navigation/navBar";
-import { userState } from "./lib/userActions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +18,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = userState();
+  //const user = userState();
+  const user = "adm";
 
   return (
     <html lang="en">

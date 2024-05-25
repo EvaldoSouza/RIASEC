@@ -1,26 +1,20 @@
-- Fazer a autenticação
-- Criar uma página de usuario
-- Adicionar lógica do cartão em uso
-- Adicionar Salvar como em Teste e Cartão quando não puder alterar
+Correções:
+- Fazer o update da tabela dos testes e seus cartões ao retornar a página, ou quando os dados mudarem
 - Metodo genérico para checar se algo está em uso. Conferir se o prisma tem uma função generica pra isso.
-- Mecanismo para pesquisar  testes.
 - Query se o Cartão foi usado
-- Gerenciar testes (janela atual é a parte "adicionar cartão")
-- Começar a pensar em uma forma de gerar testes "semi-aleatório"
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
 - A pagina criarTeste quebra se um dos cartões for nulo. Corrigir isso de alguma forma.
-- Melhorar o carregamento dos dados. No momento, a pagina fica constantemente fazendo chamadas ao banco.
-- Refatorar a tabela, para que ela fique em sua própria classe. Vai encolher o tamanho das páginas
-- Concertar o bug onde atualizar um cartão não atualiza a tabela na maior parte das vezes
-- Modificar o createCartao para devolver o cartao criado
-- Concertar o bug dos popup, onde criar um cartão mostra a mensagem errada
+- Conferir se todas as funções estão com o tratamento de erro correto
+- Configurar melhor o git
+
+Funcionalidades:
 - Criar sitema de login e usuário
 - Usuário 'usuario' realizar teste
 - Usuário 'adm' ver resultado de teste
-- Concertar o alinhamento dos botões na NavBar
-- Fazer com que a NavBar seja ligada ao estado de autenticação, com NavBar's diferentes para Adm e usuario
-- Filtrar mais de uma coluna na tabela, sem fazer outra caixa de filtragem
-- Validar se o tratamento de erros atual está certo
-- Arrumar um tratamento de erros melhor
-- Conferir se todas as funções estão com o tratamento de erro correto
-- Configurar melhor o git
+- Criar uma página de usuario
+- Adicionar lógica do cartão em uso
+- Adicionar Salvar como em Teste e Cartão quando não puder alterar
+- Mecanismo para pesquisar  testes.
+- Começar a pensar em uma forma de gerar testes "semi-aleatório"
+- Criar um sistema de popup para informar de ações realizadas
+- Passar a NavBar para funcionar com menus ao invés de botões
