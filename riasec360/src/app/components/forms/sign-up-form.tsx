@@ -1,12 +1,5 @@
-import { cadastrarUsuario } from "@/actions/userActions";
 import React, { useState, FormEvent } from "react";
 import { z } from "zod";
-import { redirect } from "next/navigation";
-// Function to convert DD/MM/YYYY string to a JavaScript Date object
-const convertToDate = (dateString: string): Date => {
-  const [day, month, year] = dateString.split("/").map(Number);
-  return new Date(year, month - 1, day);
-};
 
 interface usuario {
   username: string;
@@ -80,23 +73,23 @@ const SignUpForm: React.FC = () => {
     }
 
     // Convert dateOfBirth to Date object
-    const dateOfBirth = convertToDate(formData.dateOfBirth);
+    //const dateOfBirth = convertToDate(formData.dateOfBirth); //acho que vou manter string por enquanto, e na API que converte
+    //talvez fazer isso daqui, aqui, não seja uma boa ideia
+    //Acho que tem que usar o routes.ts, e fazer em um sistema de request e response
+    //até por que isso é um formulário que vai ser mostrado para o browser
+    //não faz muito sentido isso conseguir comunicar com o banco de dados
+    //TODO converter isso daqui para request e response
 
-    try {
-      const novo_usuario = await cadastrarUsuario(
-        formData.username,
-        formData.email,
-        formData.password,
-        dateOfBirth
-      );
-      console.log("Sucesso: ", novo_usuario);
-      redirect("/login");
-    } catch (error) {
-      console.log(
-        "Algo deu errado na submissão do formulário de cadastrar um novo usuário"
-      );
-      console.log(error);
-    }
+    const response = await fetch(`/api/auth/register`, {
+      method: "POST",
+      body: JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        dateOfBirth: formData.dateOfBirth,
+      }),
+    });
+    console.log("Response no form:", response);
   };
 
   return (

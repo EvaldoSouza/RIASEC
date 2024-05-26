@@ -1,11 +1,10 @@
 "use server";
 //import prisma from "../../db/prisma";
 //import { signIn } from "../../../auth";
-import { AuthError } from "next-auth";
+import AuthError from "next-auth";
 import { saltAndHashPassword } from "@/lib/passwords";
 import { Prisma, usuario } from "@prisma/client";
 import prisma from "@/db/prisma";
-import { signIn } from "../../auth";
 
 export async function userState() {
   //pegar o estado do usuário aqui
@@ -28,25 +27,25 @@ export async function getUserFromDb(
   }
 }
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  try {
-    const user = await signIn("credentials", formData);
-    return user;
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return "Invalid credentials.";
-        default:
-          return "Something went wrong.";
-      }
-    }
-    throw error;
-  }
-}
+// export async function authenticate(
+//   prevState: string | undefined,
+//   formData: FormData
+// ) {
+//   try {
+//     const user = await signIn("credentials", formData);
+//     return user;
+//   } catch (error) {
+//     if (error instanceof AuthError) {
+//       switch (error.type) {
+//         case "CredentialsSignin":
+//           return "Invalid credentials.";
+//         default:
+//           return "Something went wrong.";
+//       }
+//     }
+//     throw error;
+//   }
+// }
 
 export async function cadastrarUsuario(
   nome: string,

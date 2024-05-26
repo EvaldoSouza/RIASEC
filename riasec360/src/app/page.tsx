@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import fs from "fs/promises";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { LogOut } from "./components/forms/logout-button";
 
 export default async function Inicial() {
   try {
@@ -11,16 +13,22 @@ export default async function Inicial() {
     const displayTypes = JSON.parse(tipoFile.toString());
     const displayDesc = JSON.parse(descFile.toString());
 
+    const session = await getServerSession();
     //criar arqivo template com : navbar, menu, pagina
     return (
       <>
         <div>
-          <Link href={"/usuarios/cadastrar"}>
-            <Button className="">Cadastrar</Button>
-          </Link>
-          <Link href="/usuarios/login">
-            <Button> Login</Button>
-          </Link>
+          {!session && (
+            <div>
+              <Link href={"/usuarios/cadastrar"}>
+                <Button className="">Cadastrar</Button>
+              </Link>
+              <Link href="/usuarios/login">
+                <Button> Login</Button>
+              </Link>
+            </div>
+          )}
+          {session && <LogOut />}
         </div>
         <Box sx={{ width: "100%" }}>
           <Typography variant="h6" padding={"16px"}>
