@@ -8,6 +8,7 @@ Correções:
 - Configurar melhor o git
 
 Funcionalidades:
+- Barra de navegação decente e baseada em auteticação
 - Usuário 'usuario' realizar teste
 - Usuário 'adm' ver resultado de teste
 - Criar uma página de usuario

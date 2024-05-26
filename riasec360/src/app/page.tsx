@@ -17,19 +17,6 @@ export default async function Inicial() {
     //criar arqivo template com : navbar, menu, pagina
     return (
       <>
-        <div>
-          {!session && (
-            <div>
-              <Link href={"/usuarios/cadastrar"}>
-                <Button className="">Cadastrar</Button>
-              </Link>
-              <Link href="/usuarios/login">
-                <Button> Login</Button>
-              </Link>
-            </div>
-          )}
-          {session && <LogOut />}
-        </div>
         <Box sx={{ width: "100%" }}>
           <Typography variant="h6" padding={"16px"}>
             {displayDesc.descricao_teste}

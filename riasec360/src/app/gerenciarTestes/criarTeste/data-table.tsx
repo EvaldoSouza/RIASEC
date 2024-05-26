@@ -38,9 +38,10 @@ import React, { useState } from "react";
 import { z } from "zod";
 
 import { SavedDialog } from "./saved-dialog";
-import { criarTeste } from "@/app/actions/testesActions";
+import { criarTeste } from "../../../actions/testesActions";
 import { useRouter } from "next/navigation";
 
+//resolver um erro de tipo, pode quebrar as coisas
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];

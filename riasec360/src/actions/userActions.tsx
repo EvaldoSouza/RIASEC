@@ -5,11 +5,21 @@ import AuthError from "next-auth";
 import { saltAndHashPassword } from "@/lib/passwords";
 import { Prisma, usuario } from "@prisma/client";
 import prisma from "@/db/prisma";
+import { getServerSession } from "next-auth";
 
-export async function userState() {
+export async function privilegioUsuario() {
   //pegar o estado do usuário aqui
   //   return "user";
-  return "adm";
+  //Tres categorias: adm, user, deslogado
+  const session = await getServerSession();
+  const userEmail = session?.user?.email;
+  if (userEmail) {
+    const user = await getUserFromDb(userEmail);
+    if (user) {
+      return user.privilegio;
+    }
+  }
+  return "deslogado";
 }
 
 export async function getUserFromDb(

@@ -29,7 +29,7 @@ const handler = NextAuth({
             if (senhaCorreta) {
               console.log("Senha correta:", senhaCorreta);
               return {
-                id: user.id_user,
+                id: user.id_user.toString(),
                 email: user.email,
                 dataNasc: user.data_nasc,
                 privilegio: user.privilegio,
