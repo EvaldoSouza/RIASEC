@@ -43,7 +43,7 @@ import {
   deletarListaCartoesEmTeste,
   DeletarTeste,
   deletarTeste_Cartao,
-} from "@/app/actions/testesActions";
+} from "../../../../actions/testesActions";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {

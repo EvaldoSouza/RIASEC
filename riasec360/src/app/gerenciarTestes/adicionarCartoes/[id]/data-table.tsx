@@ -41,7 +41,7 @@ import {
   adicionarCartoesATeste,
   criarTesteComID,
   DeletarTeste,
-} from "@/app/actions/testesActions";
+} from "../../../../actions/testesActions";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
