@@ -13,6 +13,9 @@ export function UserNavBar() {
     <Menubar>
       <Link href="/">Profissional360</Link>
       <MenubarMenu>
+        <MenubarTrigger>Realizar Teste</MenubarTrigger>
+      </MenubarMenu>
+      <MenubarMenu>
         <MenubarTrigger>Aplicações</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>Agendadas</MenubarItem>
