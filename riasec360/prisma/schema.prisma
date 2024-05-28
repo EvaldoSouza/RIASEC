@@ -9,21 +9,27 @@ datasource db {
 
 model aplicacao {
   id_aplicacao     Int       @id @default(autoincrement())
-  id_respondente   Int?
+  id_respondente   Int
   id_grupo         Int?
-  id_teste         Int?
+  id_teste         Int
   local            String?   @db.VarChar(50)
   data_agendamento DateTime? @db.Timestamp(0)
   inicio_aplicacao DateTime? @db.Timestamp(0)
   fim_aplicacao    DateTime? @db.Timestamp(0)
+
+  usuario         usuario           @relation(fields: [id_respondente], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_1")
+  grupo           grupo?            @relation(fields: [id_grupo], references: [id_grupo], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_2")
+  teste           teste             @relation(fields: [id_teste], references: [id_teste], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_3")
+  resposta_cartao resposta_cartao[]
 }
 
 model cartao {
-  id_cartao    Int            @id @default(autoincrement())
-  pergunta     String?        @db.VarChar(300)
-  tipo         String?        @db.VarChar(50)
-  em_uso       Boolean?       @default(false)
-  teste_cartao teste_cartao[]
+  id_cartao       Int               @id @default(autoincrement())
+  pergunta        String?           @db.VarChar(300)
+  tipo            String?           @db.VarChar(50)
+  em_uso          Boolean?          @default(false)
+  teste_cartao    teste_cartao[]
+  resposta_cartao resposta_cartao[]
 }
 
 model teste {
@@ -32,6 +38,7 @@ model teste {
   quant_cartoes Int?
   data_criacao  DateTime?      @db.Timestamp(0)
   teste_cartao  teste_cartao[] @relation()
+  aplicacao     aplicacao[]
 }
 
 model teste_cartao {
@@ -45,11 +52,13 @@ model teste_cartao {
 }
 
 model resposta_cartao {
-  id_resposta   Int     @id @default(autoincrement())
-  id_aplicacao  Int?
-  id_cartao     Int?
-  resposta      String? @db.VarChar(50)
-  tipo_resposta String? @db.VarChar(50)
+  id_resposta   Int       @id @default(autoincrement())
+  id_aplicacao  Int
+  id_cartao     Int
+  resposta      String?   @db.VarChar(50)
+  tipo_resposta String?   @db.VarChar(50)
+  aplicacao     aplicacao @relation(fields: [id_aplicacao], references: [id_aplicacao], onDelete: Cascade, onUpdate: NoAction, map: "resposta_cartao_ibfk_1")
+  cartao        cartao    @relation(fields: [id_cartao], references: [id_cartao], onDelete: Cascade, onUpdate: NoAction, map: "resposta_cartao_ibfk_2")
 }
 
 model grupo {
@@ -58,23 +67,25 @@ model grupo {
   descricao     String?         @db.VarChar(300)
   data_criacao  DateTime?       @db.Timestamp(0)
   usuario_grupo usuario_grupo[]
+  aplicacao     aplicacao[]
 }
 
 model usuario {
   id_user          Int             @id @default(autoincrement())
-  nome             String         @db.VarChar(50)
-  email            String         @unique
+  nome             String          @db.VarChar(50)
+  email            String          @unique
   emailVerified    DateTime?
-  data_nasc        DateTime       @db.Date
-  senha            String         @db.VarChar(200)
-  data_criacao     DateTime       @db.Timestamp(0)
+  data_nasc        DateTime        @db.Date
+  senha            String          @db.VarChar(200)
+  data_criacao     DateTime        @db.Timestamp(0)
   data_atualizacao DateTime?       @db.Timestamp(0)
   privilegio       String
   usuario_grupo    usuario_grupo[]
 
-  sessao       sessao[]
-
+  sessao    sessao[]
+  aplicacao aplicacao[]
 }
+
 //Vou usar sessão para gerenciar o acesso. Porque, eu não sei, só sei que to fazendo assim
 //Por cookies se pá é até melhor
 //Ok, vamos estudar para ver se eu descubro qual o melhor
@@ -84,13 +95,14 @@ model sessao {
   sessionToken String   @unique
   userId       Int
   expires      DateTime
-  user         usuario     @relation(fields: [userId], references: [id_user])
- 
+  user         usuario  @relation(fields: [userId], references: [id_user])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   @@index([userId])
 }
+
 model usuario_grupo {
   id_usuario Int
   id_grupo   Int
