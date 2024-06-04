@@ -1,4 +1,4 @@
-import { buscarTeste, buscarCartoesEmTeste } from "@/app/actions/testesActions";
+import { buscarTeste, buscarCartoesEmTeste } from "@/actions/testesActions";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 

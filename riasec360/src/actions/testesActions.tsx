@@ -195,3 +195,26 @@ export async function deletarListaCartoesEmTeste(
     console.log(error);
   }
 }
+
+export async function atualizarDescricaoTeste(
+  novaDesc: string,
+  id_teste: number
+) {
+  const foiUsado = await prisma.teste_cartao.findFirst({
+    where: { id_teste: id_teste },
+  });
+  if (foiUsado) {
+    return false;
+  }
+
+  try {
+    const novoTeste = await prisma.teste.update({
+      where: { id_teste: id_teste },
+      data: { descricao: novaDesc },
+    });
+    console.log("Atualizando descrição com sucesso: ", novoTeste);
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+}

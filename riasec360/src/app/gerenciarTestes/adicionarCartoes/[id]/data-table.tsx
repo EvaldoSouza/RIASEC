@@ -20,20 +20,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import React, { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
@@ -110,7 +100,8 @@ export function DataTable<TData, TValue>({
     const novoTeste = await adicionarCartoesATeste(+id_teste, ids);
     console.log(novoTeste);
     if (novoTeste) {
-      router.push(`/gerenciarTestes/editarTeste?id_teste=${id_teste}`);
+      router.refresh();
+      router.push(`/gerenciarTestes`);
     }
   }
 

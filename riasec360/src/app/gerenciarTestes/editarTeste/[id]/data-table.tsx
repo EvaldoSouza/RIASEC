@@ -38,6 +38,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
 import {
+  atualizarDescricaoTeste,
   criarTeste,
   criarTesteComID,
   DeletarTeste,
@@ -91,17 +92,9 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    //salvar no banco os dados do Teste
-    //console.log(rowSelection);
-    const cartoes = Object.keys(rowSelection);
-    //console.log(cartoes);
-    const ids = cartoes.map((numero) => +numero);
-
-    const deletado = await DeletarTeste(id_teste);
-    const teste = await criarTesteComID(data.descricao, ids, id_teste);
-    console.log("Deletado: ", deletado);
-    console.log("Novo: ", teste);
+    const teste = await atualizarDescricaoTeste(data.descricao, id_teste);
     if (teste) {
+      router.refresh();
       router.push("/gerenciarTestes");
     }
   }

@@ -37,6 +37,21 @@ export async function getUserFromDb(
   }
 }
 
+export async function usuarioDaSessao() {
+  //pegar o estado do usuário aqui
+  //   return "user";
+  //Tres categorias: adm, user, deslogado
+  const session = await getServerSession();
+  const userEmail = session?.user?.email;
+  if (userEmail) {
+    const user = await getUserFromDb(userEmail);
+    if (user) {
+      return user;
+    }
+  }
+  return null;
+}
+
 // export async function authenticate(
 //   prevState: string | undefined,
 //   formData: FormData

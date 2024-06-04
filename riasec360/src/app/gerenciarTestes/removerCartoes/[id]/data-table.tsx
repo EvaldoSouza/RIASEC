@@ -20,15 +20,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -90,28 +81,15 @@ export function DataTable<TData, TValue>({
 
   const router = useRouter();
 
-  // async function onSubmit(data: z.infer<typeof FormSchema>) {
-  //   //salvar no banco os dados do Teste
-  //   console.log(rowSelection);
-  //   const cartoes = Object.keys(rowSelection);
-  //   console.log(cartoes);
-  //   const ids = cartoes.map((numero) => +numero);
-
-  //   // const deletado = await DeletarTeste(id_teste);
-  //   // const teste = await criarTesteComID(data.descricao, ids, id_teste);
-  //   // console.log("Deletado: ", deletado);
-  //   // console.log("Novo: ", teste);
-  //   router.push("/gerenciarTestes/editarTeste");
-  //   // if (teste) {
-  //   // }
-  // }
   async function onSubmit() {
     const cartoes = Object.keys(rowSelection);
     console.log(cartoes);
     const ids = cartoes.map((numero) => +numero);
     const testeEditado = await deletarListaCartoesEmTeste(+id_teste, ids);
-
-    router.push(`/gerenciarTestes/editarTeste?id_teste=${id_teste}`);
+    if (testeEditado) {
+      router.refresh();
+      router.push(`/gerenciarTestes`);
+    }
   }
 
   // useEffect(() => {

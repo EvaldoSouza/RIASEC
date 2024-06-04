@@ -13,29 +13,27 @@ export function UserNavBar() {
     <Menubar>
       <Link href="/">Profissional360</Link>
       <MenubarMenu>
-        <MenubarTrigger>Realizar Teste</MenubarTrigger>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Aplicações</MenubarTrigger>
+        <MenubarTrigger> Realizar Teste</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>Agendadas</MenubarItem>
-          <MenubarItem>Realizadas</MenubarItem>
-          <MenubarItem>Perdidas</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Resultados</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>Mais Recente</MenubarItem>
-          <MenubarItem>Todos</MenubarItem>
-          <MenubarItem>Estatísticas</MenubarItem>
+          <MenubarItem asChild>
+            <Link href="/realizarTeste">Realizar Teste</Link>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Grupos</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>Meus Grupos</MenubarItem>
+        </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Perfil</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>Testes Agendados</MenubarItem>
+          <MenubarItem>Histórico de Testes</MenubarItem>
+          <MenubarItem>Minhas Estatísticas</MenubarItem>
+          <MenubarItem>Editar Perfil</MenubarItem>
+        </MenubarContent>
       </MenubarMenu>
       <LogOut />
     </Menubar>

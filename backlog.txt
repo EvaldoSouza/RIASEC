@@ -1,20 +1,18 @@
 Correções:
-- Fazer o update da tabela dos testes e seus cartões ao retornar a página, ou quando os dados mudarem
-- Metodo genérico para checar se algo está em uso. Conferir se o prisma tem uma função generica pra isso.
-- Query se o Cartão foi usado
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
-- A pagina criarTeste quebra se um dos cartões for nulo. Corrigir isso de alguma forma.
 - Conferir se todas as funções estão com o tratamento de erro correto
-- Configurar melhor o git
+- Deslogar e voltar para a página inicial. Provavelmente o middleware resolver.
+- Travar edição de teste baseada em uso
+- Corrigir o bug onde alterar várias vezes o testes quebra o número de cartões no teste
 
 Funcionalidades:
-- Barra de navegação decente e baseada em auteticação (a atual é para mobile...não tá legal. Usar dropdown menu)
 - Usuário 'usuario' realizar teste
 - Usuário 'adm' ver resultado de teste
 - Criar uma página de usuario
+- Adicionar middleware para proteger rotas
 - Adicionar lógica do cartão em uso
 - Adicionar Salvar como em Teste e Cartão quando não puder alterar
 - Mecanismo para pesquisar  testes.
 - Começar a pensar em uma forma de gerar testes "semi-aleatório"
-- Criar um sistema de popup para informar de ações realizadas
+- Criar um sistema de popup para informar de ações realizadas. Usar o toast do sadcn https://ui.shadcn.com/docs/components/toast
 - Passar a NavBar para funcionar com menus ao invés de botões
