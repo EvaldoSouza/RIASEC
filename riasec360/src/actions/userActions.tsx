@@ -102,3 +102,12 @@ export async function cadastrarUsuario(
     }
   }
 }
+
+export async function todosUsuarios() {
+  try {
+    const usuarios = await prisma.usuario.findMany();
+    return usuarios;
+  } catch (error) {
+    console.log(error);
+  }
+}

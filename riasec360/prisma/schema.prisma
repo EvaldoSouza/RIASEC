@@ -2,6 +2,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator custom_generator {
+    provider = "prisma-generator-fake-data"
+    output   = "../types/fake-data.ts"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -9,24 +14,37 @@ datasource db {
 
 model aplicacao {
   id_aplicacao     Int       @id @default(autoincrement())
-  id_respondente   Int
   id_grupo         Int?
   id_teste         Int
   local            String?   @db.VarChar(50)
-  data_agendamento DateTime? @db.Timestamp(0)
-  inicio_aplicacao DateTime? @db.Timestamp(0)
-  fim_aplicacao    DateTime? @db.Timestamp(0)
+  data_agendamento DateTime  @db.Timestamp(0)
+  hora_inicial     DateTime? @db.Timestamp(0)
+  hora_termino     DateTime? @db.Timestamp(0)
 
-  usuario         usuario           @relation(fields: [id_respondente], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_1")
-  grupo           grupo?            @relation(fields: [id_grupo], references: [id_grupo], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_2")
-  teste           teste             @relation(fields: [id_teste], references: [id_teste], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_3")
-  resposta_cartao resposta_cartao[]
+  grupo             grupo?              @relation(fields: [id_grupo], references: [id_grupo], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_2")
+  teste             teste               @relation(fields: [id_teste], references: [id_teste], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_ibfk_3")
+  aplicacao_usuario aplicacao_usuario[]
+}
+
+model aplicacao_usuario {
+  id_aplicacao Int 
+  id_usuario   Int 
+
+  inicio_testagem DateTime
+  fim_testagem    DateTime?
+
+  resposta_cartao resposta_cartao[] @relation()
+
+  usuario   usuario   @relation(fields: [id_usuario], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_usuario_ibfk_1")
+  aplicacao aplicacao @relation(fields: [id_aplicacao], references: [id_aplicacao], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_usuario_ibfk_2")
+
+  @@id([id_usuario, id_aplicacao])
 }
 
 model cartao {
   id_cartao       Int               @id @default(autoincrement())
   pergunta        String?           @db.VarChar(300)
-  tipo            String?           @db.VarChar(50)
+  tipo            String?           @db.VarChar(50) //Tipos do RIASEC
   em_uso          Boolean?          @default(false)
   teste_cartao    teste_cartao[]
   resposta_cartao resposta_cartao[]
@@ -52,13 +70,15 @@ model teste_cartao {
 }
 
 model resposta_cartao {
-  id_resposta   Int       @id @default(autoincrement())
-  id_aplicacao  Int
-  id_cartao     Int
-  resposta      String?   @db.VarChar(50)
-  tipo_resposta String?   @db.VarChar(50)
-  aplicacao     aplicacao @relation(fields: [id_aplicacao], references: [id_aplicacao], onDelete: Cascade, onUpdate: NoAction, map: "resposta_cartao_ibfk_1")
-  cartao        cartao    @relation(fields: [id_cartao], references: [id_cartao], onDelete: Cascade, onUpdate: NoAction, map: "resposta_cartao_ibfk_2")
+  id_resposta                   Int               @id @default(autoincrement())
+  id_teste                      Int
+  id_cartao                     Int
+  resposta_competencia          String?           @db.VarChar(50)
+  resposta_afinidade            String?           @db.VarChar(50)
+  cartao                        cartao            @relation(fields: [id_cartao], references: [id_cartao], onDelete: Cascade, onUpdate: NoAction, map: "resposta_cartao_ibfk_2")
+  aplicacao_usuario             aplicacao_usuario @relation(fields: [aplicacao_usuarioId_usuario, aplicacao_usuarioId_aplicacao], references: [id_usuario, id_aplicacao])
+  aplicacao_usuarioId_usuario   Int
+  aplicacao_usuarioId_aplicacao Int
 }
 
 model grupo {
@@ -82,8 +102,8 @@ model usuario {
   privilegio       String
   usuario_grupo    usuario_grupo[]
 
-  sessao    sessao[]
-  aplicacao aplicacao[]
+  sessao            sessao[]
+  aplicacao_usuario aplicacao_usuario[]
 }
 
 //Vou usar sessão para gerenciar o acesso. Porque, eu não sei, só sei que to fazendo assim

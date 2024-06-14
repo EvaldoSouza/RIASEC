@@ -1,11 +1,13 @@
 Correções:
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
-- Conferir se todas as funções estão com o tratamento de erro correto
 - Deslogar e voltar para a página inicial. Provavelmente o middleware resolver.
 - Travar edição de teste baseada em uso
 - Corrigir o bug onde alterar várias vezes o testes quebra o número de cartões no teste
+- Melhorar o local da interface cartão, colocar ela em um único lugar
 
 Funcionalidades:
+- Fazer o agendar aplicação
+- Fazer o "fazer teste" por drag and drop cards
 - Usuário 'usuario' realizar teste
 - Usuário 'adm' ver resultado de teste
 - Criar uma página de usuario

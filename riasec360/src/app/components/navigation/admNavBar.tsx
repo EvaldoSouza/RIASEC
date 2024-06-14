@@ -33,6 +33,13 @@ export function AdmNavBar() {
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Aplicações</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem asChild>
+            <Link href="/gerenciarAplicacao/criarAplicacao">
+              Criar Aplicação
+            </Link>
+          </MenubarItem>
+        </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Grupos</MenubarTrigger>

@@ -13,7 +13,6 @@
 import { idProximoTeste } from "@/actions/aplicacaoActions";
 import { buscarCartoesEmTeste } from "@/actions/testesActions";
 //import { Likert } from "./likert";
-import ClientComponent from "./gpt";
 import Likert from "./likert";
 
 interface Cartao {
@@ -22,6 +21,7 @@ interface Cartao {
   tipo: string | null;
   em_uso: boolean | null;
 }
+//TODO tirar essa interface daqui
 
 interface CartoesArray {
   cartoes: Cartao[];
@@ -41,7 +41,12 @@ export default async function realizarTeste() {
 
   const resposta: string[] = ["pergunta 1", "pergunta 2", "pergunta 3"];
 
-  return <Likert perguntas={resposta} />;
+  if (cartoes) {
+    return <Likert cartoes={cartoes} idAplicacao={proxTeste} />;
+  } else {
+    return <h1>Teste sem cartões</h1>;
+  }
+
   //criar um componente com o cartão e a escala likert
   //mostrar os componentes em carrossel
 }

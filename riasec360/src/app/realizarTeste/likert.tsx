@@ -17,6 +17,26 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
+import { gravarResposta } from "@/actions/aplicacaoActions";
+
+interface Cartao {
+  id_cartao: number;
+  pergunta: string | null;
+  tipo: string | null;
+  em_uso: boolean | null;
+}
+//TODO tirar essa interface daqui
+interface LikertProps {
+  cartoes: Cartao[];
+  idAplicacao: number;
+}
+
+interface respostaCompleta {
+  idAplicacao: number;
+  idCartao: number;
+  resposta: string;
+  tipoResposta: string;
+}
 
 const FormSchema = z.object({
   type: z.enum(
@@ -33,11 +53,7 @@ const FormSchema = z.object({
   ),
 });
 
-interface LikertProps {
-  perguntas: string[];
-}
-
-const Likert: React.FC<LikertProps> = ({ perguntas }) => {
+const Likert: React.FC<LikertProps> = ({ cartoes, idAplicacao }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -47,21 +63,32 @@ const Likert: React.FC<LikertProps> = ({ perguntas }) => {
   const [respostas, setRespostas] = useState<string[]>([]);
 
   useEffect(() => {
-    if (respostas.length == perguntas.length) {
+    if (respostas.length == cartoes.length) {
       console.log(respostas);
     }
   }, [respostas]);
 
   //como in preenchendo esse array de strings?
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (perguntas[currentQuestionIndex]) {
-      const resposta = perguntas[currentQuestionIndex] + ": " + data.type;
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (cartoes[currentQuestionIndex]) {
+      // const resposta = cartoes[currentQuestionIndex].pergunta + ": " + data.type;
 
-      setRespostas([
-        ...respostas,
-        { id: currentQuestionIndex, name: resposta },
-      ]);
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      // setRespostas([
+      //   ...respostas,
+      //   { id: currentQuestionIndex, name: resposta },
+      // ]);
+
+      try {
+        const gravada = await gravarResposta(
+          idAplicacao,
+          cartoes[currentQuestionIndex].id_cartao,
+          data.type,
+          "Likert"
+        );
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     //guardar aqui, ou retornar a info para página
@@ -75,7 +102,7 @@ const Likert: React.FC<LikertProps> = ({ perguntas }) => {
           name="type"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>{perguntas[currentQuestionIndex]}</FormLabel>
+              <FormLabel>{cartoes[currentQuestionIndex].pergunta}</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -126,7 +153,7 @@ const Likert: React.FC<LikertProps> = ({ perguntas }) => {
             </FormItem>
           )}
         />
-        {currentQuestionIndex < perguntas.length - 1 ? (
+        {currentQuestionIndex < cartoes.length - 1 ? (
           <Button type="submit"> Proxima</Button>
         ) : (
           <Button type="submit">Submit</Button>
