@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTableTestes<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -51,10 +51,12 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filtrar Usuario..."
-          value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtrar Descrições..."
+          value={
+            (table.getColumn("descricao")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("nome")?.setFilterValue(event.target.value)
+            table.getColumn("descricao")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -116,7 +118,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Proxima
+          Previous
         </Button>
         <Button
           variant="outline"
@@ -124,7 +126,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Anterior
+          Next
         </Button>
       </div>
     </div>

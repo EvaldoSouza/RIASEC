@@ -20,15 +20,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -52,20 +43,10 @@ interface DataTableProps<TData extends DataWithIdCartao, TValue> {
   data: TData[];
 }
 
-const FormSchema = z.object({
-  descricao: z.string().max(600, {
-    message: "Descrição muito longa!",
-  }),
-});
-
 export function DataTable<TData extends DataWithIdCartao, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  });
-
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -89,16 +70,11 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
 
   const router = useRouter();
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit() {
     //salvar no banco os dados do Teste
     //console.log(rowSelection);
     const cartoes = Object.keys(rowSelection);
     const ids = cartoes.map((numero) => +numero);
-    const teste = await criarTeste(data.descricao, ids);
-    console.log(teste);
-    if (teste) {
-      router.push("/gerenciarTestes");
-    }
   }
 
   return (
@@ -182,34 +158,6 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
         >
           Next
         </Button>
-      </div>
-
-      <div>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-2/3 space-y-6"
-          >
-            <FormField
-              control={form.control}
-              name="descricao"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bio</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Descrição do Teste. Acrescente informações que julgar relevante."
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Salvar Teste</Button>
-          </form>
-        </Form>
       </div>
     </div>
   );

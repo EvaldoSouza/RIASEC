@@ -1,18 +1,17 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
 
 //definindo o formado dos dados
-export type Usuario = {
-  id_user: number;
-  nome: string;
-  email: string;
+export type Teste = {
+  id_teste: number;
+  descricao: string | null;
+  quant_cartoes: number | null;
+  data_criacao: Date | null;
 };
 
-export const columns: ColumnDef<Usuario>[] = [
+export const columns: ColumnDef<Teste>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -35,7 +34,8 @@ export const columns: ColumnDef<Usuario>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  { accessorKey: "id_user", header: "ID" },
-  { accessorKey: "nome", header: "Nome" },
-  { accessorKey: "email", header: "Email" },
+  { accessorKey: "id_teste", header: "ID" },
+  { accessorKey: "descricao", header: "Descrição" },
+  { accessorKey: "quant_cartoes", header: "Quant Cartões" },
+  { accessorKey: "data_criacao", header: "Criado Em" },
 ];
