@@ -39,6 +39,11 @@ export function AdmNavBar() {
               Criar Aplicação
             </Link>
           </MenubarItem>
+          <MenubarItem asChild>
+            <Link href="/gerenciarAplicacao/todasAplicacoes">
+              Ver Aplicações Agendadas
+            </Link>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>

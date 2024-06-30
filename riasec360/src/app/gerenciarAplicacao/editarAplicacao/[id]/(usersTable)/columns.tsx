@@ -3,10 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { Cartao } from "@/app/types/types";
+import { UsuarioResumido } from "@/app/types/types";
 
-export const columns: ColumnDef<Cartao>[] = [
+export const columns: ColumnDef<UsuarioResumido>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -29,6 +28,7 @@ export const columns: ColumnDef<Cartao>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  { accessorKey: "pergunta", header: "Pergunta" },
-  { accessorKey: "tipo", header: "Tipo" },
+  { accessorKey: "id_user", header: "ID" },
+  { accessorKey: "nome", header: "Nome" },
+  { accessorKey: "email", header: "Email" },
 ];

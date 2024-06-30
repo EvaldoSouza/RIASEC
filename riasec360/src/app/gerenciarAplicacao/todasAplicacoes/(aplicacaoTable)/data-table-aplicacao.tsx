@@ -27,13 +27,11 @@ import React from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  callbackFunction: any;
 }
 
-export function DataTableUsers<TData, TValue>({
+export function DataTableAplicacoes<TData, TValue>({
   columns,
   data,
-  callbackFunction,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -48,7 +46,6 @@ export function DataTableUsers<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getRowId: (row) => row.id_user,
 
     state: {
       columnFilters,
@@ -56,25 +53,8 @@ export function DataTableUsers<TData, TValue>({
     },
   });
 
-  async function onSubmit() {
-    const usuarios = Object.keys(rowSelection);
-    console.log("Salvando usuarios.");
-
-    callbackFunction(usuarios);
-  }
-
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filtrar Usuario..."
-          value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("nome")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -143,7 +123,6 @@ export function DataTableUsers<TData, TValue>({
           Anterior
         </Button>
       </div>
-      <Button onClick={onSubmit}>Marcar Usuarios</Button>
     </div>
   );
 }

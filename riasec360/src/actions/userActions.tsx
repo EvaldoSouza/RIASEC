@@ -24,9 +24,7 @@ export async function privilegioUsuario() {
   return "deslogado";
 }
 
-export async function getUserFromDb(
-  email: string
-): Promise<usuario | null | undefined> {
+export async function getUserFromDb(email: string): Promise<usuario> {
   try {
     const user = await prisma.usuario.findFirst({ where: { email } });
     if (!user) {
@@ -35,6 +33,36 @@ export async function getUserFromDb(
     return user;
   } catch (error) {
     console.log("Algo deu errado ao buscar usuário no banco:", error);
+    throw error;
+  }
+}
+
+export async function nomesParticipantes(
+  idsParticipantes: number[]
+): Promise<string[]> {
+  try {
+    const usuarios = await prisma.usuario.findMany({
+      where: { id_user: { in: idsParticipantes } },
+      select: { nome: true },
+    });
+    return usuarios.map((usuario) => usuario.nome);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function nomeUnicoParticipante(
+  idParticipante: number
+): Promise<string> {
+  try {
+    const usuario = await prisma.usuario.findMany({
+      where: { id_user: idParticipante },
+      select: { nome: true },
+    });
+    return usuario[0].nome;
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }

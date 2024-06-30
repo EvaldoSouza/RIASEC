@@ -25,7 +25,7 @@ export function fakeaplicacaoComplete() {
 }
 export function fakeaplicacao_usuario() {
   return {
-    inicio_testagem: faker.date.anytime(),
+    inicio_testagem: undefined,
     fim_testagem: undefined,
   };
 }
@@ -33,7 +33,7 @@ export function fakeaplicacao_usuarioComplete() {
   return {
     id_aplicacao: faker.number.int(),
     id_usuario: faker.number.int(),
-    inicio_testagem: faker.date.anytime(),
+    inicio_testagem: undefined,
     fim_testagem: undefined,
   };
 }

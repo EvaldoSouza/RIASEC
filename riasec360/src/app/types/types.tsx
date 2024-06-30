@@ -22,3 +22,35 @@ export type UsuarioResumido = {
   nome: string;
   email: string;
 };
+
+export type Cartao = {
+  id_cartao: number;
+  pergunta: string | null;
+  tipo: string | null;
+  em_uso: boolean | null;
+};
+
+export type Aplicacao = {
+  id_aplicacao: number;
+  id_grupo: number | null;
+  id_teste: number;
+  local: string | null;
+  data_agendamento: Date;
+  hora_inicial: Date | null;
+  hora_termino: Date | null;
+};
+
+export type AplicacaoUsuario = {
+  id_aplicacao: number;
+  id_usuario: number;
+  inicio_testagem: Date | null;
+  fim_testagem: Date | null;
+};
+
+export type AplicacaoUsuarioComNome = {
+  id_aplicacao: number;
+  id_usuario: number;
+  nome_usuario: string;
+  inicio_testagem: Date | null;
+  fim_testagem: Date | null;
+};

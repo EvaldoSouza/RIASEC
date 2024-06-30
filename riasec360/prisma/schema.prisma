@@ -3,8 +3,8 @@ generator client {
 }
 
 generator custom_generator {
-    provider = "prisma-generator-fake-data"
-    output   = "../types/fake-data.ts"
+  provider = "prisma-generator-fake-data"
+  output   = "../types/fake-data.ts"
 }
 
 datasource db {
@@ -27,16 +27,16 @@ model aplicacao {
 }
 
 model aplicacao_usuario {
-  id_aplicacao Int 
-  id_usuario   Int 
+  id_aplicacao Int
+  id_usuario   Int
 
-  inicio_testagem DateTime
-  fim_testagem    DateTime?
+  inicio_testagem DateTime? @db.Timestamp(0)
+  fim_testagem    DateTime? @db.Timestamp(0)
 
   resposta_cartao resposta_cartao[] @relation()
 
   usuario   usuario   @relation(fields: [id_usuario], references: [id_user], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_usuario_ibfk_1")
-  aplicacao aplicacao @relation(fields: [id_aplicacao], references: [id_aplicacao], onDelete: NoAction, onUpdate: NoAction, map: "aplicacao_usuario_ibfk_2")
+  aplicacao aplicacao @relation(fields: [id_aplicacao], references: [id_aplicacao], onDelete: Cascade, onUpdate: NoAction, map: "aplicacao_usuario_ibfk_2")
 
   @@id([id_usuario, id_aplicacao])
 }

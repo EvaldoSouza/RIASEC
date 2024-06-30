@@ -7,7 +7,6 @@ Correções:
 - Colocar todos os await async com a promessa do tipo correta. E entender melhor essa parada, estudar o typescript um pouco mais.
 
 Funcionalidades:
-- Fazer o agendar aplicação
 - Fazer o "fazer teste" por drag and drop cards
 - Usuário 'usuario' realizar teste
 - Usuário 'adm' ver resultado de teste
@@ -18,4 +17,4 @@ Funcionalidades:
 - Mecanismo para pesquisar  testes.
 - Começar a pensar em uma forma de gerar testes "semi-aleatório"
 - Criar um sistema de popup para informar de ações realizadas. Usar o toast do sadcn https://ui.shadcn.com/docs/components/toast
-- Passar a NavBar para funcionar com menus ao invés de botões
+- Fazer com que só possa ser selecionado um teste (Pode ser que seja requisitado mais, mas ai é regra de negócio. Por enquanto, só pode fazer um teste por aplicação.)

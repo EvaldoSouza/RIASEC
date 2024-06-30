@@ -29,14 +29,7 @@ import { useState } from "react";
 
 import { ProfileForm } from "./create-new-form";
 import DialogForm from "./dialog-form";
-
-//definindo o formado dos dados
-export type Cartao = {
-  id_cartao: number;
-  pergunta: string | null;
-  tipo: string | null;
-  em_uso: boolean | null;
-};
+import { Cartao } from "../types/types";
 
 async function onDelete(id_cartao: number) {
   if (id_cartao > 0) {
@@ -45,10 +38,6 @@ async function onDelete(id_cartao: number) {
   } else {
     console.log("ID inválido");
   }
-}
-
-async function onEdit() {
-  console.log("valores");
 }
 
 export const columns: ColumnDef<Cartao>[] = [
