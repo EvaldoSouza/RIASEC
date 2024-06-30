@@ -17,23 +17,41 @@ interface DadosAplicacao {
 
 const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
   const [dataFromB, setDataFromB] = useState([]);
+  const [horairos, setHorarios] = useState<Date[]>();
+  const [teste, setTeste] = useState<number>();
 
   const handleDataFromB = (data: any) => {
     setDataFromB(data);
   };
 
+  const salvarHorarios = (data: {
+    startDate: Date | null;
+    endDate: Date | null;
+  }) => {
+    if (data.startDate && data.endDate) {
+      const horariosRecebidos: Date[] = [data.startDate, data.endDate];
+      setHorarios(horariosRecebidos);
+    }
+  };
+
+  const salvarTeste = (data: number) => {
+    console.log(data);
+    setTeste(data);
+  };
+
   function salvarDados(): void {
     console.log(dataFromB);
+    console.log(horairos);
   }
 
   return (
     <div>
       <h1>Criando Aplicação</h1>
-      <DatePickerComponent callBackData={handleDataFromB} />
+      <DatePickerComponent callBackData={salvarHorarios} />
       <DataTableTestes
         data={testes}
         columns={columnsTeste}
-        callbackFunction={handleDataFromB}
+        callbackFunction={salvarTeste}
       />
       <DataTableUsers
         data={usuarios}

@@ -20,6 +20,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -43,6 +52,12 @@ interface DataTableProps<TData extends DataWithIdCartao, TValue> {
   data: TData[];
 }
 
+const FormSchema = z.object({
+  descricao: z.string().max(600, {
+    message: "Descrição muito longa!",
+  }),
+});
+
 export function DataTable<TData extends DataWithIdCartao, TValue>({
   columns,
   data,
@@ -50,6 +65,10 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const texto = "";
 
@@ -70,11 +89,16 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
 
   const router = useRouter();
 
-  async function onSubmit() {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     //salvar no banco os dados do Teste
     //console.log(rowSelection);
     const cartoes = Object.keys(rowSelection);
     const ids = cartoes.map((numero) => +numero);
+    const teste = await criarTeste(data.descricao, ids);
+    if (teste) {
+      router.refresh();
+      router.push("/gerenciarTestes");
+    }
   }
 
   return (
@@ -158,6 +182,33 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
         >
           Next
         </Button>
+      </div>
+      <div>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-2/3 space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="descricao"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descrição</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={"Descrição do Teste"}
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Salvar Teste</Button>
+          </form>
+        </Form>
       </div>
     </div>
   );

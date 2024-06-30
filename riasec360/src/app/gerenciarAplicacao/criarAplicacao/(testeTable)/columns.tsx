@@ -2,21 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Teste } from "@/app/types/types";
 
+//TODO Dar um jeito de selecionar apenas um teste. Provavelmente vou usar um RadioGroup, mas tá meio bugado na minha cabeça.
 export const columns: ColumnDef<Teste>[] = [
   {
     id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}

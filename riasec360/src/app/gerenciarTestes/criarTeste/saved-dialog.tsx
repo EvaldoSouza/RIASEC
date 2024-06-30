@@ -11,16 +11,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
+//TODO deletar isso aqui, ou corrigir.
 export function SavedDialog() {
   return (
     <AlertDialog>
       <AlertDialogTrigger>Open</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Teste Criado com Sucesso</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            O testes foi criado com bastante sucesso. Ninguém foi as lágrimas
+            durante a criação desse aviso.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

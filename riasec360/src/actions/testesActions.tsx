@@ -2,7 +2,10 @@
 import prisma from "../../src/db/prisma";
 import { Teste } from "@/app/types/types";
 
-export async function criarTeste(description: string, cartaoIds: number[]) {
+export async function criarTeste(
+  description: string,
+  cartaoIds: number[]
+): Promise<Teste | null> {
   try {
     // Create the TESTE
     const createdTeste = await prisma.teste.create({
@@ -25,7 +28,7 @@ export async function criarTeste(description: string, cartaoIds: number[]) {
     return createdTeste;
   } catch (error) {
     console.error("Error creating TESTE:", error);
-    return error;
+    return null;
   }
 }
 

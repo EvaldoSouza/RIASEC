@@ -37,12 +37,7 @@ import { Textarea } from "@/components/ui/textarea";
 import React, { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
-import {
-  atualizarDescricaoTeste,
-  criarTeste,
-  criarTesteComID,
-  DeletarTeste,
-} from "@/actions/testesActions";
+import { atualizarDescricaoTeste } from "@/actions/testesActions";
 import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
