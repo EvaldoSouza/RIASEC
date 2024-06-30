@@ -6,6 +6,8 @@ import { saltAndHashPassword } from "@/lib/passwords";
 import { Prisma, usuario } from "@prisma/client";
 import prisma from "@/db/prisma";
 import { getServerSession } from "next-auth";
+import { promises } from "dns";
+import { Usuario } from "@/app/types/types";
 
 export async function privilegioUsuario() {
   //pegar o estado do usuário aqui
@@ -103,11 +105,13 @@ export async function cadastrarUsuario(
   }
 }
 
-export async function todosUsuarios() {
+export async function todosUsuarios(): Promise<Usuario[]> {
+  const vazia: Usuario[] = [];
   try {
     const usuarios = await prisma.usuario.findMany();
     return usuarios;
   } catch (error) {
     console.log(error);
+    return vazia;
   }
 }

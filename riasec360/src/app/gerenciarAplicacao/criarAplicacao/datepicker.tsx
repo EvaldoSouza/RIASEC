@@ -1,11 +1,14 @@
-// components/DatePickerComponent.tsx
 "use client";
 import React, { useState } from "react";
 import DatePicker, { DatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "@/components/ui/button";
 
-const DatePickerComponent: React.FC = () => {
+interface DatePickerInterface {
+  callBackData: any;
+}
+
+const DatePickerComponent = ({ callBackData }: DatePickerInterface) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
@@ -22,21 +25,22 @@ const DatePickerComponent: React.FC = () => {
   };
 
   const handleSave = () => {
-    if (startDate && endDate) {
-      console.log("Start Date:", startDate);
-      console.log("End Date:", endDate);
-      // Here you can add your logic to save the dates to a database or state management store
-    } else {
-      console.log("Start or end date not selected");
-    }
+    callBackData({ startDate, endDate });
   };
 
   const isPastDate = (date: Date) => {
     return date < new Date();
   };
 
+  //e essa daqui?
+  //Deveria checar se a data é valida, ou seja, maior que a data inicial
   const isEndDateValid = (date: Date) => {
-    return startDate ? date > startDate : true;
+    if (startDate) {
+      if (date > startDate) {
+        console.log("Data é maior!");
+      }
+    }
+    return startDate ? date.getTime() > startDate.getTime() : true;
   };
 
   return (
@@ -55,7 +59,7 @@ const DatePickerComponent: React.FC = () => {
           dateFormat="MMMM d, yyyy h:mm aa"
           minDate={new Date()}
           filterTime={(time) => !isPastDate(time)}
-          placeholderText="Select start date and time"
+          placeholderText="Selecione o horário inicial"
         />
       </div>
       <div>
@@ -73,7 +77,7 @@ const DatePickerComponent: React.FC = () => {
           minDate={new Date()}
           filterTime={(time) => !isPastDate(time)}
           filterDate={isEndDateValid}
-          placeholderText="Select end date and time"
+          placeholderText="Selecione o horário limite"
         />
       </div>
       <Button onClick={handleSave}>Registrar Datas</Button>

@@ -29,12 +29,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 //definindo o formado dos dados
-export type Teste = {
-  id_teste: number;
-  descricao: string | null;
-  quant_cartoes: number | null;
-  data_criacao: Date | null;
-};
+import { Teste } from "../types/types";
 
 async function onDelete(id_teste: number) {
   if (id_teste > 0) {

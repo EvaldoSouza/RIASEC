@@ -1,7 +1,6 @@
 "use server";
-import { EarOff } from "lucide-react";
 import prisma from "../../src/db/prisma";
-import { Teste } from "../app/gerenciarTestes/columns";
+import { Teste } from "@/app/types/types";
 
 export async function criarTeste(description: string, cartaoIds: number[]) {
   try {

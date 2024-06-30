@@ -2,14 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-
-//definindo o formado dos dados
-export type Teste = {
-  id_teste: number;
-  descricao: string | null;
-  quant_cartoes: number | null;
-  data_criacao: Date | null;
-};
+import { Teste } from "@/app/types/types";
 
 export const columns: ColumnDef<Teste>[] = [
   {

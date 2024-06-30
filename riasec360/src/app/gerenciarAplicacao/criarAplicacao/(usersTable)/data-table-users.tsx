@@ -27,11 +27,13 @@ import React from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  callbackFunction: any;
 }
 
 export function DataTableUsers<TData, TValue>({
   columns,
   data,
+  callbackFunction,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -56,7 +58,7 @@ export function DataTableUsers<TData, TValue>({
 
   async function onSubmit() {
     const usuario = Object.keys(rowSelection);
-    console.log(usuario);
+    callbackFunction(usuario);
     //  const ids = usuario.map((numero) => +numero);
     //const novoTeste = await adicionarCartoesATeste(+id_teste, ids);
     //preciso criar a aplicação e fazer a relação entre os usuarios (aplicação_usuario)

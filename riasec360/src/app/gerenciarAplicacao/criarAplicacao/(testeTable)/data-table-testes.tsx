@@ -26,11 +26,13 @@ import React from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  callbackFunction: any;
 }
 
 export function DataTableTestes<TData, TValue>({
   columns,
   data,
+  callbackFunction,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -46,6 +48,10 @@ export function DataTableTestes<TData, TValue>({
       columnFilters,
     },
   });
+
+  async function salvarDados() {
+    callbackFunction(columnFilters);
+  }
 
   return (
     <div>
@@ -128,6 +134,7 @@ export function DataTableTestes<TData, TValue>({
         >
           Next
         </Button>
+        <Button onClick={salvarDados}> Salvar</Button>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ Correções:
 - Travar edição de teste baseada em uso
 - Corrigir o bug onde alterar várias vezes o testes quebra o número de cartões no teste
 - Melhorar o local da interface cartão, colocar ela em um único lugar
+- Colocar todos os await async com a promessa do tipo correta. E entender melhor essa parada, estudar o typescript um pouco mais.
 
 Funcionalidades:
 - Fazer o agendar aplicação

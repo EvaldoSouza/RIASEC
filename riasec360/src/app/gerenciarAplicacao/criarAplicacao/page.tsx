@@ -1,10 +1,5 @@
-//import { DatePickerComponent } from "./datepicker";
 import { todosUsuarios } from "@/actions/userActions";
-import { columns as columnsUsers } from "./(usersTable)/columns";
-import { columns as columnsTeste } from "./(testeTable)/columns";
-import { DataTableUsers } from "./(usersTable)/data-table-users";
-import DatePickerComponent from "./datepicker";
-import { DataTableTestes } from "./(testeTable)/data-table-testes";
+import AplicacaoForm from "./aplicacaoForm";
 import { BuscarTodosTestes } from "@/actions/testesActions";
 export default async function CriarAplicacao() {
   //fazer uma forma de receber a data (calendário do shadcn) Preciso de um que dê as horas também
@@ -17,10 +12,7 @@ export default async function CriarAplicacao() {
   const testes = await BuscarTodosTestes();
   return (
     <div>
-      <h1>Criando Aplicação</h1>
-      <DatePickerComponent />
-      <DataTableTestes data={testes} columns={columnsTeste} />
-      <DataTableUsers data={usuarios} columns={columnsUsers} />
+      <AplicacaoForm testes={testes} usuarios={usuarios} />
     </div>
   );
 }

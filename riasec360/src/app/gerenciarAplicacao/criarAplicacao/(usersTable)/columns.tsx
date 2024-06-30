@@ -3,15 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { UsuarioResumido } from "@/app/types/types";
 
-//definindo o formado dos dados
-export type Usuario = {
-  id_user: number;
-  nome: string;
-  email: string;
-};
-
-export const columns: ColumnDef<Usuario>[] = [
+export const columns: ColumnDef<UsuarioResumido>[] = [
   {
     id: "select",
     header: ({ table }) => (
