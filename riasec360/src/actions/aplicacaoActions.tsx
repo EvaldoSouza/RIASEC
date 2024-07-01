@@ -153,3 +153,33 @@ export async function deletarAplicacao(
     throw error;
   }
 }
+
+export async function deletarECriarAplicacao(
+  idAplicacao: number,
+  idTeste: number,
+  dataCriacao: Date | string,
+  dataInicio: Date | string,
+  dataFinal: Date | string,
+  idGrupo?: number,
+  local?: string
+): Promise<Aplicacao> {
+  try {
+    const deletando = await deletarAplicacao(idAplicacao);
+    const aplicacaoEditada = await prisma.aplicacao.create({
+      data: {
+        id_aplicacao: idAplicacao,
+        id_teste: idTeste,
+        id_grupo: idGrupo,
+        local: local,
+        data_agendamento: dataCriacao,
+        hora_inicial: dataInicio,
+        hora_termino: dataFinal,
+      },
+    });
+
+    return aplicacaoEditada;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

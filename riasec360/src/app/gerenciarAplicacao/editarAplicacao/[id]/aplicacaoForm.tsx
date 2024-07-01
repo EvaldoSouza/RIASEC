@@ -11,15 +11,17 @@ import { Butterfly_Kids } from "next/font/google";
 import { Button } from "@mui/material";
 import {
   agendarAplicacao,
+  deletarECriarAplicacao,
   marcarAplicacaoUsuario,
 } from "@/actions/aplicacaoActions";
 
 interface DadosAplicacao {
   testes: Teste[];
   usuarios: Usuario[];
+  idAplicacao: number;
 }
 
-const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
+const AplicacaoForm = ({ testes, usuarios, idAplicacao }: DadosAplicacao) => {
   const [horarios, setHorarios] = useState<Date[]>();
   const [teste, setTeste] = useState<number>();
   const [usuariosSelecionados, setUsuarios] = useState<number[]>();
@@ -50,7 +52,8 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
 
     //por que o teste foi marcado como string?
     if (teste && horarios) {
-      const aplicacao = await agendarAplicacao(
+      const aplicacao = await deletarECriarAplicacao(
+        idAplicacao,
         +teste,
         criacao,
         horarios[0],
@@ -70,13 +73,15 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
 
   return (
     <div>
-      <h1>Criando Aplicação</h1>
+      <h2>Novo horário para a Aplicação {idAplicacao}</h2>
       <DatePickerComponent callBackData={salvarHorarios} />
+      <h2>Alterar o Teste da Aplicação {idAplicacao}</h2>
       <DataTableTestes
         data={testes}
         columns={columnsTeste}
         callbackFunction={salvarTeste}
       />
+      <h2>Mudar quem vai participar da Aplicação {idAplicacao}</h2>
       <DataTableUsers
         data={usuarios}
         columns={columnsUsers}

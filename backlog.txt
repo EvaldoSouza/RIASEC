@@ -18,3 +18,4 @@ Funcionalidades:
 - Começar a pensar em uma forma de gerar testes "semi-aleatório"
 - Criar um sistema de popup para informar de ações realizadas. Usar o toast do sadcn https://ui.shadcn.com/docs/components/toast
 - Fazer com que só possa ser selecionado um teste (Pode ser que seja requisitado mais, mas ai é regra de negócio. Por enquanto, só pode fazer um teste por aplicação.)
+- Fazer uma janelinha ou aviso de que foi marcada as aplicações

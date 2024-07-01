@@ -14,7 +14,6 @@ export default async function Inicial() {
     const displayDesc = JSON.parse(descFile.toString());
 
     const session = await getServerSession();
-    //criar arqivo template com : navbar, menu, pagina
     return (
       <>
         <Box sx={{ width: "100%" }}>
@@ -48,6 +47,6 @@ export default async function Inicial() {
     );
   } catch (error) {
     console.error("Error:", error);
-    return null; // Or render an error message
+    throw error;
   }
 }

@@ -14,14 +14,7 @@ import { idProximoTeste } from "@/actions/aplicacaoActions";
 import { buscarCartoesEmTeste } from "@/actions/testesActions";
 //import { Likert } from "./likert";
 import Likert from "./likert";
-
-interface Cartao {
-  id_cartao: number;
-  pergunta: string | null;
-  tipo: string | null;
-  em_uso: boolean | null;
-}
-//TODO tirar essa interface daqui
+import { Cartao } from "../types/types";
 
 interface CartoesArray {
   cartoes: Cartao[];
