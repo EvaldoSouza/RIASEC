@@ -29,6 +29,8 @@ interface Cartao {
 interface LikertProps {
   cartoes: Cartao[];
   idAplicacao: number;
+  idTeste: number;
+  idUsuario: number;
 }
 
 interface respostaCompleta {
@@ -53,7 +55,12 @@ const FormSchema = z.object({
   ),
 });
 
-const Likert: React.FC<LikertProps> = ({ cartoes, idAplicacao }) => {
+const Likert: React.FC<LikertProps> = ({
+  cartoes,
+  idAplicacao,
+  idTeste,
+  idUsuario,
+}) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -79,12 +86,7 @@ const Likert: React.FC<LikertProps> = ({ cartoes, idAplicacao }) => {
       // ]);
 
       try {
-        const gravada = await gravarResposta(
-          idAplicacao,
-          cartoes[currentQuestionIndex].id_cartao,
-          data.type,
-          "Likert"
-        );
+        const gravada = await gravarResposta(idTeste);
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       } catch (error) {
         console.log(error);
@@ -94,6 +96,7 @@ const Likert: React.FC<LikertProps> = ({ cartoes, idAplicacao }) => {
     //guardar aqui, ou retornar a info para página
     //como retornar isso?
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">

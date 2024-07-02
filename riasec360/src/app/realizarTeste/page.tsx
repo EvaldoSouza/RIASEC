@@ -10,11 +10,16 @@
 //No final finaliza o teste, e salva as respostas.
 
 "use server";
-import { idProximoTeste } from "@/actions/aplicacaoActions";
+import {
+  aplicacaoUsuarioEspecifica,
+  aplicacoesAFazerDoUsuario,
+  idProximoTeste,
+} from "@/actions/aplicacaoActions";
 import { buscarCartoesEmTeste } from "@/actions/testesActions";
 //import { Likert } from "./likert";
 import Likert from "./likert";
 import { Cartao } from "../types/types";
+import { usuarioDaSessao } from "@/actions/userActions";
 
 interface CartoesArray {
   cartoes: Cartao[];
@@ -22,20 +27,34 @@ interface CartoesArray {
 
 export default async function realizarTeste() {
   //a página não recebe nada, pois ela faz as consultas internamente
-  const proxTeste = await idProximoTeste();
+  const usuario = await usuarioDaSessao();
 
-  if (proxTeste === 0) {
+  if (!usuario) {
+    return <h1>Algum problema com o usuario</h1>;
+  }
+  const aplicacoes = await aplicacoesAFazerDoUsuario(usuario?.id_user);
+
+  if (!aplicacoes[0]) {
     return <h1>Sem testes no momento</h1>;
   }
   //TODO conferir a data aqui, e mostrar ela se não for a data de aplicação
 
-  //com o id do teste, vou pegar todos os cartões dele
-  const cartoes: Cartao[] | undefined = await buscarCartoesEmTeste(proxTeste);
+  //Estou considerando que esse array vem ordenado.
+  const cartoes: Cartao[] | undefined = await buscarCartoesEmTeste(
+    aplicacoes[0].id_teste
+  );
 
   const resposta: string[] = ["pergunta 1", "pergunta 2", "pergunta 3"];
 
   if (cartoes) {
-    return <Likert cartoes={cartoes} idAplicacao={proxTeste} />;
+    return (
+      <Likert
+        cartoes={cartoes}
+        idAplicacao={aplicacoes[0].id_aplicacao}
+        idTeste={aplicacoes[0].id_teste}
+        idUsuario={usuario?.id_user}
+      />
+    );
   } else {
     return <h1>Teste sem cartões</h1>;
   }

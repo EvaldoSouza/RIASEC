@@ -13,18 +13,13 @@ import {
 } from "@/app/types/types";
 
 //retorna o id do primeiro teste agendado para esse usuário
-export async function idProximoTeste(): Promise<number> {
+export async function idProximoTeste(idUsuario: number): Promise<number> {
   try {
-    const usuario = await usuarioDaSessao();
-    if (usuario) {
-      const aplicacoesMarcadas = await aplicacoesAFazerDoUsuario(
-        usuario?.id_user
-      );
-      //Esse array está ordenado, ou não? Vamos descobrir
-      if (aplicacoesMarcadas && aplicacoesMarcadas[0]) {
-        console.log("Achou um teste:", aplicacoesMarcadas[0].id_teste);
-        return aplicacoesMarcadas[0].id_teste;
-      }
+    const aplicacoesMarcadas = await aplicacoesAFazerDoUsuario(idUsuario);
+    //Esse array está ordenado, ou não? Vamos descobrir
+    if (aplicacoesMarcadas && aplicacoesMarcadas[0]) {
+      console.log("Achou um teste:", aplicacoesMarcadas[0].id_teste);
+      return aplicacoesMarcadas[0].id_teste;
     }
     return -1; //Se der alguma coisa errada, vai retornar um valor incorreto.
   } catch (error) {
@@ -62,6 +57,7 @@ export async function aplicacoesAFazerDoUsuario(
       if (aplicacao.hora_inicial) {
         if (aplicacao.hora_inicial > dataAtual) {
           aplicacoesFuturas.push(aplicacao);
+          //TODO consertar o bug que eu acho que tem aqui. Se a aplicação já tiver começado (caso possível), não vai aparecer, pq é menor que a data atual
         }
       }
     }
@@ -261,6 +257,26 @@ export async function gravarResposta(
     });
 
     return novaResposta;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function aplicacaoUsuarioEspecifica(
+  idAplicacao: number,
+  idUsuario: number
+): Promise<AplicacaoUsuario> {
+  try {
+    const aplicacaoUsuario = await prisma.aplicacao_usuario.findFirst({
+      where: { id_aplicacao: idAplicacao, id_usuario: idUsuario },
+    });
+
+    if (!aplicacaoUsuario) {
+      throw "Usuario não tem aplicação marcada";
+    }
+
+    return aplicacaoUsuario;
   } catch (error) {
     console.log(error);
     throw error;
