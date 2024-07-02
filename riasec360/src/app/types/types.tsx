@@ -54,3 +54,13 @@ export type AplicacaoUsuarioComNome = {
   inicio_testagem: Date | null;
   fim_testagem: Date | null;
 };
+
+export type RespostaCartao = {
+  id_resposta: number;
+  id_teste: number;
+  id_cartao: number;
+  resposta_competencia: string | null;
+  resposta_afinidade: string | null;
+  aplicacao_usuarioId_usuario: number;
+  aplicacao_usuarioId_aplicacao: number;
+};

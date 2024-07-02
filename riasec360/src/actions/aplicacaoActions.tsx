@@ -9,13 +9,69 @@ import {
   Aplicacao,
   AplicacaoUsuario,
   AplicacaoUsuarioComNome,
+  RespostaCartao,
 } from "@/app/types/types";
 
 //retorna o id do primeiro teste agendado para esse usuário
 export async function idProximoTeste(): Promise<number> {
-  const usuario = await usuarioDaSessao();
-  console.log("função idProximoTeste ainda em mock");
-  return 1;
+  try {
+    const usuario = await usuarioDaSessao();
+    if (usuario) {
+      const aplicacoesMarcadas = await aplicacoesAFazerDoUsuario(
+        usuario?.id_user
+      );
+      //Esse array está ordenado, ou não? Vamos descobrir
+      if (aplicacoesMarcadas && aplicacoesMarcadas[0]) {
+        console.log("Achou um teste:", aplicacoesMarcadas[0].id_teste);
+        return aplicacoesMarcadas[0].id_teste;
+      }
+    }
+    return -1; //Se der alguma coisa errada, vai retornar um valor incorreto.
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function aplicacoesDoUsuario(
+  idUsuario: number
+): Promise<number[]> {
+  try {
+    const todasAplicacoesDoUsuario = await prisma.aplicacao_usuario.findMany({
+      where: { id_usuario: idUsuario },
+    });
+    return todasAplicacoesDoUsuario.map((aplicacao) => aplicacao.id_aplicacao);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function aplicacoesAFazerDoUsuario(
+  idUsuario: number
+): Promise<Aplicacao[]> {
+  try {
+    const dataAtual = new Date();
+    const idAplicacoesUsuario = await aplicacoesDoUsuario(idUsuario);
+    const aplicacoes: Aplicacao[] = await prisma.aplicacao.findMany({
+      where: { id_aplicacao: { in: idAplicacoesUsuario } },
+    });
+
+    let aplicacoesFuturas: Aplicacao[] = [];
+    for (let aplicacao of aplicacoes) {
+      if (aplicacao.hora_inicial) {
+        if (aplicacao.hora_inicial > dataAtual) {
+          aplicacoesFuturas.push(aplicacao);
+        }
+      }
+    }
+
+    console.log(aplicacoesFuturas);
+    return aplicacoesFuturas;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }
 
 export async function agendarAplicacao(
@@ -178,6 +234,33 @@ export async function deletarECriarAplicacao(
     });
 
     return aplicacaoEditada;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function gravarResposta(
+  idTeste: number,
+  idCartao: number,
+  idUsuario: number,
+  idAplicacao: number,
+  respostaCompetencia?: string,
+  respostaAfinidade?: string
+): Promise<RespostaCartao> {
+  try {
+    const novaResposta = await prisma.resposta_cartao.create({
+      data: {
+        id_teste: idTeste,
+        id_cartao: idCartao,
+        aplicacao_usuarioId_usuario: idUsuario,
+        aplicacao_usuarioId_aplicacao: idAplicacao,
+        resposta_competencia: respostaCompetencia,
+        resposta_afinidade: respostaAfinidade,
+      },
+    });
+
+    return novaResposta;
   } catch (error) {
     console.log(error);
     throw error;
