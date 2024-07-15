@@ -6,6 +6,8 @@ import DraggableCard from "./../components/dragNDrop/card";
 import DropZone from "../components/dragNDrop/zone";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { gravarResposta } from "@/actions/aplicacaoActions";
+import { useRouter } from "next/navigation";
 
 //how the fuck I should do it?
 interface dnd {
@@ -29,14 +31,21 @@ const Dnd: React.FC<dnd> = ({ cartoes, idAplicacao, idTeste, idUsuario }) => {
   const [droppedData, setDroppedData] = useState<
     { phrase: string; label: string }[]
   >([]);
+  const [interesseAptitude, setInteresseAptitude] = useState(0);
 
   const handleDrop = (phrase: string, label: string) => {
     setDroppedData((prevData) => [...prevData, { phrase, label }]);
-    if (currentPhraseIndex < cartoes.length - 1) {
+    if (currentPhraseIndex < cartoes.length - 1 && interesseAptitude < 2) {
+      //TODO tira esse literal, e deixar um pouco mais elegante
       setCurrentPhraseIndex(currentPhraseIndex + 1);
     } else {
       // All phrases have been dropped
-      setCurrentPhraseIndex(cartoes.length); // Set to a value that is out of bounds
+      if (interesseAptitude == 0) {
+        setInteresseAptitude(1);
+        setCurrentPhraseIndex(0);
+      } else {
+        setCurrentPhraseIndex(cartoes.length); // Set to a value that is out of bounds
+      }
     }
   };
 
@@ -49,9 +58,23 @@ const Dnd: React.FC<dnd> = ({ cartoes, idAplicacao, idTeste, idUsuario }) => {
     setCurrentPhraseIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
   };
 
+  const router = useRouter();
   const handleSave = async () => {
-    //const teste = await
-    console.log(droppedData);
+    try {
+      for (var index = 0; index < cartoes.length; index++) {
+        const teste = await gravarResposta(
+          idTeste,
+          cartoes[index].id_cartao,
+          idUsuario,
+          idAplicacao,
+          droppedData[index].label
+        );
+      }
+      console.log("Teste Salvo com Sucesso!");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -65,19 +88,38 @@ const Dnd: React.FC<dnd> = ({ cartoes, idAplicacao, idTeste, idUsuario }) => {
           <div>Você finalizou o teste!</div>
         )}
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          marginTop: "40px",
-        }}
-      >
-        <DropZone label="Gostaria Muito" onDrop={handleDrop} />
-        <DropZone label="Gostaria Parcialmente" onDrop={handleDrop} />
-        <DropZone label="Indiferente" onDrop={handleDrop} />
-        <DropZone label="Não Gostaria" onDrop={handleDrop} />
-        <DropZone label="Detestaria" onDrop={handleDrop} />
-      </div>
+
+      {interesseAptitude == 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            marginTop: "40px",
+          }}
+        >
+          <DropZone label="Gostaria Muito" onDrop={handleDrop} />
+          <DropZone label="Gostaria Parcialmente" onDrop={handleDrop} />
+          <DropZone label="Indiferente" onDrop={handleDrop} />
+          <DropZone label="Não Gostaria" onDrop={handleDrop} />
+          <DropZone label="Detestaria" onDrop={handleDrop} />
+        </div>
+      )}
+
+      {interesseAptitude == 1 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            marginTop: "40px",
+          }}
+        >
+          <DropZone label="Sou Competente" onDrop={handleDrop} />
+          <DropZone label="Parcialmente Competente" onDrop={handleDrop} />
+          <DropZone label="Passavél" onDrop={handleDrop} />
+          <DropZone label="Parcialmente Incompetente" onDrop={handleDrop} />
+          <DropZone label="Totalmente Incompetente" onDrop={handleDrop} />
+        </div>
+      )}
 
       <div
         style={{ display: "flex", justifyContent: "left", marginTop: "20px" }}
@@ -85,7 +127,7 @@ const Dnd: React.FC<dnd> = ({ cartoes, idAplicacao, idTeste, idUsuario }) => {
         <Button onClick={handleGoBack} disabled={droppedData.length === 0}>
           Voltar
         </Button>
-        {currentPhraseIndex == cartoes.length - 1 && (
+        {currentPhraseIndex == cartoes.length && (
           <Button onMouseDown={handleSave}>Salvar</Button>
         )}
       </div>
