@@ -75,7 +75,7 @@ model resposta_cartao {
   id_cartao                     Int
   resposta_competencia          String?           @db.VarChar(50)
   resposta_afinidade            String?           @db.VarChar(50)
-  cartao                        cartao            @relation(fields: [id_cartao], references: [id_cartao], onDelete: Cascade, onUpdate: NoAction, map: "resposta_cartao_ibfk_2")
+  cartao                        cartao            @relation(fields: [id_cartao], references: [id_cartao], onDelete: NoAction, onUpdate: NoAction, map: "resposta_cartao_ibfk_2")
   aplicacao_usuario             aplicacao_usuario @relation(fields: [aplicacao_usuarioId_usuario, aplicacao_usuarioId_aplicacao], references: [id_usuario, id_aplicacao])
   aplicacao_usuarioId_usuario   Int
   aplicacao_usuarioId_aplicacao Int

@@ -28,9 +28,7 @@ export async function idProximoTeste(idUsuario: number): Promise<number> {
   }
 }
 
-export async function aplicacoesDoUsuario(
-  idUsuario: number
-): Promise<number[]> {
+async function aplicacoesDoUsuario(idUsuario: number): Promise<number[]> {
   try {
     const todasAplicacoesDoUsuario = await prisma.aplicacao_usuario.findMany({
       where: { id_usuario: idUsuario },
@@ -64,6 +62,20 @@ export async function aplicacoesAFazerDoUsuario(
 
     console.log(aplicacoesFuturas);
     return aplicacoesFuturas;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function todasAplicacoesDoUsuario(idUsuario: number) {
+  try {
+    const idAplicacoesUsuario = await aplicacoesDoUsuario(idUsuario);
+    const aplicacoes: Aplicacao[] = await prisma.aplicacao.findMany({
+      where: { id_aplicacao: { in: idAplicacoesUsuario } },
+    });
+
+    return aplicacoes;
   } catch (error) {
     console.log(error);
     throw error;
@@ -277,6 +289,17 @@ export async function aplicacaoUsuarioEspecifica(
     }
 
     return aplicacaoUsuario;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function umaAplicacao() {
+  try {
+    const aplicacao = await prisma.aplicacao.findFirst();
+    if (!aplicacao) throw "Erro na aplicação";
+    return aplicacao;
   } catch (error) {
     console.log(error);
     throw error;

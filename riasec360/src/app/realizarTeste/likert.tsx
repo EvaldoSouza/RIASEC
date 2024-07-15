@@ -84,10 +84,16 @@ const Likert: React.FC<LikertProps> = ({
       //   ...respostas,
       //   { id: currentQuestionIndex, name: resposta },
       // ]);
-
       try {
-        const gravada = await gravarResposta(idTeste);
+        const gravada = await gravarResposta(
+          idTeste,
+          cartoes[currentQuestionIndex].id_cartao,
+          idUsuario,
+          idAplicacao,
+          data.type
+        );
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        console.log(gravada);
       } catch (error) {
         console.log(error);
       }

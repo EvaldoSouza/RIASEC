@@ -11,15 +11,15 @@
 
 "use server";
 import {
-  aplicacaoUsuarioEspecifica,
   aplicacoesAFazerDoUsuario,
-  idProximoTeste,
+  todasAplicacoesDoUsuario,
 } from "@/actions/aplicacaoActions";
 import { buscarCartoesEmTeste } from "@/actions/testesActions";
 //import { Likert } from "./likert";
 import Likert from "./likert";
 import { Cartao } from "../types/types";
 import { usuarioDaSessao } from "@/actions/userActions";
+import Dnd from "./dragDrop";
 
 interface CartoesArray {
   cartoes: Cartao[];
@@ -32,7 +32,9 @@ export default async function realizarTeste() {
   if (!usuario) {
     return <h1>Algum problema com o usuario</h1>;
   }
-  const aplicacoes = await aplicacoesAFazerDoUsuario(usuario?.id_user);
+  //const aplicacoes = await aplicacoesAFazerDoUsuario(usuario?.id_user);
+  const aplicacoes = await todasAplicacoesDoUsuario(usuario.id_user);
+  console.log(aplicacoes[0]);
 
   if (!aplicacoes[0]) {
     return <h1>Sem testes no momento</h1>;
@@ -47,13 +49,21 @@ export default async function realizarTeste() {
   const resposta: string[] = ["pergunta 1", "pergunta 2", "pergunta 3"];
 
   if (cartoes) {
+    // return (
+    //   <Likert
+    //     cartoes={cartoes}
+    //     idAplicacao={aplicacoes[0].id_aplicacao}
+    //     idTeste={aplicacoes[0].id_teste}
+    //     idUsuario={usuario?.id_user}
+    //   />
+    // );
     return (
-      <Likert
+      <Dnd
         cartoes={cartoes}
         idAplicacao={aplicacoes[0].id_aplicacao}
         idTeste={aplicacoes[0].id_teste}
         idUsuario={usuario?.id_user}
-      />
+      ></Dnd>
     );
   } else {
     return <h1>Teste sem cartões</h1>;
