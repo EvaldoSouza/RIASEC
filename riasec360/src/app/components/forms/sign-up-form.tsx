@@ -1,13 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import React, { useState, FormEvent } from "react";
 import { z } from "zod";
-
-interface usuario {
-  username: string;
-  email: string;
-  password: string;
-  dateOfBirth: Date;
-}
 
 const signUpSchema = z
   .object({
@@ -73,14 +67,6 @@ const SignUpForm: React.FC = () => {
       return;
     }
 
-    // Convert dateOfBirth to Date object
-    //const dateOfBirth = convertToDate(formData.dateOfBirth); //acho que vou manter string por enquanto, e na API que converte
-    //talvez fazer isso daqui, aqui, não seja uma boa ideia
-    //Acho que tem que usar o routes.ts, e fazer em um sistema de request e response
-    //até por que isso é um formulário que vai ser mostrado para o browser
-    //não faz muito sentido isso conseguir comunicar com o banco de dados
-    //TODO converter isso daqui para request e response
-
     const response = await fetch(`/api/auth/register`, {
       method: "POST",
       body: JSON.stringify({
@@ -94,10 +80,10 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={formStyle}>
       <h2>Sign Up</h2>
       {errors.general && <p style={{ color: "red" }}>{errors.general}</p>}
-      <div>
+      <div style={inputContainerStyle}>
         <label>
           Username:
           <input
@@ -105,11 +91,12 @@ const SignUpForm: React.FC = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
+            style={inputStyle(errors.username)}
           />
         </label>
-        {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
+        {errors.username && <p style={errorStyle}>{errors.username}</p>}
       </div>
-      <div>
+      <div style={inputContainerStyle}>
         <label>
           Email:
           <input
@@ -117,11 +104,12 @@ const SignUpForm: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            style={inputStyle(errors.email)}
           />
         </label>
-        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        {errors.email && <p style={errorStyle}>{errors.email}</p>}
       </div>
-      <div>
+      <div style={inputContainerStyle}>
         <label>
           Password:
           <input
@@ -129,11 +117,12 @@ const SignUpForm: React.FC = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            style={inputStyle(errors.password)}
           />
         </label>
-        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+        {errors.password && <p style={errorStyle}>{errors.password}</p>}
       </div>
-      <div>
+      <div style={inputContainerStyle}>
         <label>
           Confirm Password:
           <input
@@ -141,13 +130,14 @@ const SignUpForm: React.FC = () => {
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
+            style={inputStyle(errors.confirmPassword)}
           />
         </label>
         {errors.confirmPassword && (
-          <p style={{ color: "red" }}>{errors.confirmPassword}</p>
+          <p style={errorStyle}>{errors.confirmPassword}</p>
         )}
       </div>
-      <div>
+      <div style={inputContainerStyle}>
         <label>
           Date of Birth:
           <input
@@ -156,16 +146,54 @@ const SignUpForm: React.FC = () => {
             placeholder="DD/MM/YYYY"
             value={formData.dateOfBirth}
             onChange={handleChange}
-            maxLength={10} // To limit the input to 10 characters
+            maxLength={10}
+            style={inputStyle(errors.dateOfBirth)}
           />
         </label>
-        {errors.dateOfBirth && (
-          <p style={{ color: "red" }}>{errors.dateOfBirth}</p>
-        )}
+        {errors.dateOfBirth && <p style={errorStyle}>{errors.dateOfBirth}</p>}
       </div>
-      <button type="submit">Sign Up</button>
+      <Button type="submit">Sign Up</Button>
     </form>
   );
 };
 
 export default SignUpForm;
+
+const formStyle = {
+  maxWidth: "400px",
+  margin: "0 auto",
+  padding: "20px",
+  border: "1px solid #ddd",
+  borderRadius: "8px",
+  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+  backgroundColor: "#fff",
+};
+
+const inputContainerStyle = {
+  marginBottom: "15px",
+};
+
+const inputStyle = (hasError: string) => ({
+  width: "100%",
+  padding: "10px",
+  border: hasError ? "2px solid red" : "1px solid #ccc",
+  borderRadius: "4px",
+  fontSize: "16px",
+  boxSizing: "border-box" as const,
+});
+
+const errorStyle = {
+  color: "red",
+  marginTop: "5px",
+};
+
+const buttonStyle = {
+  width: "100%",
+  padding: "10px",
+  backgroundColor: "#0070f3",
+  color: "#fff",
+  border: "none",
+  borderRadius: "4px",
+  fontSize: "16px",
+  cursor: "pointer",
+};

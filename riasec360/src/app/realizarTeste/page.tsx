@@ -20,6 +20,7 @@ import Likert from "./likert";
 import { Cartao } from "../types/types";
 import { usuarioDaSessao } from "@/actions/userActions";
 import Dnd from "./dragDrop";
+import { redirect } from "next/navigation";
 
 interface CartoesArray {
   cartoes: Cartao[];
@@ -30,6 +31,7 @@ export default async function realizarTeste() {
   const usuario = await usuarioDaSessao();
 
   if (!usuario) {
+    redirect("/");
     return <h1>Algum problema com o usuario</h1>;
   }
   //const aplicacoes = await aplicacoesAFazerDoUsuario(usuario?.id_user);
@@ -45,8 +47,6 @@ export default async function realizarTeste() {
   const cartoes: Cartao[] | undefined = await buscarCartoesEmTeste(
     aplicacoes[0].id_teste
   );
-
-  const resposta: string[] = ["pergunta 1", "pergunta 2", "pergunta 3"];
 
   if (cartoes) {
     // return (

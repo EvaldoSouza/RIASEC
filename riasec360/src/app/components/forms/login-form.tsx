@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState, FormEvent } from "react";
@@ -19,24 +20,7 @@ const LoginForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-    if (name === "dateOfBirth") {
-      // Automatically insert slashes in the date string
-      let formattedValue = value.replace(/\D/g, "");
-      if (formattedValue.length > 2) {
-        formattedValue = `${formattedValue.slice(0, 2)}/${formattedValue.slice(
-          2
-        )}`;
-      }
-      if (formattedValue.length > 5) {
-        formattedValue = `${formattedValue.slice(0, 5)}/${formattedValue.slice(
-          5
-        )}`;
-      }
-      setFormData((prevState) => ({ ...prevState, [name]: formattedValue }));
-    } else {
-      setFormData((prevState) => ({ ...prevState, [name]: value }));
-    }
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -64,17 +48,17 @@ const LoginForm: React.FC = () => {
     if (response?.error === null) {
       router.push("/");
       router.refresh();
-    }
-    if (response?.error === "CredentialsSignin") {
+    } else if (response?.error === "CredentialsSignin") {
       console.log("senha ou email errada");
+      setErrors({ general: "Senha ou email incorreto" });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
-      {errors.general && <p style={{ color: "red" }}>{errors.general}</p>}
-      <div>
+    <form onSubmit={handleSubmit} style={formStyle}>
+      <h2>Login</h2>
+      {errors.general && <p style={errorStyle}>{errors.general}</p>}
+      <div style={inputContainerStyle}>
         <label>
           Email:
           <input
@@ -82,11 +66,12 @@ const LoginForm: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            style={inputStyle(errors.email)}
           />
         </label>
-        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        {errors.email && <p style={errorStyle}>{errors.email}</p>}
       </div>
-      <div>
+      <div style={inputContainerStyle}>
         <label>
           Password:
           <input
@@ -94,14 +79,42 @@ const LoginForm: React.FC = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            style={inputStyle(errors.password)}
           />
         </label>
-        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+        {errors.password && <p style={errorStyle}>{errors.password}</p>}
       </div>
-
-      <button type="submit">Sign Up</button>
+      <Button type="submit">Login</Button>
     </form>
   );
+};
+
+const formStyle = {
+  maxWidth: "400px",
+  margin: "0 auto",
+  padding: "20px",
+  border: "1px solid #ddd",
+  borderRadius: "8px",
+  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+  backgroundColor: "#fff",
+};
+
+const inputContainerStyle = {
+  marginBottom: "15px",
+};
+
+const inputStyle = (hasError: string) => ({
+  width: "100%",
+  padding: "10px",
+  border: hasError ? "2px solid red" : "1px solid #ccc",
+  borderRadius: "4px",
+  fontSize: "16px",
+  boxSizing: "border-box" as const,
+});
+
+const errorStyle = {
+  color: "red",
+  marginTop: "5px",
 };
 
 export default LoginForm;
