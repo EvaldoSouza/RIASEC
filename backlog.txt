@@ -2,5 +2,26 @@ Correções:
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
 
 Funcionalidades:
-- Usuário 'adm' ver resultado de teste
+- Horário do teste correto
+- Uma forma melhor de deslogar, que não deixe na página onde foi feito o logout
+- Um display para que eu veja qual usuário está logado
 - Criar um sistema de popup para informar de ações realizadas. Usar o toast do sadcn https://ui.shadcn.com/docs/components/toast
+- Fazer o likert com Competencia e Interesse
+
+
+Notas:
+- Usar o email como chave vai dar problema? O usuário vai poder mudar o email?
+- Como será feito o delete de usuário?
+
+
+.flex-container {
+  display: flex;
+  background-color: DodgerBlue;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+}

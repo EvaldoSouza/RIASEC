@@ -30,9 +30,13 @@ export function UserNavBar() {
         <MenubarTrigger>Perfil</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>Testes Agendados</MenubarItem>
-          <MenubarItem>Histórico de Testes</MenubarItem>
+          <MenubarItem asChild>
+            <Link href="/resultadosParticipante">Histórico de Testes</Link>
+          </MenubarItem>
           <MenubarItem>Minhas Estatísticas</MenubarItem>
-          <MenubarItem>Editar Perfil</MenubarItem>
+          <MenubarItem asChild>
+            <Link href="/perfil">Editar Perfil</Link>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <LogOut />

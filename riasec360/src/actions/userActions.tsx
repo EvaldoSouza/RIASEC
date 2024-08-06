@@ -1,12 +1,9 @@
 "use server";
-//import prisma from "../../db/prisma";
-//import { signIn } from "../../../auth";
-import AuthError from "next-auth";
+
 import { saltAndHashPassword } from "@/lib/passwords";
 import { Prisma, usuario } from "@prisma/client";
 import prisma from "@/db/prisma";
 import { getServerSession } from "next-auth";
-import { promises } from "dns";
 import { Usuario } from "@/app/types/types";
 
 export async function privilegioUsuario() {
@@ -34,6 +31,16 @@ export async function getUserFromDb(email: string): Promise<usuario> {
   } catch (error) {
     console.log("Algo deu errado ao buscar usuário no banco:", error);
     throw error;
+  }
+}
+
+export async function getAllUsers(): Promise<usuario[]> {
+  try {
+    const users = await prisma.usuario.findMany();
+    return users;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return [];
   }
 }
 
@@ -142,4 +149,22 @@ export async function todosUsuarios(): Promise<Usuario[]> {
     console.log(error);
     return vazia;
   }
+}
+
+export async function updatePerfilUsuario(data: {
+  nome: string;
+  senha: string;
+}) {
+  const senhaHashed = await saltAndHashPassword(data.senha);
+  const usuario = await usuarioDaSessao();
+  const data_update = new Date();
+
+  await prisma.usuario.update({
+    where: { id_user: usuario?.id_user },
+    data: {
+      nome: data.nome,
+      senha: senhaHashed,
+      data_atualizacao: data_update,
+    },
+  });
 }

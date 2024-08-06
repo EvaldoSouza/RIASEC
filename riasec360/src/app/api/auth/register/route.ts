@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         dataNasc
       );
       console.log(novo_usuario);
-      return NextResponse.redirect(new URL("/usuarios/login", request.url)); //TODO fazer isso funcionar, não ta redirecionando
+      return NextResponse.redirect(new URL("/usuarios/login", request.url));
     } catch (error) {
       console.log(
         "Algo deu errado na submissão do formulário de cadastrar um novo usuário"

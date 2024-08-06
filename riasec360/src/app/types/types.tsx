@@ -64,3 +64,11 @@ export type RespostaCartao = {
   aplicacao_usuarioId_usuario: number;
   aplicacao_usuarioId_aplicacao: number;
 };
+
+export type RespostasDisplay = {
+  resposta_competencia: string | null;
+  resposta_afinidade: string | null;
+  id_cartao: number;
+  pergunta: string | null;
+  tipo: string | null;
+};

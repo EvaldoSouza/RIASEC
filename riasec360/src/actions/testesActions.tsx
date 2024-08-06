@@ -76,8 +76,7 @@ export async function BuscarTodosTestes(): Promise<Teste[]> {
     }
   } catch (error) {
     console.log(error);
-    //TODO checar o tratamento de erro
-    return vazia;
+    throw error;
   }
 }
 
@@ -102,7 +101,7 @@ export async function DeletarTeste(id: number) {
     return deletar;
   } catch (error) {
     console.log(error);
-    //TODO checar tratamento de erro
+    throw error;
   }
 }
 

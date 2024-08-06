@@ -51,9 +51,19 @@ export function AdmNavBar() {
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Usuários</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem asChild>
+            <Link href={"/usuarios/gerenciar"}>Gerenciar Usuários</Link>
+          </MenubarItem>
+        </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Perfil</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem asChild>
+            <Link href={"/perfil"}>Editar Perfil</Link>
+          </MenubarItem>
+        </MenubarContent>
       </MenubarMenu>
       <LogOut />
     </Menubar>

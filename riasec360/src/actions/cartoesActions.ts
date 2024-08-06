@@ -1,8 +1,8 @@
 //copiando do chines que fez algo parecido
 "use server";
 import prisma from "@/db/prisma";
-import { Cartao } from "@/app/gerenciarCartoes/columns"; //TODO esse import tá errado, colocar essa interface em um lugar melhor
 import { unstable_noStore as noStore } from "next/cache";
+import { Cartao } from "@/app/types/types";
 
 export async function DeletarCartao(input: number) {
   try {

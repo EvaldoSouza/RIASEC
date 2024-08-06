@@ -10,6 +10,7 @@ import {
   AplicacaoUsuario,
   AplicacaoUsuarioComNome,
   RespostaCartao,
+  RespostasDisplay,
 } from "@/app/types/types";
 
 //retorna o id do primeiro teste agendado para esse usuário
@@ -28,7 +29,8 @@ export async function idProximoTeste(idUsuario: number): Promise<number> {
   }
 }
 
-async function aplicacoesDoUsuario(idUsuario: number): Promise<number[]> {
+//retorna o id de todas as aplicações que o usuário já fez ou vai fazer
+async function IDaplicacoesDoUsuario(idUsuario: number): Promise<number[]> {
   try {
     const todasAplicacoesDoUsuario = await prisma.aplicacao_usuario.findMany({
       where: { id_usuario: idUsuario },
@@ -45,7 +47,7 @@ export async function aplicacoesAFazerDoUsuario(
 ): Promise<Aplicacao[]> {
   try {
     const dataAtual = new Date();
-    const idAplicacoesUsuario = await aplicacoesDoUsuario(idUsuario);
+    const idAplicacoesUsuario = await IDaplicacoesDoUsuario(idUsuario);
     const aplicacoes: Aplicacao[] = await prisma.aplicacao.findMany({
       where: { id_aplicacao: { in: idAplicacoesUsuario } },
     });
@@ -70,7 +72,7 @@ export async function aplicacoesAFazerDoUsuario(
 
 export async function todasAplicacoesDoUsuario(idUsuario: number) {
   try {
-    const idAplicacoesUsuario = await aplicacoesDoUsuario(idUsuario);
+    const idAplicacoesUsuario = await IDaplicacoesDoUsuario(idUsuario);
     const aplicacoes: Aplicacao[] = await prisma.aplicacao.findMany({
       where: { id_aplicacao: { in: idAplicacoesUsuario } },
     });
@@ -253,8 +255,8 @@ export async function gravarResposta(
   idCartao: number,
   idUsuario: number,
   idAplicacao: number,
-  respostaCompetencia?: string,
-  respostaAfinidade?: string
+  respostaAfinidade?: string,
+  respostaCompetencia?: string
 ): Promise<RespostaCartao> {
   try {
     const novaResposta = await prisma.resposta_cartao.create({
@@ -302,6 +304,63 @@ export async function umaAplicacao() {
     return aplicacao;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+}
+
+//dado um usuário, retornar todas as aplicações com pelo menos uma resposta.
+export async function AplicacoesRespondidasPeloUsuario(
+  id_usuario: number
+): Promise<Aplicacao[]> {
+  try {
+    const aplicacoes = await prisma.aplicacao_usuario.findMany({
+      where: {
+        id_usuario: id_usuario,
+        resposta_cartao: {
+          some: {}, // This ensures there is at least one related resposta_cartao
+        },
+      },
+      include: {
+        aplicacao: true,
+        resposta_cartao: true,
+      },
+    });
+
+    return aplicacoes.map((aplicacaoUsuario) => aplicacaoUsuario.aplicacao);
+  } catch (error) {
+    console.error("Error retrieving aplicacoes:", error);
+    throw error;
+  }
+}
+
+//Dado usuario e aplicação, retornar as respostas dadas
+export async function getRespostasCartao(
+  id_aplicacao: number,
+  id_usuario: number
+): Promise<RespostasDisplay[]> {
+  try {
+    const respostas = await prisma.resposta_cartao.findMany({
+      where: {
+        aplicacao_usuarioId_aplicacao: id_aplicacao,
+        aplicacao_usuarioId_usuario: id_usuario,
+      },
+      include: {
+        cartao: true,
+      },
+    });
+
+    // Extract only the desired information
+    const formattedRespostas = respostas.map((resposta) => ({
+      resposta_competencia: resposta.resposta_competencia,
+      resposta_afinidade: resposta.resposta_afinidade,
+      id_cartao: resposta.id_cartao,
+      pergunta: resposta.cartao.pergunta,
+      tipo: resposta.cartao.tipo,
+    }));
+
+    return formattedRespostas;
+  } catch (error) {
+    console.error("Error retrieving respostas:", error);
     throw error;
   }
 }

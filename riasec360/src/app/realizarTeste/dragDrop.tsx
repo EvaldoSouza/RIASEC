@@ -55,19 +55,27 @@ const Dnd: React.FC<dnd> = ({ cartoes, idAplicacao, idTeste, idUsuario }) => {
       newData.pop(); // Remove the last entry
       return newData;
     });
-    setCurrentPhraseIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+    setCurrentPhraseIndex((prevIndex) => {
+      if (prevIndex == 0 && interesseAptitude !== 0) {
+        setInteresseAptitude(0); //se tiver mais que duas rodadas de pergunta, tem que mudar aqui
+        return cartoes.length - 1; // Set to last index of the array
+      }
+      return prevIndex > 0 ? prevIndex - 1 : 0;
+    });
   };
 
   const router = useRouter();
   const handleSave = async () => {
     try {
+      //console.log(cartoes.length, droppedData.length); 6 e 12
       for (var index = 0; index < cartoes.length; index++) {
         const teste = await gravarResposta(
           idTeste,
           cartoes[index].id_cartao,
           idUsuario,
           idAplicacao,
-          droppedData[index].label
+          droppedData[index].label,
+          droppedData[cartoes.length + index].label //são duas rodadas de perguntas, armazenadas sequencialmente, ou seja, a primeira é par da tamanho+1
         );
       }
       console.log("Teste Salvo com Sucesso!");
@@ -79,7 +87,18 @@ const Dnd: React.FC<dnd> = ({ cartoes, idAplicacao, idTeste, idUsuario }) => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>Arraste a pergunta para o campo que representa sua preferência</h1>
+      {interesseAptitude == 0 && (
+        <h1>
+          Arraste a pergunta para o campo que representa sua preferência sobre o
+          tema
+        </h1>
+      )}
+      {interesseAptitude == 1 && (
+        <h1>
+          Arraste a pergunta para o campo que representa sua competência no tema
+        </h1>
+      )}
+
       <div style={{ display: "flex", justifyContent: "center" }}>
         {currentPhraseIndex < cartoes.length &&
         cartoes[currentPhraseIndex].pergunta ? (
