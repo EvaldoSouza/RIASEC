@@ -1,0 +1,42 @@
+/* Dnd.module.css */
+
+.dragArea {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.dropZones {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+}
+
+.dropZoneRow {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.answerColumns {
+  display: flex;
+  margin-top: 20px;
+}
+
+.column {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.column ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.column li {
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}

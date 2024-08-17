@@ -70,7 +70,9 @@ export async function aplicacoesAFazerDoUsuario(
   }
 }
 
-export async function todasAplicacoesDoUsuario(idUsuario: number) {
+export async function todasAplicacoesDoUsuario(
+  idUsuario: number
+): Promise<Aplicacao[]> {
   try {
     const idAplicacoesUsuario = await IDaplicacoesDoUsuario(idUsuario);
     const aplicacoes: Aplicacao[] = await prisma.aplicacao.findMany({
@@ -87,8 +89,8 @@ export async function todasAplicacoesDoUsuario(idUsuario: number) {
 export async function agendarAplicacao(
   idTeste: number,
   dataCriacao: Date | string,
-  dataInicio: Date | string,
-  dataFinal: Date | string,
+  dataInicio?: Date | string,
+  dataFinal?: Date | string,
   idGrupo?: number,
   local?: string
 ): Promise<Aplicacao> {

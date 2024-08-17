@@ -22,7 +22,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +40,9 @@ export function DataTableTestes<TData, TValue>({
   );
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
+  const callbackRef = useRef(callbackFunction);
+  callbackRef.current = callbackFunction;
+
   const table = useReactTable({
     data,
     columns,
@@ -55,13 +58,10 @@ export function DataTableTestes<TData, TValue>({
     },
   });
 
-  async function salvarDados() {
+  useEffect(() => {
     const teste = Object.keys(rowSelection);
-    //TODO Concertar essa data-table, para que seja feito com radio-button, ou apenas uma checkbox reconhecida
-    console.log("Salvando teste.");
-
-    callbackFunction(teste.at(-1));
-  }
+    callbackRef.current(teste.at(-1));
+  }, [rowSelection]);
 
   return (
     <div>
@@ -103,6 +103,10 @@ export function DataTableTestes<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    table.toggleAllRowsSelected(false);
+                    row.toggleSelected(true);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -145,7 +149,6 @@ export function DataTableTestes<TData, TValue>({
           Next
         </Button>
       </div>
-      <Button onClick={salvarDados}> Definir Teste</Button>
     </div>
   );
 }

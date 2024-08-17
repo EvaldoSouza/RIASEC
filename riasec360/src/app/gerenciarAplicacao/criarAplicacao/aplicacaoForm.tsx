@@ -4,11 +4,9 @@ import { columns as columnsTeste } from "./(testeTable)/columns";
 import { DataTableUsers } from "./(usersTable)/data-table-users";
 import DatePickerComponent from "./datepicker";
 import { DataTableTestes } from "./(testeTable)/data-table-testes";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { Teste, Usuario } from "@/app/types/types";
-import { Butterfly_Kids } from "next/font/google";
-import { Button } from "@mui/material";
+import { Button } from "@/components/ui/button";
 import {
   agendarAplicacao,
   marcarAplicacaoUsuario,
@@ -23,6 +21,7 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
   const [horarios, setHorarios] = useState<Date[]>();
   const [teste, setTeste] = useState<number>();
   const [usuariosSelecionados, setUsuarios] = useState<number[]>();
+  const [semLimiteDeTempo, setSemLimiteDeTempo] = useState<boolean>(false);
 
   const salvarHorarios = (data: {
     startDate: Date | null;
@@ -42,36 +41,81 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
     setUsuarios(data);
   };
 
+  const handleCheckboxChange = () => {
+    setSemLimiteDeTempo(!semLimiteDeTempo);
+    if (!semLimiteDeTempo) {
+      setHorarios(undefined); // Clear the date picker if checkbox is selected
+    }
+  };
+
+  useEffect(() => {
+    if (teste) {
+      // Additional logic when the test is selected
+    }
+  }, [teste]);
+
+  useEffect(() => {
+    if (usuariosSelecionados) {
+      // Additional logic when the users are selected
+    }
+  }, [usuariosSelecionados]);
+
   async function salvarDados() {
-    console.log("Horario: ", horarios);
-    console.log("Teste: ", teste);
-    console.log("Usuarios: ", usuariosSelecionados);
     const criacao = new Date();
 
-    //por que o teste foi marcado como string?
-    if (teste && horarios) {
-      const aplicacao = await agendarAplicacao(
-        +teste,
-        criacao,
-        horarios[0],
-        horarios[1]
-      );
+    try {
+      let aplicacao;
+      if (semLimiteDeTempo) {
+        aplicacao = await agendarAplicacao(+teste!, criacao);
+      } else if (horarios) {
+        aplicacao = await agendarAplicacao(
+          +teste!,
+          criacao,
+          horarios[0],
+          horarios[1]
+        );
+      }
 
       if (aplicacao) {
         usuariosSelecionados?.map(
           async (usuario) =>
             await marcarAplicacaoUsuario(aplicacao.id_aplicacao, +usuario)
         );
+        alert(`Aplicação agendada com sucesso!\n
+          ID da Aplicação: ${aplicacao.id_aplicacao}\n
+          Teste: ${teste}\n
+          ${
+            semLimiteDeTempo
+              ? "Sem Limite de Tempo"
+              : `Horário de Início: ${horarios![0].toLocaleString()}\n
+              Horário de Término: ${horarios![1].toLocaleString()}`
+          }\n
+          Usuários: ${usuariosSelecionados?.join(", ")}`);
+      } else {
+        alert("Erro ao agendar a aplicação.");
       }
-
-      //TODO fazer uma janelinha ou aviso de que foi marcada as aplicações
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao agendar a aplicação.");
     }
   }
 
   return (
     <div>
       <h1>Criando Aplicação</h1>
-      <DatePickerComponent callBackData={salvarHorarios} />
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={semLimiteDeTempo}
+            onChange={handleCheckboxChange}
+          />
+          Sem Limite de Tempo
+        </label>
+      </div>
+      {!semLimiteDeTempo && (
+        <DatePickerComponent callBackData={salvarHorarios} />
+      )}
       <DataTableTestes
         data={testes}
         columns={columnsTeste}
@@ -82,7 +126,7 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
         columns={columnsUsers}
         callbackFunction={salvarUsuarios}
       />
-      <Button onClick={salvarDados}> Salvar</Button>
+      <Button onClick={salvarDados}>Salvar</Button>
     </div>
   );
 };

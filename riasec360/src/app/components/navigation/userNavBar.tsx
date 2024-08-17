@@ -7,15 +7,18 @@ import {
 } from "@/components/ui/menubar";
 import Link from "next/link";
 import { LogOut } from "../forms/logout-button";
+import { usuarioDaSessao } from "@/actions/userActions";
 
-export function UserNavBar() {
+export async function UserNavBar() {
+  const userName = await usuarioDaSessao();
+
   return (
     <Menubar>
       <Link href="/">Profissional360</Link>
       <MenubarMenu>
-        <MenubarTrigger> Realizar Teste</MenubarTrigger>
+        <MenubarTrigger>Realizar Teste</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem asChild>
+          <MenubarItem>
             <Link href="/realizarTeste">Realizar Teste</Link>
           </MenubarItem>
         </MenubarContent>
@@ -30,16 +33,30 @@ export function UserNavBar() {
         <MenubarTrigger>Perfil</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>Testes Agendados</MenubarItem>
-          <MenubarItem asChild>
+          <MenubarItem>
             <Link href="/resultadosParticipante">Histórico de Testes</Link>
           </MenubarItem>
           <MenubarItem>Minhas Estatísticas</MenubarItem>
-          <MenubarItem asChild>
+          <MenubarItem>
             <Link href="/perfil">Editar Perfil</Link>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
-      <LogOut />
+      <div
+        style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
+      >
+        <MenubarMenu>
+          <MenubarTrigger>{userName?.nome}</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem>
+              <Link href="/perfil">Editar Perfil</Link>
+            </MenubarItem>
+            <MenubarItem>
+              <LogOut />
+            </MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </div>
     </Menubar>
   );
 }

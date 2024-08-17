@@ -22,7 +22,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +40,9 @@ export function DataTableUsers<TData, TValue>({
   );
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
+  const callbackRef = useRef(callbackFunction);
+  callbackRef.current = callbackFunction;
+
   const table = useReactTable({
     data,
     columns,
@@ -49,19 +52,16 @@ export function DataTableUsers<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     getRowId: (row) => row.id_user,
-
     state: {
       columnFilters,
       rowSelection,
     },
   });
 
-  async function onSubmit() {
+  useEffect(() => {
     const usuarios = Object.keys(rowSelection);
-    console.log("Salvando usuarios.");
-
-    callbackFunction(usuarios);
-  }
+    callbackRef.current(usuarios);
+  }, [rowSelection]);
 
   return (
     <div>
@@ -132,7 +132,7 @@ export function DataTableUsers<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Proxima
+          Previous
         </Button>
         <Button
           variant="outline"
@@ -140,10 +140,9 @@ export function DataTableUsers<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Anterior
+          Next
         </Button>
       </div>
-      <Button onClick={onSubmit}>Marcar Usuarios</Button>
     </div>
   );
 }

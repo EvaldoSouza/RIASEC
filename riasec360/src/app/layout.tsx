@@ -22,12 +22,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  //const user = userState();
   const session = await getServerSession();
-  let privilegio = ""; //TODO existe a possibilidade disso não ser mudado, ou de o usuário ser null, tratar essa parada
+  let privilegio = "";
   if (session) {
-    privilegio = await privilegioUsuario();
+    try {
+      privilegio = await privilegioUsuario();
+    } catch (error) {
+      console.error("Failed to fetch user privileges:", error);
+    }
   }
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -40,12 +44,12 @@ export default async function RootLayout({
                     <NotLogedNavBar />
                   </div>
                 )}
-                {privilegio === "administrador" && (
+                {session && privilegio === "administrador" && (
                   <div>
                     <AdmNavBar />
                   </div>
                 )}
-                {privilegio === "usuario" && (
+                {session && privilegio === "usuario" && (
                   <div>
                     <UserNavBar />
                   </div>

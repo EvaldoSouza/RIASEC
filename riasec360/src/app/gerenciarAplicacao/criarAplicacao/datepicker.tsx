@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import DatePicker, { DatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Button } from "@/components/ui/button";
 
 interface DatePickerInterface {
   callBackData: (data: {
@@ -23,6 +22,7 @@ const DatePickerComponent: React.FC<DatePickerInterface> = ({
     if (startDate) {
       const endDateTime = calculateEndDateTime();
       setEndDate(endDateTime);
+      callBackData({ startDate, endDate: endDateTime });
     }
   }, [startDate, durationHours, durationMinutes]);
 
@@ -64,11 +64,6 @@ const DatePickerComponent: React.FC<DatePickerInterface> = ({
     if (date !== startDate) {
       setStartDate(date as Date);
     }
-  };
-
-  const handleSave = () => {
-    console.log("Salvando data.");
-    callBackData({ startDate, endDate });
   };
 
   const isPastDate = (date: Date) => {
@@ -119,8 +114,6 @@ const DatePickerComponent: React.FC<DatePickerInterface> = ({
           )}
         </div>
       </div>
-
-      <Button onClick={handleSave}>Registrar Datas</Button>
     </div>
   );
 };
