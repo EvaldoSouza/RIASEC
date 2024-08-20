@@ -1,47 +1,43 @@
 "use client";
 
 import { format } from "date-fns";
-import { Cartao } from "../types/types";
+import { Aplicacao, Cartao } from "../types/types";
 import { buscarCartoesEmTeste } from "@/actions/testesActions";
+import { iniciarTestagem } from "@/actions/aplicacaoActions"; // Import the iniciarTestagem function
 import Dnd from "./dragDrop";
 import { useState } from "react";
 import styles from "./listaAplicacoes.module.css"; // Import the CSS module
+import { usuarioDaSessao } from "@/actions/userActions";
 
 interface ListaAplicacoesProps {
-  aplicacoes: any[]; // Adjust the type to match your data structure
+  aplicacoes: Aplicacao[]; // Adjust the type to match your data structure
+}
+
+interface SelectedApplication {
+  aplicacao: Aplicacao;
+  cartoes: Cartao[];
 }
 
 export default function ListaAplicacoes({ aplicacoes }: ListaAplicacoesProps) {
-  const [selectedApplication, setSelectedApplication] = useState<any | null>(
-    null
-  );
+  const [selectedApplication, setSelectedApplication] =
+    useState<SelectedApplication | null>(null);
+  const [usuarioId, setUsuarioId] = useState<number>(-1);
 
-  const now = new Date();
-
-  // Filter out applications that are past their end time, but include those with no time limits
-  const filteredAplicacoes = aplicacoes.filter((aplicacao) => {
-    const start = aplicacao.hora_inicial
-      ? new Date(aplicacao.hora_inicial)
-      : null;
-    const end = aplicacao.hora_termino
-      ? new Date(aplicacao.hora_termino)
-      : null;
-
-    if (!start && !end) {
-      // No time limit, include this application
-      return true;
-    } else if (start && end) {
-      // Include if current time is within the time window
-      return now >= start && now <= end;
-    } else if (start && !end) {
-      // Include if start time is before now and no end time
-      return now >= start;
+  const handleApplicationSelect = async (aplicacao: Aplicacao) => {
+    // Começa o teste salvando a data e hora de inicio
+    try {
+      const usuario = await usuarioDaSessao();
+      if (!usuario) {
+        throw "Erro com o usuário!/n Usuário inválido";
+      }
+      setUsuarioId(usuario.id_user);
+      await iniciarTestagem(aplicacao.id_aplicacao, usuario?.id_user);
+    } catch (error) {
+      console.error("Erro ao iniciar a aplicação:", error);
+      alert("Erro ao iniciar a aplicação. Tente novamente.");
+      return;
     }
 
-    return false;
-  });
-
-  const handleApplicationSelect = async (aplicacao: any) => {
     const cartoes: Cartao[] | undefined = await buscarCartoesEmTeste(
       aplicacao.id_teste
     );
@@ -58,7 +54,7 @@ export default function ListaAplicacoes({ aplicacoes }: ListaAplicacoesProps) {
         cartoes={selectedApplication.cartoes}
         idAplicacao={selectedApplication.aplicacao.id_aplicacao}
         idTeste={selectedApplication.aplicacao.id_teste}
-        idUsuario={selectedApplication.aplicacao.idUsuario}
+        idUsuario={usuarioId}
       />
     );
   }
@@ -67,7 +63,7 @@ export default function ListaAplicacoes({ aplicacoes }: ListaAplicacoesProps) {
     <div className={styles.container}>
       <h1 className={styles.heading}>Escolha uma aplicação para iniciar</h1>
       <ul className={styles.list}>
-        {filteredAplicacoes.map((aplicacao) => (
+        {aplicacoes.map((aplicacao) => (
           <li
             key={aplicacao.id_aplicacao}
             className={styles.listItem}

@@ -57,7 +57,6 @@ export async function aplicacoesAFazerDoUsuario(
       if (aplicacao.hora_inicial) {
         if (aplicacao.hora_inicial > dataAtual) {
           aplicacoesFuturas.push(aplicacao);
-          //TODO consertar o bug que eu acho que tem aqui. Se a aplicação já tiver começado (caso possível), não vai aparecer, pq é menor que a data atual
         }
       }
     }
@@ -212,9 +211,48 @@ export async function deletarAplicacao(
   idAplicacao: number
 ): Promise<Aplicacao> {
   try {
+    // Buscar os detalhes da aplicação
+    const aplicacao = await prisma.aplicacao.findUnique({
+      where: { id_aplicacao: idAplicacao },
+    });
+
+    if (!aplicacao) {
+      throw new Error("Aplicação não encontrada.");
+    }
+
+    // Verificar se a aplicação já foi respondida
+    const respostasExistem = await prisma.aplicacao_usuario.findFirst({
+      where: {
+        id_aplicacao: idAplicacao,
+        inicio_testagem: {
+          not: null, // Garante que o teste foi iniciado
+        },
+      },
+    });
+
+    if (respostasExistem) {
+      throw new Error(
+        "Não é possível deletar uma aplicação que já foi respondida."
+      );
+    }
+
+    // Verificar se a aplicação já foi iniciada (caso não tenha respostas)
+    //TODO verifar isso nas regras de negócios
+    if (aplicacao.hora_inicial && aplicacao.hora_inicial < new Date()) {
+      console.log(
+        "Aplicação está no passado, mas não foi respondida. Deletando..."
+      );
+    } else if (aplicacao.hora_inicial && aplicacao.hora_inicial >= new Date()) {
+      throw new Error(
+        "Não é possível deletar uma aplicação que já foi iniciada."
+      );
+    }
+
+    // Prosseguir com a deleção
     const aplicacaoDeletada = await prisma.aplicacao.delete({
       where: { id_aplicacao: idAplicacao },
     });
+
     return aplicacaoDeletada;
   } catch (error) {
     console.log(error);
@@ -363,6 +401,72 @@ export async function getRespostasCartao(
     return formattedRespostas;
   } catch (error) {
     console.error("Error retrieving respostas:", error);
+    throw error;
+  }
+}
+
+export async function iniciarTestagem(idAplicacao: number, idUsuario: number) {
+  try {
+    // Atualizar o campo inicio_testagem quando o usuário começa a responder
+    const updatedAplicacaoUsuario = await prisma.aplicacao_usuario.update({
+      where: {
+        id_usuario_id_aplicacao: {
+          id_aplicacao: idAplicacao,
+          id_usuario: idUsuario,
+        },
+      },
+      data: {
+        inicio_testagem: new Date(), // Gravar a hora atual como o início da testagem
+      },
+    });
+
+    return updatedAplicacaoUsuario;
+  } catch (error) {
+    console.error("Erro ao iniciar a testagem:", error);
+    throw error;
+  }
+}
+
+// actions/aplicacaoActions.ts
+export async function finalizarTestagem(
+  idAplicacao: number,
+  idUsuario: number
+) {
+  try {
+    const updatedAplicacaoUsuario = await prisma.aplicacao_usuario.update({
+      where: {
+        id_usuario_id_aplicacao: {
+          id_aplicacao: idAplicacao,
+          id_usuario: idUsuario,
+        },
+      },
+      data: {
+        fim_testagem: new Date(), // Record the current time as the end time
+      },
+    });
+
+    return updatedAplicacaoUsuario;
+  } catch (error) {
+    console.error("Erro ao finalizar a testagem:", error);
+    throw error;
+  }
+}
+
+export async function checarAplicacaoFoiRespondida(
+  idAplicacao: number,
+  idUsuario: number
+): Promise<boolean> {
+  try {
+    const response = await prisma.resposta_cartao.findFirst({
+      where: {
+        aplicacao_usuarioId_aplicacao: idAplicacao,
+        aplicacao_usuarioId_usuario: idUsuario,
+      },
+    });
+
+    return response !== null; // Se tem uma resposta, a aplicação foi respondida
+  } catch (error) {
+    console.error("Erro ao checar se a aplicação foi respondida", error);
     throw error;
   }
 }

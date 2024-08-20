@@ -27,16 +27,6 @@ import { Aplicacao } from "@/app/types/types";
 import Link from "next/link";
 import { deletarAplicacao } from "@/actions/aplicacaoActions";
 
-async function onDelete(idAplicacao: number) {
-  if (idAplicacao > 0) {
-    //const deletado = await DeletarCartao(id_cartao);
-    const deletado = await deletarAplicacao(+idAplicacao);
-    console.log(deletado, idAplicacao);
-  } else {
-    console.log("ID inválido");
-  }
-}
-
 export const columns: ColumnDef<Aplicacao>[] = [
   { accessorKey: "id_aplicacao", header: "ID" },
   { accessorKey: "id_teste", header: "ID Teste" },
@@ -49,14 +39,24 @@ export const columns: ColumnDef<Aplicacao>[] = [
       const aplicacao = row.original;
       const router = useRouter();
 
-      const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
       const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
+      const [deleteMessage, setDeleteMessage] = useState<string>("");
 
-      //fazer as ações aqui!
-      //não precisa daquela dor de cabeça do popup!
-      //e mesmo que for fazer o popup, abrir aqui
+      // Function to handle deletion
+      async function handleDelete(idAplicacao: number) {
+        try {
+          await deletarAplicacao(idAplicacao);
+          setDeleteMessage("Aplicação deletada com sucesso.");
+        } catch (error: any) {
+          setDeleteMessage(error.message || "Erro ao deletar a aplicação.");
+        } finally {
+          setDeleteDialogOpen(true);
+          router.refresh();
+        }
+      }
+
       return (
-        <Dialog>
+        <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -87,9 +87,7 @@ export const columns: ColumnDef<Aplicacao>[] = [
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  setDeleteDialogOpen(true);
-                  onDelete(aplicacao.id_aplicacao);
-                  router.refresh();
+                  handleDelete(aplicacao.id_aplicacao);
                 }}
               >
                 Apagar Aplicação
@@ -100,8 +98,14 @@ export const columns: ColumnDef<Aplicacao>[] = [
           <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Deletando</DialogTitle>
+                <DialogTitle>Deletar Aplicação</DialogTitle>
+                <DialogDescription>{deleteMessage}</DialogDescription>
               </DialogHeader>
+              <DialogFooter>
+                <Button onClick={() => setDeleteDialogOpen(false)}>
+                  Fechar
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
         </Dialog>

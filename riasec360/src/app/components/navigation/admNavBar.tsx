@@ -37,6 +37,9 @@ export async function AdmNavBar() {
           <MenubarItem>
             <Link href="/realizarTeste">Realizar Teste</Link>
           </MenubarItem>
+          <MenubarItem>
+            <Link href="/resultadosParticipante">Histórico de Testes</Link>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>

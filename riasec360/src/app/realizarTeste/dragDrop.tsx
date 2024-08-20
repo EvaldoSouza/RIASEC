@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import DraggableCard from "./../components/dragNDrop/card";
 import DropZone from "../components/dragNDrop/zone";
 import styles from "./dragDrop.module.css";
+import { useRouter } from "next/navigation"; // Import the useRouter hook
+import { finalizarTestagem, gravarResposta } from "@/actions/aplicacaoActions";
 
 interface DndProps {
   cartoes: Cartao[];
@@ -25,6 +27,7 @@ const Dnd: React.FC<DndProps> = ({
     { phrase: string; label: string }[]
   >([]);
   const [interesseAptitude, setInteresseAptitude] = useState(0);
+  const router = useRouter(); // Initialize the router
 
   const handleDrop = (phrase: string, label: string) => {
     setDroppedData((prevData) => [...prevData, { phrase, label }]);
@@ -58,11 +61,34 @@ const Dnd: React.FC<DndProps> = ({
   const handleSave = async () => {
     try {
       for (let index = 0; index < cartoes.length; index++) {
-        // Save the answers (gravarResposta function not included here for brevity)
+        const cartao = cartoes[index];
+
+        // Primeiro set de respostas
+        const respostaAfinidade = droppedData[index]?.label;
+
+        // Segundo set de respostas, do final do array de cartões até o fim das respostas
+        const respostaCompetencia = droppedData[index + cartoes.length]?.label;
+
+        console.log(cartao.pergunta, respostaAfinidade, respostaCompetencia);
+
+        await gravarResposta(
+          idTeste,
+          cartao.id_cartao,
+          idUsuario,
+          idAplicacao,
+          respostaAfinidade,
+          respostaCompetencia
+        );
       }
+
+      // Save the end time of the test
+      await finalizarTestagem(idAplicacao, idUsuario);
+
       alert("Teste Salvo com Sucesso!");
+      router.push("/"); // Replace with your target path
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao salvar o teste:", error);
+      alert("Erro ao salvar o teste. Por favor, tente novamente.");
     }
   };
 
