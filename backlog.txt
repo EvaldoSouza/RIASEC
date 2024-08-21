@@ -1,10 +1,9 @@
 Correções:
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
 - Passar um pente fino nomeclatura
-
+- Melhorar tabela que mostra as aplicações
 
 Funcionalidades:
-- Criar um sistema de popup para informar de ações realizadas. Usar o toast do sadcn https://ui.shadcn.com/docs/components/toast
 - Fazer o likert com Competencia e Interesse
 - Titulo na tabela de criar aplicação (e em todas)
 - Perguntas apropriadas (apagar os dados do banco e colocar dados apropriadas)
@@ -17,14 +16,3 @@ Notas:
 
 
 
-.flex-container {
-  display: flex;
-  background-color: DodgerBlue;
-}
-
-.flex-container > div {
-  background-color: #f1f1f1;
-  margin: 10px;
-  padding: 20px;
-  font-size: 30px;
-}

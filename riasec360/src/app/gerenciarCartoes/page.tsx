@@ -8,7 +8,7 @@ export default async function GerenciarCartoes() {
   return (
     <div>
       <h1 style={{ display: "flex", justifyContent: "center" }}>
-        Todos os Cartões
+        Cartões já cadastrados
       </h1>
       <div>
         <DataTable columns={columns} data={cartoes} />

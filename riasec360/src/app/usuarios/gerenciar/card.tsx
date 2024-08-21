@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { getAllUsers } from "@/actions/userActions";
 import {
   elevateToAdmin,
@@ -10,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Usuario } from "@/app/types/types";
+import styles from "./AdminDashboard.module.css"; // Import CSS module for styling
 
 interface AdminDashboardProps {
   usuarios: Usuario[];
@@ -28,47 +28,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ usuarios }) => {
   const handleUpdateEmail = async (userId: number, newEmail: string) => {
     await updateUserEmail(userId, newEmail);
   };
+
   return (
     <div>
-      <h1>Admin Dashboard</h1>
-      <ul>
+      <h1>Usuarios Cadastrados</h1>
+      <div className={styles.cardContainer}>
         {usuarios.map((user) => (
-          <li key={user.id_user}>
-            <Card className="user-card">
-              <CardHeader>
-                {user.nome} ({user.email}) - {user.privilegio}
-              </CardHeader>
-              {user.privilegio !== "administrador" && (
-                <CardContent>
-                  <Button onClick={() => handleElevateToAdmin(user.id_user)}>
-                    Elevate to Admin
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      handleUpdatePassword(
-                        user.id_user,
-                        prompt("New Password:") || ""
-                      )
-                    }
-                  >
-                    Update Password
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      handleUpdateEmail(
-                        user.id_user,
-                        prompt("New Email:") || ""
-                      )
-                    }
-                  >
-                    Update Email
-                  </Button>
-                </CardContent>
-              )}
-            </Card>
-          </li>
+          <Card key={user.id_user} className={styles.userCard}>
+            <CardHeader>
+              {user.nome} ({user.email}) - {user.privilegio}
+            </CardHeader>
+            {user.privilegio !== "administrador" && (
+              <CardContent>
+                <Button onClick={() => handleElevateToAdmin(user.id_user)}>
+                  Promover a Administrador
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleUpdatePassword(
+                      user.id_user,
+                      prompt("New Password:") || ""
+                    )
+                  }
+                >
+                  Atualizar Senha
+                </Button>
+                <Button
+                  onClick={() =>
+                    handleUpdateEmail(user.id_user, prompt("New Email:") || "")
+                  }
+                >
+                  Atualizar Email
+                </Button>
+              </CardContent>
+            )}
+          </Card>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

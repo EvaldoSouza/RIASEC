@@ -32,7 +32,6 @@ export async function UserNavBar() {
       <MenubarMenu>
         <MenubarTrigger>Perfil</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>Testes Agendados</MenubarItem>
           <MenubarItem>
             <Link href="/resultadosParticipante">Histórico de Testes</Link>
           </MenubarItem>

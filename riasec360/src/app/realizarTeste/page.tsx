@@ -19,9 +19,10 @@ export default async function Page() {
     return <h1>Sem testes agendados no momento</h1>;
   }
 
-  // Filtrar as aplicações que não foram respondidas e estão dentro do horário permitido
-  const aplicacoesNaoRespondidas = [];
   const now = new Date(); // Hora atual
+
+  const aplicacoesNaoRespondidas = [];
+  const aplicacoesAgendadasMasNaoDisponiveis = [];
 
   for (const aplicacao of aplicacoes) {
     const isAnswered = await checarAplicacaoFoiRespondida(
@@ -29,7 +30,6 @@ export default async function Page() {
       usuario.id_user
     );
 
-    // Verificar se a aplicação já foi respondida
     if (isAnswered) {
       continue;
     }
@@ -43,32 +43,71 @@ export default async function Page() {
 
     let isInTimeWindow = false;
 
-    // Verificar se a aplicação está dentro do período de tempo permitido
     if (!start && !end) {
-      // Se não houver horário de início nem término, a aplicação está sempre disponível
       isInTimeWindow = true;
     } else if (start && end) {
-      // Verificar se a hora atual está entre o horário de início e término
       isInTimeWindow = now >= start && now <= end;
     } else if (start && !end) {
-      // Se houver apenas horário de início, verificar se a hora atual é posterior ao início
       isInTimeWindow = now >= start;
     }
 
     if (isInTimeWindow) {
       aplicacoesNaoRespondidas.push(aplicacao);
+    } else if (start && now < start) {
+      aplicacoesAgendadasMasNaoDisponiveis.push(aplicacao);
     }
   }
 
-  // Se todas as aplicações foram respondidas ou estão fora do horário permitido, exiba uma mensagem informando isso
-  if (!aplicacoesNaoRespondidas.length) {
-    return (
-      <h1>
-        Todos os testes foram respondidos ou estão fora do horário permitido
-      </h1>
-    );
-  }
-
-  // Renderize a lista de aplicações não respondidas e dentro do horário permitido
-  return <ListaAplicacoes aplicacoes={aplicacoesNaoRespondidas} />;
+  return (
+    <div style={styles.container}>
+      {aplicacoesAgendadasMasNaoDisponiveis.length > 0 && (
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>
+            Testes Agendados, mas Não Disponíveis Ainda:
+          </h2>
+          <ul style={styles.list}>
+            {aplicacoesAgendadasMasNaoDisponiveis.map((aplicacao) => (
+              <li key={aplicacao.id_aplicacao} style={styles.listItem}>
+                Teste agendado para{" "}
+                {aplicacao.hora_inicial?.toLocaleString() ||
+                  "Data não disponível"}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {aplicacoesNaoRespondidas.length > 0 && (
+        <ListaAplicacoes aplicacoes={aplicacoesNaoRespondidas} />
+      )}
+    </div>
+  );
 }
+
+// Inline styles
+const styles = {
+  container: {
+    padding: "20px",
+    maxWidth: "1200px",
+    margin: "0 auto",
+  },
+  section: {
+    marginBottom: "20px",
+    padding: "10px",
+    borderRadius: "8px",
+    backgroundColor: "#f9f9f9",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  sectionTitle: {
+    fontSize: "1.5rem",
+    marginBottom: "10px",
+  },
+  list: {
+    listStyleType: "none",
+    padding: "0",
+    margin: "0",
+  },
+  listItem: {
+    padding: "10px",
+    borderBottom: "1px solid #ddd",
+  },
+};

@@ -56,6 +56,7 @@ export function DataTableAplicacoes<TData, TValue>({
   return (
     <div>
       <div className="rounded-md border">
+        <h1>Aplicações Agendadas</h1>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

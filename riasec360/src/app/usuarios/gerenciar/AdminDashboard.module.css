@@ -1,0 +1,14 @@
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px; /* Adjust the gap between cards as needed */
+  padding: 20px; /* Optional: Add padding around the container */
+}
+
+.userCard {
+  /* Optional: Add some styles for the card itself */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

@@ -11,7 +11,7 @@ export default async function gerenciarTestes() {
   return (
     <div>
       <h1 style={{ display: "flex", justifyContent: "center" }}>
-        Todos os Testes
+        Testes já Cadastrados
       </h1>
       <div>
         <DataTable data={testes} columns={columns} />

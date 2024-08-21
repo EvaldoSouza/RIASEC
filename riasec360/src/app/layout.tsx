@@ -30,6 +30,8 @@ export default async function RootLayout({
     } catch (error) {
       console.error("Failed to fetch user privileges:", error);
     }
+  } else {
+    console.log("Sem usuario");
   }
 
   return (
