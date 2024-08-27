@@ -34,9 +34,7 @@ export async function AdmNavBar() {
           <MenubarItem>
             <Link href="/gerenciarTestes/criarTeste">Criar Teste</Link>
           </MenubarItem>
-          <MenubarItem>
-            <Link href="/realizarTeste">Realizar Teste</Link>
-          </MenubarItem>
+
           <MenubarItem>
             <Link href="/resultadosParticipante">Histórico de Testes</Link>
           </MenubarItem>
@@ -51,14 +49,14 @@ export async function AdmNavBar() {
             </Link>
           </MenubarItem>
           <MenubarItem>
+            <Link href="/realizarTeste">Realizar Aplicação</Link>
+          </MenubarItem>
+          <MenubarItem>
             <Link href="/gerenciarAplicacao/todasAplicacoes">
               Ver Aplicações Agendadas
             </Link>
           </MenubarItem>
         </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Grupos</MenubarTrigger>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Usuários</MenubarTrigger>

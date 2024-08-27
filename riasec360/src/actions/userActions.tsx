@@ -13,7 +13,7 @@ export async function privilegioUsuario() {
   const session = await getServerSession();
   const userEmail = session?.user?.email;
   if (userEmail) {
-    const user = await getUserFromDb(userEmail);
+    const user = await getUserFromDbWithEmail(userEmail);
     if (user) {
       return user.privilegio;
     }
@@ -21,9 +21,22 @@ export async function privilegioUsuario() {
   return "deslogado";
 }
 
-export async function getUserFromDb(email: string): Promise<usuario> {
+export async function getUserFromDbWithEmail(email: string): Promise<usuario> {
   try {
     const user = await prisma.usuario.findFirst({ where: { email } });
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+    return user;
+  } catch (error) {
+    console.log("Algo deu errado ao buscar usuário no banco:", error);
+    throw error;
+  }
+}
+
+export async function getUserByID(id: number): Promise<usuario> {
+  try {
+    const user = await prisma.usuario.findFirst({ where: { id_user: id } });
     if (!user) {
       throw new Error("Usuário não encontrado");
     }
@@ -81,7 +94,7 @@ export async function usuarioDaSessao() {
   const session = await getServerSession();
   const userEmail = session?.user?.email;
   if (userEmail) {
-    const user = await getUserFromDb(userEmail);
+    const user = await getUserFromDbWithEmail(userEmail);
     if (user) {
       return user;
     }

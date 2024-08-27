@@ -1,0 +1,64 @@
+/* UserPage.module.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6; /* Tailwind's gray-100 equivalent */
+}
+
+.card {
+  width: 100%;
+  max-width: 28rem; /* Tailwind's max-w-md equivalent */
+  padding: 1.5rem; /* Tailwind's p-6 equivalent */
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-lg equivalent */
+  border-radius: 0.5rem; /* Tailwind's rounded-lg equivalent */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Tailwind's space-x-4 equivalent */
+  margin-bottom: 1.5rem; /* Additional space below the header */
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem; /* Tailwind's w-12 h-12 equivalent */
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 1.5rem; /* Tailwind's text-2xl equivalent */
+  font-weight: bold;
+}
+
+.content {
+  margin-bottom: 1.5rem; /* Additional space below content */
+}
+
+.content p {
+  margin-bottom: 0.5rem; /* Spacing between paragraphs */
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6; /* Tailwind's blue-500 equivalent */
+  color: white;
+  border: none;
+  border-radius: 0.25rem; /* Tailwind's rounded equivalent */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb; /* Tailwind's blue-600 equivalent */
+}

@@ -26,13 +26,38 @@ import { Button } from "@/components/ui/button";
 import { Aplicacao } from "@/app/types/types";
 import Link from "next/link";
 import { deletarAplicacao } from "@/actions/aplicacaoActions";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<Aplicacao>[] = [
   { accessorKey: "id_aplicacao", header: "ID" },
   { accessorKey: "id_teste", header: "ID Teste" },
-  { accessorKey: "hora_inicial", header: "Horário Inicio" },
-  { accessorKey: "hora_termino", header: "Horário Final" },
-  { accessorKey: "data_agendamento", header: "Agendado Em" },
+  {
+    accessorKey: "hora_inicial",
+    header: "Horário Inicio",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("hora_inicial");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "hora_termino",
+    header: "Horário Final",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("hora_termino");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "data_agendamento",
+    header: "Agendado Em",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("data_agendamento");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
   {
     id: "actions",
     cell: ({ row }) => {

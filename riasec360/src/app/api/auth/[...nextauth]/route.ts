@@ -1,4 +1,4 @@
-import { getUserFromDb } from "@/actions/userActions";
+import { getUserFromDbWithEmail } from "@/actions/userActions";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
@@ -20,7 +20,7 @@ const handler = NextAuth({
         }
 
         try {
-          const user = await getUserFromDb(credentials.email);
+          const user = await getUserFromDbWithEmail(credentials.email);
           if (user) {
             const senhaCorreta = await compare(
               credentials.password,

@@ -30,6 +30,7 @@ import Link from "next/link";
 
 //definindo o formado dos dados
 import { Teste } from "../types/types";
+import { format } from "date-fns";
 
 async function onDelete(id_teste: number) {
   if (id_teste > 0) {
@@ -43,8 +44,19 @@ async function onDelete(id_teste: number) {
 export const columns: ColumnDef<Teste>[] = [
   { accessorKey: "id_teste", header: "ID" },
   { accessorKey: "descricao", header: "Descrição" },
-  { accessorKey: "quant_cartoes", header: "Quant Cartões" },
-  { accessorKey: "data_criacao", header: "Criado Em" },
+  {
+    accessorKey: "quant_cartoes",
+    header: "Quant Cartões",
+  },
+  {
+    accessorKey: "data_criacao",
+    header: "Criado Em",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("data_criacao");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
   {
     id: "actions",
     cell: ({ row }) => {

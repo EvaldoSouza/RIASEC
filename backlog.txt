@@ -1,9 +1,12 @@
 Correções:
+- Unificar as interfaces, para que não precise utilizar dropdown
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
 - Passar um pente fino nomeclatura
 - Melhorar tabela que mostra as aplicações
 
 Funcionalidades:
+- Fazer a listagem de usuário em uma tabela
+- Visualizar o resultado de um teste
 - Fazer o likert com Competencia e Interesse
 - Titulo na tabela de criar aplicação (e em todas)
 - Perguntas apropriadas (apagar os dados do banco e colocar dados apropriadas)
