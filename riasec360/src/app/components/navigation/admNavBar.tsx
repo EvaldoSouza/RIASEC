@@ -38,26 +38,20 @@ export async function AdmNavBar() {
           <MenubarItem>
             <Link href="/resultadosParticipante">Histórico de Testes</Link>
           </MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Aplicações</MenubarTrigger>
-        <MenubarContent>
           <MenubarItem>
-            <Link href="/gerenciarAplicacao/criarAplicacao">
-              Criar Aplicação
-            </Link>
+            <Link href="/gerenciarAplicacao/criarAplicacao">Agendar Teste</Link>
           </MenubarItem>
           <MenubarItem>
-            <Link href="/realizarTeste">Realizar Aplicação</Link>
+            <Link href="/realizarTeste">Realizar Teste</Link>
           </MenubarItem>
           <MenubarItem>
             <Link href="/gerenciarAplicacao/todasAplicacoes">
-              Ver Aplicações Agendadas
+              Ver Testes Agendados
             </Link>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
+
       <MenubarMenu>
         <MenubarTrigger>Usuários</MenubarTrigger>
         <MenubarContent>

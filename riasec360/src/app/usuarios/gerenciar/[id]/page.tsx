@@ -1,4 +1,5 @@
 import { getUserByID } from "@/actions/userActions";
+import { AplicacoesRespondidasPeloUsuario } from "@/actions/aplicacaoActions"; // Import the function to get answered applications
 import { format } from "date-fns";
 import styles from "./UserPage.module.css";
 import {
@@ -15,6 +16,9 @@ const UserPage = async ({ params }: { params: { id: string } }) => {
 
   // Fetch the user data
   const user = await getUserByID(+id);
+
+  // Fetch the list of answered applications
+  const answeredApplications = await AplicacoesRespondidasPeloUsuario(+id);
 
   if (!user) {
     return <p>Usuário não encontrado</p>;
@@ -62,6 +66,30 @@ const UserPage = async ({ params }: { params: { id: string } }) => {
         <CardFooter className={styles.footer}>
           <button className={styles["btn-primary"]}>Editar Perfil</button>
         </CardFooter>
+      </Card>
+      {/* Answered Applications Card */}
+      <Card className={styles.card}>
+        <CardHeader>
+          <CardTitle className={styles.sectionTitle}>
+            Testes Respondidos
+          </CardTitle>
+        </CardHeader>
+        <CardContent className={styles.content}>
+          {answeredApplications && answeredApplications.length > 0 ? (
+            <ul className={styles.applicationList}>
+              {answeredApplications.map((app, index) => (
+                <li key={index} className={styles.applicationItem}>
+                  <strong>{app.id_teste}</strong> - Respondido em:{" "}
+                  {app.hora_termino
+                    ? format(new Date(app.hora_termino), "dd/MM/yyyy")
+                    : "Data não disponível"}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Nenhuma teste respondido.</p>
+          )}
+        </CardContent>
       </Card>
     </div>
   );

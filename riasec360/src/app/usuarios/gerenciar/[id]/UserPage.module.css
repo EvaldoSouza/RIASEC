@@ -1,64 +1,77 @@
-/* UserPage.module.css */
-
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 2rem;
+  background-color: #f3f4f6;
   min-height: 100vh;
-  background-color: #f3f4f6; /* Tailwind's gray-100 equivalent */
+  display: grid;
+  grid-gap: 2rem; /* Space between the cards */
+  grid-template-columns: 1fr 1fr; /* Two-column layout for larger screens */
+  grid-template-rows: auto;
 }
 
 .card {
-  width: 100%;
-  max-width: 28rem; /* Tailwind's max-w-md equivalent */
-  padding: 1.5rem; /* Tailwind's p-6 equivalent */
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-lg equivalent */
-  border-radius: 0.5rem; /* Tailwind's rounded-lg equivalent */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 1rem; /* Tailwind's space-x-4 equivalent */
-  margin-bottom: 1.5rem; /* Additional space below the header */
+  gap: 1rem;
+  padding: 1.5rem;
 }
 
 .avatar {
   width: 3rem;
-  height: 3rem; /* Tailwind's w-12 h-12 equivalent */
+  height: 3rem;
   border-radius: 50%;
   overflow: hidden;
 }
 
 .title {
-  font-size: 1.5rem; /* Tailwind's text-2xl equivalent */
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  padding: 1.5rem;
   font-weight: bold;
 }
 
 .content {
-  margin-bottom: 1.5rem; /* Additional space below content */
+  padding: 1.5rem;
 }
 
-.content p {
-  margin-bottom: 0.5rem; /* Spacing between paragraphs */
+.applicationList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.applicationItem {
+  background-color: #f9fafb;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
   display: flex;
   justify-content: flex-end;
+  padding: 1.5rem;
 }
 
 .btn-primary {
   padding: 0.5rem 1rem;
-  background-color: #3b82f6; /* Tailwind's blue-500 equivalent */
+  background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 0.25rem; /* Tailwind's rounded equivalent */
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-  background-color: #2563eb; /* Tailwind's blue-600 equivalent */
+  background-color: #2563eb;
 }
