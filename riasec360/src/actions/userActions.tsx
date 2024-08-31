@@ -1,7 +1,7 @@
 "use server";
 
 import { saltAndHashPassword } from "@/lib/passwords";
-import { Prisma, usuario } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import prisma from "@/db/prisma";
 import { getServerSession } from "next-auth";
 import { Usuario } from "@/app/types/types";
@@ -21,7 +21,7 @@ export async function privilegioUsuario() {
   return "deslogado";
 }
 
-export async function getUserFromDbWithEmail(email: string): Promise<usuario> {
+export async function getUserFromDbWithEmail(email: string): Promise<Usuario> {
   try {
     const user = await prisma.usuario.findFirst({ where: { email } });
     if (!user) {
@@ -34,7 +34,7 @@ export async function getUserFromDbWithEmail(email: string): Promise<usuario> {
   }
 }
 
-export async function getUserByID(id: number): Promise<usuario> {
+export async function getUserByID(id: number): Promise<Usuario> {
   try {
     const user = await prisma.usuario.findFirst({ where: { id_user: id } });
     if (!user) {
@@ -47,7 +47,7 @@ export async function getUserByID(id: number): Promise<usuario> {
   }
 }
 
-export async function getAllUsers(): Promise<usuario[]> {
+export async function getAllUsers(): Promise<Usuario[]> {
   try {
     const users = await prisma.usuario.findMany();
     return users;
@@ -101,26 +101,6 @@ export async function usuarioDaSessao() {
   }
   return null;
 }
-
-// export async function authenticate(
-//   prevState: string | undefined,
-//   formData: FormData
-// ) {
-//   try {
-//     const user = await signIn("credentials", formData);
-//     return user;
-//   } catch (error) {
-//     if (error instanceof AuthError) {
-//       switch (error.type) {
-//         case "CredentialsSignin":
-//           return "Invalid credentials.";
-//         default:
-//           return "Something went wrong.";
-//       }
-//     }
-//     throw error;
-//   }
-// }
 
 export async function cadastrarUsuario(
   nome: string,
