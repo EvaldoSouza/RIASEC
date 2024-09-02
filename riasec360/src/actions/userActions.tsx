@@ -36,7 +36,7 @@ export async function getUserFromDbWithEmail(email: string): Promise<Usuario> {
 
 export async function getUserByID(id: number): Promise<Usuario> {
   try {
-    const user = await prisma.usuario.findFirst({ where: { id_user: id } });
+    const user = await prisma.usuario.findUnique({ where: { id_user: id } });
     if (!user) {
       throw new Error("Usuário não encontrado");
     }
@@ -160,4 +160,19 @@ export async function updatePerfilUsuario(data: {
       data_atualizacao: data_update,
     },
   });
+}
+
+export async function updateUserByID(
+  id: number,
+  updatedUser: Partial<Usuario>
+) {
+  try {
+    return prisma.usuario.update({
+      where: { id_user: id },
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 }

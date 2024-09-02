@@ -32,7 +32,18 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
   );
   const [emailVerified] = useState(user.emailVerified);
 
+  // New states for password fields
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const handleSave = async () => {
+    // Basic validation for password fields
+    if (newPassword !== confirmPassword) {
+      alert("A nova senha e a confirmação da senha não coincidem.");
+      return;
+    }
+
     const updatedUser = {
       id_user: user.id_user,
       nome,
@@ -44,22 +55,33 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
     };
 
     try {
-      const response = await fetch(`/api/users/${updatedUser.id_user}`, {
+      console.log("Dentro do try:", updatedUser);
+      const response = await fetch(`/api/users/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedUser),
+        body: JSON.stringify({
+          ...updatedUser,
+          currentPassword: currentPassword ? currentPassword : undefined,
+          newPassword: newPassword ? newPassword : undefined,
+        }),
       });
+
+      // Log the response status and body
+      console.log(`Response status: ${response.status}`);
+      const result = await response.json();
+      console.log("Response body:", result);
 
       if (!response.ok) {
         throw new Error("Failed to update user");
       }
 
-      const result = await response.json();
       console.log("User updated successfully:", result);
+      alert("Informações do usuário atualizadas com sucesso!");
     } catch (error) {
       console.error("Failed to update user:", error);
+      alert("Erro ao atualizar as informações do usuário.");
     }
   };
 
@@ -122,6 +144,44 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
             ? format(new Date(user.data_atualizacao), "dd/MM/yyyy")
             : "N/A"}
         </p>
+
+        {/* Password Fields */}
+        <div className={styles.field}>
+          <label htmlFor="currentPassword">
+            <strong>Senha Atual:</strong>
+          </label>
+          <input
+            id="currentPassword"
+            type="password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.field}>
+          <label htmlFor="newPassword">
+            <strong>Nova Senha:</strong>
+          </label>
+          <input
+            id="newPassword"
+            type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.field}>
+          <label htmlFor="confirmPassword">
+            <strong>Confirmar Nova Senha:</strong>
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className={styles.input}
+          />
+        </div>
       </CardContent>
       <CardFooter className={styles.footer}>
         <button className={styles["btn-primary"]} onClick={handleSave}>
