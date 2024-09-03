@@ -49,19 +49,12 @@ export async function updateUserByID(
   updatedUser: Partial<Usuario>
 ) {
   try {
-    const updated = await prisma.usuario.update({
+    return prisma.usuario.update({
       where: { id_user: id },
-      data: {
-        nome: updatedUser.nome,
-        email: updatedUser.email,
-        data_nasc: updatedUser.data_nasc,
-        data_atualizacao: updatedUser.data_atualizacao,
-      },
+      data: updatedUser,
     });
-
-    return updated;
   } catch (error) {
-    console.error("Failed to update user:", error);
-    throw new Error("Failed to update user");
+    console.log(error);
+    throw error;
   }
 }

@@ -11,6 +11,8 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { updateUserByID } from "@/actions/adminActions";
+import { useRouter } from "next/navigation";
 
 interface UserInfoCardProps {
   user: {
@@ -19,7 +21,7 @@ interface UserInfoCardProps {
     email: string;
     data_nasc: Date | string | null;
     emailVerified: Date | null;
-    data_criacao: Date | string;
+    data_criacao: Date | undefined;
     data_atualizacao: Date | string | null;
   };
 }
@@ -36,6 +38,8 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const router = useRouter();
 
   const handleSave = async () => {
     // Basic validation for password fields
@@ -55,30 +59,10 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
     };
 
     try {
-      console.log("Dentro do try:", updatedUser);
-      const response = await fetch(`/api/users/`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...updatedUser,
-          currentPassword: currentPassword ? currentPassword : undefined,
-          newPassword: newPassword ? newPassword : undefined,
-        }),
-      });
+      const updated = await updateUserByID(user.id_user, updatedUser);
 
-      // Log the response status and body
-      console.log(`Response status: ${response.status}`);
-      const result = await response.json();
-      console.log("Response body:", result);
-
-      if (!response.ok) {
-        throw new Error("Failed to update user");
-      }
-
-      console.log("User updated successfully:", result);
       alert("Informações do usuário atualizadas com sucesso!");
+      router.push("/usuarios/gerenciar");
     } catch (error) {
       console.error("Failed to update user:", error);
       alert("Erro ao atualizar as informações do usuário.");
@@ -136,7 +120,7 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
         </p>
         <p>
           <strong>Conta Criada:</strong>{" "}
-          {format(new Date(user.data_criacao), "dd/MM/yyyy")}
+          {format(new Date(user.data_criacao ?? "Sem Data"), "dd/MM/yyyy")}
         </p>
         <p>
           <strong>Última Atualização:</strong>{" "}

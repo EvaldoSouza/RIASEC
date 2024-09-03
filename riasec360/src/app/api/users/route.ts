@@ -1,7 +1,8 @@
 "use server";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUserByID, updateUserByID } from "@/actions/userActions";
+import { getUserByID } from "@/actions/userActions";
 import bcrypt from "bcryptjs";
+import { updateUserByID } from "@/actions/adminActions";
 
 export default async function handler(
   req: NextApiRequest,

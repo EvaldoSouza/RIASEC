@@ -161,18 +161,3 @@ export async function updatePerfilUsuario(data: {
     },
   });
 }
-
-export async function updateUserByID(
-  id: number,
-  updatedUser: Partial<Usuario>
-) {
-  try {
-    return prisma.usuario.update({
-      where: { id_user: id },
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}

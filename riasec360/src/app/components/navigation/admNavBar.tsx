@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { LogOut } from "../forms/logout-button";
 import { usuarioDaSessao } from "@/actions/userActions";
+import { Button } from "@/components/ui/button";
 
 // This function simulates fetching the user's name from a database
 
@@ -18,62 +19,29 @@ export async function AdmNavBar() {
     <Menubar>
       <Link href="/">Profissional360</Link>
       <MenubarMenu>
-        <MenubarTrigger>Cartões</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/gerenciarCartoes">Gerenciar Cartões</Link>
-          </MenubarItem>
-        </MenubarContent>
+        <Button>
+          <Link href="/gerenciarCartoes">Cartões</Link>
+        </Button>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Testes</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/gerenciarTestes">Gerenciar Testes</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/gerenciarTestes/criarTeste">Criar Teste</Link>
-          </MenubarItem>
-
-          <MenubarItem>
-            <Link href="/resultadosParticipante">Histórico de Testes</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/gerenciarAplicacao/criarAplicacao">Agendar Teste</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/realizarTeste">Realizar Teste</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/gerenciarAplicacao/todasAplicacoes">
-              Ver Testes Agendados
-            </Link>
-          </MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-
-      <MenubarMenu>
-        <MenubarTrigger>Usuários</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/usuarios/gerenciar">Gerenciar Usuários</Link>
-          </MenubarItem>
-        </MenubarContent>
+        <Button>
+          <Link href="/gerenciarTestes">Gerenciar Testes</Link>
+        </Button>
+        <Button>
+          <Link href="/realizarTeste">Realizar Teste</Link>
+        </Button>
+        <Button>
+          <Link href="/usuarios/gerenciar">Usuários</Link>
+        </Button>
       </MenubarMenu>
       <div
         style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
       >
-        <MenubarMenu>
-          <MenubarTrigger>{userName?.nome}</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem>
-              <Link href="/perfil">Editar Perfil</Link>
-            </MenubarItem>
-            <MenubarItem>
-              <LogOut />
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
+        <Link href="/perfil">
+          <Button>{userName?.nome}</Button>
+        </Link>
+
+        <LogOut />
       </div>
     </Menubar>
   );
