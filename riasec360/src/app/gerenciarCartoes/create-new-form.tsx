@@ -106,7 +106,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Salvar Novo Cartão</Button>
       </form>
     </Form>
   );

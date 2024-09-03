@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { RespostasDisplay } from "@/app/types/types";
 import { Car } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface CardAplicacaoProps {
   dataInicio: Date | null;
@@ -17,7 +18,6 @@ interface CardAplicacaoProps {
   nomeUsuario: string;
   idTeste: number;
   idAplicacao: number;
-  answers: RespostasDisplay[];
 }
 
 function formatDateString(date: Date): string {
@@ -36,7 +36,6 @@ const CardAplicacao: React.FC<CardAplicacaoProps> = ({
   nomeUsuario,
   idTeste,
   idAplicacao,
-  answers,
 }) => {
   const [showAnswers, setShowAnswers] = useState(false);
 
@@ -45,8 +44,9 @@ const CardAplicacao: React.FC<CardAplicacaoProps> = ({
     dataString = formatDateString(dataInicio);
   }
 
+  const router = useRouter();
   const abrirRespostas = () => {
-    setShowAnswers(!showAnswers);
+    router.push(`${idUsuario}/${idAplicacao}`);
   };
 
   return (
@@ -54,28 +54,7 @@ const CardAplicacao: React.FC<CardAplicacaoProps> = ({
       <CardHeader>Aplicação do dia {dataString}</CardHeader>
       <CardContent>Participante: {nomeUsuario}</CardContent>
       <CardContent>Teste: {idTeste}</CardContent>
-      <Button onMouseDown={abrirRespostas}>
-        {showAnswers ? "Esconder Respostas" : "Mostrar Respostas"}
-      </Button>
-      {showAnswers && (
-        <CardContent>
-          <div className="grid grid-cols-3 gap-5">
-            {answers.map((answer, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <CardTitle>{answer.pergunta}</CardTitle>
-                  <CardDescription>{answer.id_cartao}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>Tipo da pergunta: {answer.tipo}</p>
-                  <p>Resposta de afinidade: {answer.resposta_afinidade}</p>
-                  <p>Resposta de competencia: {answer.resposta_competencia}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </CardContent>
-      )}
+      <Button onMouseDown={abrirRespostas}>Mostrar Respostas</Button>
     </Card>
   );
 };

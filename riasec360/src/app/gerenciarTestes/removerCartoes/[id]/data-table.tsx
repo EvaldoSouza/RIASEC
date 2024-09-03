@@ -83,12 +83,15 @@ export function DataTable<TData, TValue>({
 
   async function onSubmit() {
     const cartoes = Object.keys(rowSelection);
-    console.log(cartoes);
     const ids = cartoes.map((numero) => +numero);
     const testeEditado = await deletarListaCartoesEmTeste(+id_teste, ids);
     if (testeEditado) {
       router.refresh();
       router.push(`/gerenciarTestes`);
+    } else {
+      alert(
+        "Teste já foi respondido por alguém, e portanto não pode ser modificado!"
+      );
     }
   }
 

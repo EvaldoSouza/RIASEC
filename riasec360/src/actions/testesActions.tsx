@@ -161,6 +161,14 @@ export async function adicionarCartoesATeste(
   id_teste: number,
   cartaoIds: number[]
 ) {
+  const foiUsado = await prisma.resposta_cartao.findFirst({
+    where: { id_teste: id_teste },
+  });
+
+  if (foiUsado) {
+    return false;
+  }
+
   try {
     const teste = await prisma.teste.update({
       where: { id_teste: id_teste },
@@ -183,6 +191,13 @@ export async function deletarListaCartoesEmTeste(
   id_teste: number,
   id_cartoes: number[]
 ) {
+  const foiUsado = await prisma.resposta_cartao.findFirst({
+    where: { id_teste: id_teste },
+  });
+
+  if (foiUsado) {
+    return false;
+  }
   try {
     for (let id of id_cartoes) {
       await deletarTeste_Cartao(id_teste, id);
@@ -201,9 +216,10 @@ export async function atualizarDescricaoTeste(
   novaDesc: string,
   id_teste: number
 ) {
-  const foiUsado = await prisma.teste_cartao.findFirst({
+  const foiUsado = await prisma.resposta_cartao.findFirst({
     where: { id_teste: id_teste },
   });
+
   if (foiUsado) {
     return false;
   }
@@ -217,5 +233,24 @@ export async function atualizarDescricaoTeste(
     return true;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+}
+
+//retorna verdadeiro se foi usado, falso se não foi
+export async function testeUsado(id_teste: number) {
+  try {
+    const foiUsado = await prisma.resposta_cartao.findFirst({
+      where: { id_teste: id_teste },
+    });
+
+    if (foiUsado) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }

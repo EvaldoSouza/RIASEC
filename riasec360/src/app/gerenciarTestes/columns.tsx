@@ -25,9 +25,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-
+import { testeUsado } from "../../actions/testesActions";
 //definindo o formado dos dados
 import { Teste } from "../types/types";
 import { format } from "date-fns";
@@ -38,6 +38,16 @@ async function onDelete(id_teste: number) {
     console.log(deletado);
   } else {
     console.log("ID inválido");
+  }
+}
+
+async function usado(id_teste: number): Promise<boolean> {
+  if (id_teste > 0) {
+    const usado = await testeUsado(id_teste);
+    return usado;
+  } else {
+    console.log("ID inválido");
+    return false;
   }
 }
 
@@ -59,6 +69,7 @@ export const columns: ColumnDef<Teste>[] = [
   },
   {
     id: "actions",
+
     cell: ({ row }) => {
       const teste = row.original;
       const router = useRouter();
@@ -68,7 +79,23 @@ export const columns: ColumnDef<Teste>[] = [
       //fazer as ações aqui!
       //não precisa daquela dor de cabeça do popup!
       //e mesmo que for fazer o popup, abrir aqui
-      return (
+      //const testeJaRespondido = usado(teste.id_teste).then();
+      const [testeJaRespondido, setTesteJaRespondido] = useState(false);
+
+      useEffect(() => {
+        const checkIfUsed = async () => {
+          const result = await usado(row.original.id_teste);
+          setTesteJaRespondido(result);
+        };
+
+        checkIfUsed();
+      }, [row.original.id_teste]);
+
+      return testeJaRespondido ? (
+        <Dialog>
+          <DialogTitle className="font-12">Teste em Uso</DialogTitle>
+        </Dialog>
+      ) : (
         <Dialog>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
