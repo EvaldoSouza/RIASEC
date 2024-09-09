@@ -25,13 +25,13 @@ export async function AdmNavBar() {
       </MenubarMenu>
       <MenubarMenu>
         <Button>
-          <Link href="/gerenciarTestes">Gerenciar Testes</Link>
-        </Button>
-        <Button>
-          <Link href="/realizarTeste">Realizar Teste</Link>
+          <Link href="/gerenciarTestes">Testes</Link>
         </Button>
         <Button>
           <Link href="/usuarios/gerenciar">Usuários</Link>
+        </Button>
+        <Button>
+          <Link href="/realizarTeste">Aplicações</Link>
         </Button>
       </MenubarMenu>
       <div

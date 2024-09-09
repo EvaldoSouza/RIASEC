@@ -25,10 +25,17 @@ export async function criarTeste(
       },
     });
 
+    for (var cartao of cartaoIds) {
+      await prisma.cartao.update({
+        where: { id_cartao: cartao },
+        data: { em_uso: true },
+      });
+    }
+
     return createdTeste;
   } catch (error) {
     console.error("Error creating TESTE:", error);
-    return null;
+    throw error;
   }
 }
 
@@ -56,6 +63,13 @@ export async function criarTesteComID(
         teste_cartao: true, // Include the associated cartao in the result
       },
     });
+
+    for (var cartao of cartaoIds) {
+      await prisma.cartao.update({
+        where: { id_cartao: cartao },
+        data: { em_uso: true },
+      });
+    }
 
     return createdTeste;
   } catch (error) {
@@ -181,6 +195,14 @@ export async function adicionarCartoesATeste(
         quant_cartoes: { increment: cartaoIds.length },
       },
     });
+
+    for (var cartao of cartaoIds) {
+      await prisma.cartao.update({
+        where: { id_cartao: cartao },
+        data: { em_uso: true },
+      });
+    }
+
     return teste;
   } catch (error) {
     console.log(error);
