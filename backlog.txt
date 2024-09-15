@@ -1,13 +1,17 @@
 Correções:
+
 - Melhorar a pesquisa do cartão, para incluir outras opções, como cartões em uso, ou por tipo, tudo na mesma caixa de pesquisa.
 - Passar um pente fino nomeclatura
-- Melhorar tabela que mostra as aplicações
+- Tirar verbos
+
 
 Funcionalidades:
 - Fazer o likert com Competencia e Interesse
-- Titulo na tabela de criar aplicação (e em todas)
 - Perguntas apropriadas (apagar os dados do banco e colocar dados apropriadas)
 - Ver a possibilidade de implementar a função de Grupos
+- Colocar tabela na janela de Aplicações, deixar mais dados a mostra
+- Modo simulação
+- Destacar o botão da página que está selecionada (Talvez usar Botão de tabulação / tabs )
 
 
 Notas:

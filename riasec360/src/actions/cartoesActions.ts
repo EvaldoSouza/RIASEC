@@ -4,10 +4,17 @@ import prisma from "@/db/prisma";
 import { unstable_noStore as noStore } from "next/cache";
 import { Cartao } from "@/app/types/types";
 
-export async function DeletarCartao(input: number) {
+export async function DeletarCartao(idCartao: number) {
+  var em_uso = await prisma.resposta_cartao.findFirst({
+    where: { id_cartao: idCartao },
+  });
+  if (em_uso) {
+    console.log("Cartão em uso");
+    return "Cartão em uso";
+  }
   try {
     const deletar = await prisma.cartao.delete({
-      where: { id_cartao: input },
+      where: { id_cartao: idCartao },
     });
     return deletar;
   } catch (err) {
@@ -50,6 +57,13 @@ export async function EditarCartao(params: {
   pergunta: string;
   tipo: string;
 }) {
+  var em_uso = await prisma.resposta_cartao.findFirst({
+    where: { id_cartao: params.id },
+  });
+  if (em_uso) {
+    console.log("Cartão em uso");
+    return "Cartão em uso";
+  }
   try {
     const cartaoEditado = await prisma.cartao.update({
       where: { id_cartao: params.id },
@@ -57,11 +71,32 @@ export async function EditarCartao(params: {
     });
     return cartaoEditado;
   } catch (error) {
-    return {
-      data: null,
-      error: error,
-    };
+    console.log(error);
+    throw error;
   }
 }
 
-export async function usoCartao(id: number) {}
+//essa função pode demorar um cado
+export async function updateCartoesUso() {
+  try {
+    //achar todos os cartões, uma lista completa
+    //verificar se cada cartão está associado a um cartao_resposta, pois só bloqueia se foi respondido
+    //se estiver, dar um update no status de usado
+    const cartoes = await prisma.cartao.findMany();
+
+    for (var cartao of cartoes) {
+      var usado = await prisma.resposta_cartao.findFirst({
+        where: { id_cartao: cartao.id_cartao },
+      });
+      if (usado?.id_resposta) {
+        await prisma.cartao.update({
+          where: { id_cartao: cartao.id_cartao },
+          data: { em_uso: true },
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

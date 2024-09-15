@@ -43,3 +43,18 @@ export async function updateUserEmail(userId: number, newEmail: string) {
     console.error("Error updating user email:", error);
   }
 }
+
+export async function updateUserByID(
+  id: number,
+  updatedUser: Partial<Usuario>
+) {
+  try {
+    return prisma.usuario.update({
+      where: { id_user: id },
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

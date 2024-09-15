@@ -1,0 +1,49 @@
+.card {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1.5rem;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.applicationList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.applicationItem {
+  background-color: #f9fafb; /* Tailwind's gray-100 equivalent */
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.applicationItem strong {
+  display: block;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  padding: 0.5rem 1rem;
+  background-color: #10b981; /* Tailwind's green-500 equivalent */
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: #059669; /* Tailwind's green-600 equivalent */
+}

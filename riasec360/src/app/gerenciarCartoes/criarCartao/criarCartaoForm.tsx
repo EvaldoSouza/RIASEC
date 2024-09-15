@@ -58,7 +58,7 @@ export function ProfileForm() {
       tipo: values.tipoPergunta,
     });
     console.log(cartao);
-    router.refresh();
+    router.back();
   }
 
   return (
@@ -106,7 +106,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Salvar Novo Cartão</Button>
       </form>
     </Form>
   );

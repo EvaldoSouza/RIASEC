@@ -27,13 +27,16 @@ import {
 
 import { useState } from "react";
 
-import { ProfileForm } from "./create-new-form";
+import { ProfileForm } from "./criarCartao/criarCartaoForm";
 import DialogForm from "./dialog-form";
 import { Cartao } from "../types/types";
 
 async function onDelete(id_cartao: number) {
   if (id_cartao > 0) {
     const deletado = await DeletarCartao(id_cartao);
+    if (deletado == "Cartão em uso") {
+      alert(deletado);
+    }
     console.log(deletado);
   } else {
     console.log("ID inválido");
@@ -61,7 +64,7 @@ export const columns: ColumnDef<Cartao>[] = [
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Abrir Menu</span>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>

@@ -1,20 +1,24 @@
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { BuscarTodosCartoes } from "@/actions/cartoesActions";
-import { ProfileForm } from "./create-new-form";
+import { BuscarTodosCartoes, updateCartoesUso } from "@/actions/cartoesActions";
+import { ProfileForm } from "./criarCartao/criarCartaoForm";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function GerenciarCartoes() {
   const cartoes = await BuscarTodosCartoes();
+  //TODO achar um lugar melhor, um jeito melhor de fazer esse update, pq acho que vai ficar lento pra caramba
+  await updateCartoesUso();
   return (
     <div>
       <h1 style={{ display: "flex", justifyContent: "center" }}>
         Cartões já cadastrados
       </h1>
+      <Button>
+        <Link href={`/gerenciarCartoes/criarCartao`}> Adicionar</Link>
+      </Button>
       <div>
         <DataTable columns={columns} data={cartoes} />
-      </div>
-      <div>
-        <ProfileForm />
       </div>
     </div>
   );

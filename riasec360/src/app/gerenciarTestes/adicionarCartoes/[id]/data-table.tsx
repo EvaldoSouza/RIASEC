@@ -82,10 +82,13 @@ export function DataTable<TData, TValue>({
     const cartoes = Object.keys(rowSelection);
     const ids = cartoes.map((numero) => +numero);
     const novoTeste = await adicionarCartoesATeste(+id_teste, ids);
-    console.log(novoTeste);
     if (novoTeste) {
       router.refresh();
       router.push(`/gerenciarTestes`);
+    } else {
+      alert(
+        "Teste já foi respondido por alguém, e portanto não pode ser modificado!"
+      );
     }
   }
 

@@ -1,3 +1,4 @@
+"use client";
 import {
   Menubar,
   MenubarContent,
@@ -8,80 +9,93 @@ import {
 import Link from "next/link";
 import { LogOut } from "../forms/logout-button";
 import { usuarioDaSessao } from "@/actions/userActions";
-
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Usuario } from "@/app/types/types";
+import { redirect, usePathname } from "next/navigation";
+import styles from "./admNavBar.module.css";
 // This function simulates fetching the user's name from a database
+export function AdmNavBar() {
+  const [usuario, setUsuario] = useState<Usuario>();
+  const pathname = usePathname();
+  const [isActive, setActive] = useState(false);
+  //Acho que tá toda hora checando o estado, e renderizando o botão de novo
 
-export async function AdmNavBar() {
-  const userName = await usuarioDaSessao();
+  useEffect(() => {
+    const sessionCheck = async () => {
+      const user = await usuarioDaSessao();
+      if (user) {
+        setUsuario(user);
+      } else {
+        alert("Usuario Null");
+        redirect("/");
+      }
+    };
+    sessionCheck();
+  }, []);
 
+  //Fazer o link de botão
   return (
     <Menubar>
-      <Link href="/">Profissional360</Link>
+      <Link
+        className={`link ${pathname === "/" ? styles.active : styles.inactive}`}
+        href="/"
+      >
+        Profissional360
+      </Link>
       <MenubarMenu>
-        <MenubarTrigger>Cartões</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/gerenciarCartoes">Gerenciar Cartões</Link>
-          </MenubarItem>
-        </MenubarContent>
+        <Link
+          className={`link ${
+            pathname === "/gerenciarCartoes" ? styles.active : styles.inactive
+          }`}
+          href="/gerenciarCartoes"
+        >
+          Cartões
+        </Link>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Testes</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/gerenciarTestes">Gerenciar Testes</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/gerenciarTestes/criarTeste">Criar Teste</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/realizarTeste">Realizar Teste</Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/resultadosParticipante">Histórico de Testes</Link>
-          </MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Aplicações</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/gerenciarAplicacao/criarAplicacao">
-              Criar Aplicação
-            </Link>
-          </MenubarItem>
-          <MenubarItem>
-            <Link href="/gerenciarAplicacao/todasAplicacoes">
-              Ver Aplicações Agendadas
-            </Link>
-          </MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Grupos</MenubarTrigger>
-      </MenubarMenu>
-      <MenubarMenu>
-        <MenubarTrigger>Usuários</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem>
-            <Link href="/usuarios/gerenciar">Gerenciar Usuários</Link>
-          </MenubarItem>
-        </MenubarContent>
+        <Link
+          className={`link ${
+            pathname === "/gerenciarTestes" ? styles.active : styles.inactive
+          } `}
+          href="/gerenciarTestes"
+        >
+          Testes
+        </Link>
+
+        <Link
+          className={`link ${
+            pathname === "/usuarios/gerenciar" ? styles.active : styles.inactive
+          } `}
+          href="/usuarios/gerenciar"
+        >
+          Usuários
+        </Link>
+
+        <Link
+          className={`link ${
+            pathname === "/realizarTeste" ? styles.active : styles.inactive
+          } `}
+          href="/realizarTeste"
+        >
+          Aplicações
+        </Link>
       </MenubarMenu>
       <div
         style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
       >
-        <MenubarMenu>
-          <MenubarTrigger>{userName?.nome}</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem>
-              <Link href="/perfil">Editar Perfil</Link>
-            </MenubarItem>
-            <MenubarItem>
-              <LogOut />
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
+        <Link
+          className={`link ${
+            pathname === "/perfil"
+              ? "text-white-500 font-semibold"
+              : "text-blue-600"
+          } `}
+          href="/perfil"
+        >
+          <Button>{usuario?.nome}</Button>
+        </Link>
+
+        <LogOut />
       </div>
     </Menubar>
   );

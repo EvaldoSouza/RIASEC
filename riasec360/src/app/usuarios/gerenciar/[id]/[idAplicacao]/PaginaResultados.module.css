@@ -1,0 +1,102 @@
+/* Container styling */
+.container {
+  padding: 2rem;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+/* Header styling */
+.header {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Grid styling */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Adjust grid to fit larger cards */
+  gap: 1.5rem;
+}
+
+/* Card styling */
+.card {
+  min-width: 300px; /* Set a minimum width */
+  min-height: 200px; /* Set a minimum height */
+  padding: 1.5rem; /* Adjust padding for a larger card */
+  max-width: 100%; /* Allow the card to expand to fit content */
+  overflow: visible; /* Ensure content doesn't overflow but resizes the card */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  background-color: #fff;
+}
+
+.cardContent {
+  /* Allow the card to grow with its content */
+  overflow: visible;
+  white-space: normal; /* Allow text to wrap normally */
+  word-break: normal; /* Keep words intact without breaking */
+}
+
+.card-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.card-content {
+  font-size: 0.875rem;
+  color: #444;
+}
+
+.card-content p {
+  margin: 0.5rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    font-size: 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
+
+  .card-header {
+    font-size: 1.125rem;
+  }
+}
+
+/* Existing styles... */
+
+.hardcodedText {
+  font-style: italic; /* Makes the hardcoded text italic */
+  color: #666; /* Optional: You can also change the color to distinguish it */
+}
+
+.variableText {
+  font-weight: bold; /* Optional: Make the variable text bold */
+  font-family: "Courier New", Courier, monospace; /* Optional: Use a different font */
+  color: #333; /* Ensure the text is darker for readability */
+}

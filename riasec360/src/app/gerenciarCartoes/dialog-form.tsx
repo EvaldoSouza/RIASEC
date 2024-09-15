@@ -87,6 +87,9 @@ const DialogForm: React.FC<DialogFormProps> = ({
       pergunta: values.pergunta,
       tipo: values.tipoPergunta,
     });
+    if (cartao == "Cartão em uso") {
+      alert(cartao);
+    }
     console.log(cartao);
     router.refresh();
     onSubmitClosing();

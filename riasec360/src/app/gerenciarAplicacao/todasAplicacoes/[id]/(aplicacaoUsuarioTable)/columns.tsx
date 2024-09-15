@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { AplicacaoUsuarioComNome } from "@/app/types/types";
 import Link from "next/link";
 import { removerUsuarioDeAplicacao } from "@/actions/aplicacaoActions";
+import { format } from "date-fns";
 
 async function onDelete(idAplicacao: number, idUsuario: number) {
   if (idAplicacao > 0) {
@@ -40,8 +41,24 @@ async function onDelete(idAplicacao: number, idUsuario: number) {
 export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
   { accessorKey: "id_usuario", header: "ID Usuario" },
   { accessorKey: "nome_usuario", header: "Nome" },
-  { accessorKey: "inicio_testagem", header: "Horário Inicio" },
-  { accessorKey: "fim_testagem", header: "Horário Final" },
+  {
+    accessorKey: "inicio_testagem",
+    header: "Horário Inicio",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("data_nasc");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
+  {
+    accessorKey: "fim_testagem",
+    header: "Horário Final",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("data_nasc");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
   {
     id: "actions",
     cell: ({ row }) => {

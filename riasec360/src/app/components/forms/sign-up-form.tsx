@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import React, { useState, FormEvent } from "react";
 import { z } from "zod";
 
@@ -28,6 +29,7 @@ const SignUpForm: React.FC = () => {
     dateOfBirth: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -76,7 +78,8 @@ const SignUpForm: React.FC = () => {
         dateOfBirth: formData.dateOfBirth,
       }),
     });
-    console.log("Response no form:", response);
+    router.refresh();
+    alert("Usuário criado com sucesso");
   };
 
   return (

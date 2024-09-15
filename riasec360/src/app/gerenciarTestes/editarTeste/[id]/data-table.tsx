@@ -87,10 +87,22 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const teste = await atualizarDescricaoTeste(data.descricao, id_teste);
-    if (teste) {
-      router.refresh();
-      router.push("/gerenciarTestes");
+    try {
+      const teste = await atualizarDescricaoTeste(data.descricao, id_teste);
+      console.log(teste);
+
+      if (teste) {
+        router.refresh();
+        router.push("/gerenciarTestes");
+      } else {
+        alert(
+          "Teste já foi respondido por alguém, e portanto não pode ser modificado!"
+        );
+        router.push("/gerenciarTestes");
+      }
+    } catch (error) {
+      console.error("Erro ao tentar atualizar a descrição:", error);
+      alert("Ocorreu um erro ao tentar salvar as alterações. Tente novamente.");
     }
   }
 
@@ -165,7 +177,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sem resultados.
                 </TableCell>
               </TableRow>
             )}

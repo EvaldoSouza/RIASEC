@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Teste } from "@/app/types/types";
+import { format } from "date-fns";
 
 //TODO Dar um jeito de selecionar apenas um teste. Provavelmente vou usar um RadioGroup, mas tá meio bugado na minha cabeça
 export const columns: ColumnDef<Teste>[] = [
@@ -22,5 +23,13 @@ export const columns: ColumnDef<Teste>[] = [
   { accessorKey: "id_teste", header: "ID" },
   { accessorKey: "descricao", header: "Descrição" },
   { accessorKey: "quant_cartoes", header: "Quant Cartões" },
-  { accessorKey: "data_criacao", header: "Criado Em" },
+  {
+    accessorKey: "data_criacao",
+    header: "Criado Em",
+    cell: ({ row }) => {
+      const date = row.getValue<Date | null>("data_criacao");
+      const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
+      return <div className="text-left">{formattedDate}</div>;
+    },
+  },
 ];

@@ -1,0 +1,77 @@
+.container {
+  padding: 2rem;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  display: grid;
+  grid-gap: 2rem; /* Space between the cards */
+  grid-template-columns: 1fr 1fr; /* Two-column layout for larger screens */
+  grid-template-rows: auto;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  padding: 1.5rem;
+  font-weight: bold;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.applicationList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.applicationItem {
+  background-color: #f9fafb;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.btn-primary {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}

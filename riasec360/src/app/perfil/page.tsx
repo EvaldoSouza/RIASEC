@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { usuarioDaSessao, updatePerfilUsuario } from "@/actions/userActions";
+import Link from "next/link";
 
 interface UserProfile {
   id_user: number;
@@ -66,60 +67,65 @@ const UserProfilePage: React.FC = () => {
   }
 
   return (
-    <Card className="user-profile">
-      <CardHeader>Perfil do Usuario {userProfile?.nome}</CardHeader>
-      {userProfile && (
-        <CardContent>
-          <p>
-            <strong>ID:</strong> {userProfile.id_user}
-          </p>
-          <p>
-            <strong>Email:</strong> {userProfile.email}
-          </p>
-          <p>
-            <strong>Email Verified:</strong>{" "}
-            {userProfile.emailVerified
-              ? userProfile.emailVerified.toString()
-              : "Not Verified"}
-          </p>
-          <p>
-            <strong>Data de Nascimento:</strong>{" "}
-            {formatDateString(userProfile.data_nasc)}
-          </p>
-          <p>
-            <strong>Conta Criada:</strong>{" "}
-            {formatDateString(userProfile.data_criacao)}
-          </p>
-          <p>
-            <strong>Last Updated:</strong>{" "}
-            {userProfile.data_atualizacao
-              ? formatDateString(userProfile.data_atualizacao)
-              : "N/A"}
-          </p>
-          <div>
-            <label>
-              Name:
-              <Input
-                type="text"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Password:
-              <Input
-                type="password"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-              />
-            </label>
-          </div>
-          <Button onMouseDown={handleUpdate}>Update Profile</Button>
-        </CardContent>
-      )}
-    </Card>
+    <div>
+      <Card className="user-profile">
+        <CardHeader>Perfil do Usuario {userProfile?.nome}</CardHeader>
+        {userProfile && (
+          <CardContent>
+            <p>
+              <strong>ID:</strong> {userProfile.id_user}
+            </p>
+            <p>
+              <strong>Email:</strong> {userProfile.email}
+            </p>
+            <p>
+              <strong>Email Verified:</strong>{" "}
+              {userProfile.emailVerified
+                ? userProfile.emailVerified.toString()
+                : "Not Verified"}
+            </p>
+            <p>
+              <strong>Data de Nascimento:</strong>{" "}
+              {formatDateString(userProfile.data_nasc)}
+            </p>
+            <p>
+              <strong>Conta Criada:</strong>{" "}
+              {formatDateString(userProfile.data_criacao)}
+            </p>
+            <p>
+              <strong>Last Updated:</strong>{" "}
+              {userProfile.data_atualizacao
+                ? formatDateString(userProfile.data_atualizacao)
+                : "N/A"}
+            </p>
+            <div>
+              <label>
+                Name:
+                <Input
+                  type="text"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Password:
+                <Input
+                  type="password"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                />
+              </label>
+            </div>
+            <Button onMouseDown={handleUpdate}>Update Profile</Button>
+          </CardContent>
+        )}
+      </Card>
+      <Link href="/resultadosParticipante">
+        <Button>Histórico de Testes</Button>
+      </Link>
+    </div>
   );
 };
 

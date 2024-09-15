@@ -14,11 +14,20 @@ export default async function gerenciarTestes() {
         Testes já Cadastrados
       </h1>
       <div>
-        <DataTable data={testes} columns={columns} />
-      </div>
-      <div>
         <Link href="/gerenciarTestes/criarTeste" passHref>
           <Button type="button">Criar Teste</Button>
+        </Link>
+      </div>
+      <div>
+        <DataTable data={testes} columns={columns} />
+      </div>
+
+      <div>
+        <Link href="/gerenciarAplicacao/criarAplicacao" passHref>
+          <Button type="button">Agendar Teste</Button>
+        </Link>
+        <Link href="/gerenciarAplicacao/todasAplicacoes">
+          <Button>Testes Agendados</Button>
         </Link>
       </div>
       <div></div>
