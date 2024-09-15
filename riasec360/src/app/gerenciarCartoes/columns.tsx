@@ -27,7 +27,7 @@ import {
 
 import { useState } from "react";
 
-import { ProfileForm } from "./create-new-form";
+import { ProfileForm } from "./criarCartao/criarCartaoForm";
 import DialogForm from "./dialog-form";
 import { Cartao } from "../types/types";
 

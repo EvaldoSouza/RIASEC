@@ -58,7 +58,7 @@ export function ProfileForm() {
       tipo: values.tipoPergunta,
     });
     console.log(cartao);
-    router.refresh();
+    router.back();
   }
 
   return (

@@ -93,7 +93,7 @@ export const columns: ColumnDef<Teste>[] = [
 
       return testeJaRespondido ? (
         <Dialog>
-          <DialogTitle className="font-12">Teste em Uso</DialogTitle>
+          <DialogTitle className="font-12">Aplicado</DialogTitle>
         </Dialog>
       ) : (
         <Dialog>

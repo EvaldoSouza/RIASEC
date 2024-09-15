@@ -1,0 +1,26 @@
+.active {
+  background-color: rgb(78, 117, 207);
+  border-radius: calc(var(--radius) - 2px);
+  color: rgb(15, 23, 42);
+  font-weight: bold;
+  padding: 2px;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+.inactive {
+  background-color: rgb(15, 23, 42);
+  border-radius: calc(var(--radius) - 2px);
+  color: white;
+  padding: 2px;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+.active:hover {
+  background-color: rgb(78, 94, 148);
+}
+
+.inactive:hover {
+  background-color: rgb(10, 38, 70);
+}

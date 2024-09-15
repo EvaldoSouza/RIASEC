@@ -1,3 +1,4 @@
+"use client";
 import {
   Menubar,
   MenubarContent,
@@ -8,37 +9,90 @@ import {
 import Link from "next/link";
 import { LogOut } from "../forms/logout-button";
 import { usuarioDaSessao } from "@/actions/userActions";
-import { Button } from "@/components/ui/button";
-
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Usuario } from "@/app/types/types";
+import { redirect, usePathname } from "next/navigation";
+import styles from "./admNavBar.module.css";
 // This function simulates fetching the user's name from a database
+export function AdmNavBar() {
+  const [usuario, setUsuario] = useState<Usuario>();
+  const pathname = usePathname();
+  const [isActive, setActive] = useState(false);
+  //Acho que tá toda hora checando o estado, e renderizando o botão de novo
 
-export async function AdmNavBar() {
-  const userName = await usuarioDaSessao();
+  useEffect(() => {
+    const sessionCheck = async () => {
+      const user = await usuarioDaSessao();
+      if (user) {
+        setUsuario(user);
+      } else {
+        alert("Usuario Null");
+        redirect("/");
+      }
+    };
+    sessionCheck();
+  }, []);
 
+  //Fazer o link de botão
   return (
     <Menubar>
-      <Link href="/">Profissional360</Link>
+      <Link
+        className={`link ${pathname === "/" ? styles.active : styles.inactive}`}
+        href="/"
+      >
+        Profissional360
+      </Link>
       <MenubarMenu>
-        <Button>
-          <Link href="/gerenciarCartoes">Cartões</Link>
-        </Button>
+        <Link
+          className={`link ${
+            pathname === "/gerenciarCartoes" ? styles.active : styles.inactive
+          }`}
+          href="/gerenciarCartoes"
+        >
+          Cartões
+        </Link>
       </MenubarMenu>
       <MenubarMenu>
-        <Button>
-          <Link href="/gerenciarTestes">Testes</Link>
-        </Button>
-        <Button>
-          <Link href="/usuarios/gerenciar">Usuários</Link>
-        </Button>
-        <Button>
-          <Link href="/realizarTeste">Aplicações</Link>
-        </Button>
+        <Link
+          className={`link ${
+            pathname === "/gerenciarTestes" ? styles.active : styles.inactive
+          } `}
+          href="/gerenciarTestes"
+        >
+          Testes
+        </Link>
+
+        <Link
+          className={`link ${
+            pathname === "/usuarios/gerenciar" ? styles.active : styles.inactive
+          } `}
+          href="/usuarios/gerenciar"
+        >
+          Usuários
+        </Link>
+
+        <Link
+          className={`link ${
+            pathname === "/realizarTeste" ? styles.active : styles.inactive
+          } `}
+          href="/realizarTeste"
+        >
+          Aplicações
+        </Link>
       </MenubarMenu>
       <div
         style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
       >
-        <Link href="/perfil">
-          <Button>{userName?.nome}</Button>
+        <Link
+          className={`link ${
+            pathname === "/perfil"
+              ? "text-white-500 font-semibold"
+              : "text-blue-600"
+          } `}
+          href="/perfil"
+        >
+          <Button>{usuario?.nome}</Button>
         </Link>
 
         <LogOut />
