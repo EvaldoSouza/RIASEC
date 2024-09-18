@@ -11,7 +11,13 @@ export default async function GerenciarCartoes() {
   await updateCartoesUso();
   return (
     <div>
-      <h1 style={{ display: "flex", justifyContent: "center" }}>
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "1.5rem",
+        }}
+      >
         Cartões já cadastrados
       </h1>
       <Button>

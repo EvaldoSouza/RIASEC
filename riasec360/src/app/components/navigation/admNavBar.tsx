@@ -74,9 +74,9 @@ export function AdmNavBar() {
 
         <Link
           className={`link ${
-            pathname === "/realizarTeste" ? styles.active : styles.inactive
+            pathname === "/gerenciarAplicacao" ? styles.active : styles.inactive
           } `}
-          href="/realizarTeste"
+          href="/gerenciarAplicacao"
         >
           Aplicações
         </Link>

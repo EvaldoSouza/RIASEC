@@ -91,7 +91,15 @@ export const columns: ColumnDef<Aplicacao>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-
+              <DropdownMenuItem>
+                <Link
+                  href={{
+                    pathname: `/gerenciarAplicacao/${aplicacao.id_aplicacao}`,
+                  }}
+                >
+                  Participantes
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link
                   href={{
@@ -99,15 +107,6 @@ export const columns: ColumnDef<Aplicacao>[] = [
                   }}
                 >
                   Editar
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={{
-                    pathname: `/gerenciarAplicacao/todasAplicacoes/${aplicacao.id_aplicacao}`,
-                  }}
-                >
-                  Participantes
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem

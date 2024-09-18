@@ -10,7 +10,15 @@ const AdminPage: React.FC = async () => {
   const usuarios = await getAllUsers();
   return (
     <div>
-      <h1 className="fontSize-1.5rem , marginBottom-10px">Lista de Usuários</h1>
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "1.5rem",
+        }}
+      >
+        Lista de Usuários
+      </h1>
       <DataTable columns={columns} data={usuarios} />
       <div>
         <Button>

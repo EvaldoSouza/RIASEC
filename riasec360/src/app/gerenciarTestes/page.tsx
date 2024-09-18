@@ -10,7 +10,13 @@ export default async function gerenciarTestes() {
   const testes = await BuscarTodosTestes();
   return (
     <div>
-      <h1 style={{ display: "flex", justifyContent: "center" }}>
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "1.5rem",
+        }}
+      >
         Testes já Cadastrados
       </h1>
       <div>
@@ -21,16 +27,6 @@ export default async function gerenciarTestes() {
       <div>
         <DataTable data={testes} columns={columns} />
       </div>
-
-      <div>
-        <Link href="/gerenciarAplicacao/criarAplicacao" passHref>
-          <Button type="button">Agendar Teste</Button>
-        </Link>
-        <Link href="/gerenciarAplicacao/todasAplicacoes">
-          <Button>Testes Agendados</Button>
-        </Link>
-      </div>
-      <div></div>
     </div>
   );
 }

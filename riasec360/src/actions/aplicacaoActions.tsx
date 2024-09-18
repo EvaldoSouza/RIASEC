@@ -237,7 +237,6 @@ export async function deletarAplicacao(
     }
 
     // Verificar se a aplicação já foi iniciada (caso não tenha respostas)
-    //TODO verifar isso nas regras de negócios
     if (aplicacao.hora_inicial && aplicacao.hora_inicial < new Date()) {
       console.log(
         "Aplicação está no passado, mas não foi respondida. Deletando..."
@@ -467,6 +466,23 @@ export async function checarAplicacaoFoiRespondida(
     return response !== null; // Se tem uma resposta, a aplicação foi respondida
   } catch (error) {
     console.error("Erro ao checar se a aplicação foi respondida", error);
+    throw error;
+  }
+}
+
+export async function infosAplicacao(idAplicacao: number): Promise<Aplicacao> {
+  try {
+    const aplicacao = await prisma.aplicacao.findUnique({
+      where: { id_aplicacao: idAplicacao },
+    });
+    if (!aplicacao) {
+      console.log("Aplicação não encontrada");
+      throw Error;
+      //TODO melhorar isso aqui
+    }
+    return aplicacao;
+  } catch (error) {
+    console.error(error);
     throw error;
   }
 }

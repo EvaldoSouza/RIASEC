@@ -82,12 +82,14 @@ export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
 
-              <DropdownMenuItem
-                onClick={() => {
-                  setEditDialogOpen(true);
-                }}
-              >
-                Editar
+              <DropdownMenuItem>
+                <Link
+                  href={{
+                    pathname: `/gerenciarAplicacao/${aplicacao.id_aplicacao}/${aplicacao.id_usuario}`,
+                  }}
+                >
+                  Resultados de Testes
+                </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem

@@ -47,7 +47,6 @@ export const columns: ColumnDef<Cartao>[] = [
   { accessorKey: "id_cartao", header: "ID" },
   { accessorKey: "pergunta", header: "Pergunta" },
   { accessorKey: "tipo", header: "Tipo" },
-  { accessorKey: "em_uso", header: "Em Uso" },
   {
     id: "actions",
     cell: ({ row }) => {
@@ -59,60 +58,65 @@ export const columns: ColumnDef<Cartao>[] = [
       //fazer as ações aqui!
       //não precisa daquela dor de cabeça do popup!
       //e mesmo que for fazer o popup, abrir aqui
-      return (
-        <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir Menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
+      if (cartao.em_uso) {
+        return <h3>Em Uso</h3>;
+      } else {
+        return (
+          <Dialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Abrir Menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Ações</DropdownMenuLabel>
 
-              <DropdownMenuItem
-                onClick={() => {
-                  setEditDialogOpen(true);
-                }}
-              >
-                Editar
-              </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setEditDialogOpen(true);
+                  }}
+                >
+                  Editar
+                </DropdownMenuItem>
 
-              <DropdownMenuItem
-                onClick={() => {
-                  const id = cartao.id_cartao !== null ? cartao.id_cartao : -1;
-                  setDeleteDialogOpen(true);
-                  onDelete(id);
-                  router.refresh();
-                }}
-              >
-                Apagar Cartão
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Dialog open={openEditDialog} onOpenChange={setEditDialogOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Editando Cartão {cartao.id_cartao}</DialogTitle>
-              </DialogHeader>
-              <DialogForm
-                idRecebido={cartao.id_cartao}
-                pergunta={cartao.pergunta || "Escreva uma Pergunta"}
-                tipoRecebido={cartao.tipo}
-                onSubmitClosing={setEditDialogOpen}
-              />
-            </DialogContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    const id =
+                      cartao.id_cartao !== null ? cartao.id_cartao : -1;
+                    setDeleteDialogOpen(true);
+                    onDelete(id);
+                    router.refresh();
+                  }}
+                >
+                  Apagar Cartão
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Dialog open={openEditDialog} onOpenChange={setEditDialogOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Editando Cartão {cartao.id_cartao}</DialogTitle>
+                </DialogHeader>
+                <DialogForm
+                  idRecebido={cartao.id_cartao}
+                  pergunta={cartao.pergunta || "Escreva uma Pergunta"}
+                  tipoRecebido={cartao.tipo}
+                  onSubmitClosing={setEditDialogOpen}
+                />
+              </DialogContent>
+            </Dialog>
+            <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Deletando</DialogTitle>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </Dialog>
-          <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Deletando</DialogTitle>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </Dialog>
-      );
+        );
+      }
     },
   },
 ];

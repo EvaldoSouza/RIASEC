@@ -1,5 +1,5 @@
 import { todosUsuarios } from "@/actions/userActions";
-import { DataTableAplicacaoUsuario } from "../../todasAplicacoes/[id]/(aplicacaoUsuarioTable)/data-table-aplicacao-usuario";
+import { DataTableAplicacaoUsuario } from "../../[id]/(aplicacaoUsuarioTable)/data-table-aplicacao-usuario";
 import AplicacaoForm from "./aplicacaoForm";
 import { BuscarTodosTestes } from "@/actions/testesActions";
 
