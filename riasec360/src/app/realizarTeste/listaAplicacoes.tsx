@@ -10,8 +10,8 @@ import styles from "./listaAplicacoes.module.css"; // Import the CSS module
 import { usuarioDaSessao } from "@/actions/userActions";
 
 interface ListaAplicacoesProps {
-  aplicacoes: Aplicacao[];
-  disponivel: boolean;
+  disponiveis: Aplicacao[];
+  indisponiveis: Aplicacao[];
 }
 
 interface SelectedApplication {
@@ -20,8 +20,8 @@ interface SelectedApplication {
 }
 
 export default function ListaAplicacoes({
-  aplicacoes,
-  disponivel,
+  disponiveis: aplicacoes,
+  indisponiveis,
 }: ListaAplicacoesProps) {
   const [selectedApplication, setSelectedApplication] =
     useState<SelectedApplication | null>(null);
@@ -63,39 +63,35 @@ export default function ListaAplicacoes({
     );
   }
 
-  if (disponivel) {
-    return (
-      <div className={styles.container}>
-        <h1 className={styles.heading}>Escolha uma aplicação para iniciar</h1>
-        <ul className={styles.list}>
-          {aplicacoes.map((aplicacao) => (
-            <li
-              key={aplicacao.id_aplicacao}
-              className={styles.listItem}
-              onClick={() => handleApplicationSelect(aplicacao)}
-            >
-              <div className={styles.card}>
-                <p className={styles.title}>
-                  {aplicacao.hora_inicial
-                    ? `Teste Agendado para ${format(
-                        new Date(aplicacao.hora_inicial),
-                        "dd-MM-yyyy HH:mm"
-                      )}`
-                    : "Teste Sem Limite de Tempo"}
-                </p>
-                <p className={styles.subtitle}>Clique para iniciar</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  } else {
-    return (
+  return (
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Escolha uma aplicação para iniciar</h1>
+      <ul className={styles.list}>
+        {aplicacoes.map((aplicacao) => (
+          <li
+            key={aplicacao.id_aplicacao}
+            className={styles.listItem}
+            onClick={() => handleApplicationSelect(aplicacao)}
+          >
+            <div className={styles.card}>
+              <p className={styles.title}>
+                {aplicacao.hora_inicial
+                  ? `Teste Agendado para ${format(
+                      new Date(aplicacao.hora_inicial),
+                      "dd-MM-yyyy HH:mm"
+                    )}`
+                  : "Teste Sem Limite de Tempo"}
+              </p>
+              <p className={styles.subtitle}>Clique para iniciar</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
       <div className={styles.container}>
         <h1 className={styles.heading}>Aplicações que não estão disponíveis</h1>
         <ul className={styles.list}>
-          {aplicacoes.map((aplicacao) => (
+          {indisponiveis.map((aplicacao) => (
             <li key={aplicacao.id_aplicacao} className={styles.listItem}>
               <div className={styles.cardOff}>
                 <p className={styles.title}>
@@ -106,12 +102,11 @@ export default function ListaAplicacoes({
                       )}`
                     : "Teste Sem Limite de Tempo"}
                 </p>
-                <p className={styles.subtitle}>Clique para iniciar</p>
               </div>
             </li>
           ))}
         </ul>
       </div>
-    );
-  }
+    </div>
+  );
 }

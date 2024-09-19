@@ -13,12 +13,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Usuario } from "@/app/types/types";
 import { redirect, usePathname } from "next/navigation";
-import styles from "./admNavBar.module.css";
+import styles from "./navBar.module.css";
 // This function simulates fetching the user's name from a database
 export function AdmNavBar() {
   const [usuario, setUsuario] = useState<Usuario>();
   const pathname = usePathname();
-  const [isActive, setActive] = useState(false);
   //Acho que tá toda hora checando o estado, e renderizando o botão de novo
 
   useEffect(() => {

@@ -25,7 +25,7 @@
 }
 
 .card {
-  background-color: rgb(10, 38, 70);
+  background-color: rgb(15, 23, 42);
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 8px;
@@ -50,7 +50,7 @@
 }
 
 .cardOff {
-  background-color: rgb(70, 10, 28);
+  background-color: rgb(75, 69, 71);
   border: 1px solid #141414;
   padding: 15px;
   border-radius: 8px;

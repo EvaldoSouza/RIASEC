@@ -47,7 +47,7 @@ export default async function resultadosUsuario(idUsuario?: number) {
           nomeUsuario={nomeUsuario}
           idTeste={aplicacao.id_teste}
           idAplicacao={aplicacao.id_aplicacao}
-          answers={results[index]} // Pass the corresponding answers to each CardAplicacao
+          answers={results[index]}
         />
       ))}
     </div>
