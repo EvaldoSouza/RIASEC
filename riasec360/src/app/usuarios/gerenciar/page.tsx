@@ -22,7 +22,7 @@ const AdminPage: React.FC = async () => {
       <DataTable columns={columns} data={usuarios} />
       <div>
         <Button>
-          <Link href={`/usuarios/gerenciar/criarUsuario`}>Criar Usuario</Link>
+          <Link href={`/usuarios/gerenciar/criarUsuario`}>Novo</Link>
         </Button>
       </div>
     </div>
