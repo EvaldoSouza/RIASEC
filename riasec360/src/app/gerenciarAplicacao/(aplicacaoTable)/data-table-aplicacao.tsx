@@ -51,6 +51,11 @@ export function DataTableAplicacoes<TData, TValue>({
       columnFilters,
       rowSelection,
     },
+    initialState: {
+      pagination: {
+        pageSize: 7,
+      },
+    },
   });
 
   return (

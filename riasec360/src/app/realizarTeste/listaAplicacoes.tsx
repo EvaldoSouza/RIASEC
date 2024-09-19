@@ -94,7 +94,7 @@ export default function ListaAplicacoes({
           {indisponiveis.map((aplicacao) => (
             <li key={aplicacao.id_aplicacao} className={styles.listItem}>
               <div className={styles.cardOff}>
-                <p className={styles.title}>
+                <p className={styles.titleOff}>
                   {aplicacao.hora_inicial
                     ? `Teste Agendado para ${format(
                         new Date(aplicacao.hora_inicial),
@@ -102,6 +102,7 @@ export default function ListaAplicacoes({
                       )}`
                     : "Teste Sem Limite de Tempo"}
                 </p>
+                <p className={styles.subtitle}>Fora de Horário</p>
               </div>
             </li>
           ))}
