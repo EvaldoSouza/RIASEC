@@ -30,7 +30,7 @@ const InfosUsuarioCard: React.FC<UserInfoCardProps> = ({ user }) => {
   const [nome, setNome] = useState(user.nome);
   const [email, setEmail] = useState(user.email);
   const [dataNasc, setDataNasc] = useState(
-    user.data_nasc ? format(new Date(user.data_nasc), "yyyy-MM-dd") : ""
+    user.data_nasc ? format(new Date(user.data_nasc), "dd-MM-yyyy") : ""
   );
   const [emailVerified] = useState(user.emailVerified);
 

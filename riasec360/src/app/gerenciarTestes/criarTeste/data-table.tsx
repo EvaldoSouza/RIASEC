@@ -90,8 +90,6 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
   const router = useRouter();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    //salvar no banco os dados do Teste
-    //console.log(rowSelection);
     const cartoes = Object.keys(rowSelection);
     const ids = cartoes.map((numero) => +numero);
     const teste = await criarTeste(data.descricao, ids);
