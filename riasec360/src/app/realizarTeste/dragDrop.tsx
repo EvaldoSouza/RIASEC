@@ -93,11 +93,10 @@ const Dnd: React.FC<DndProps> = ({
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h1>
-        {interesseAptitude === 0
-          ? "Arraste a pergunta para o campo que representa sua preferência"
-          : "Arraste a pergunta para o campo que representa sua competência"}
+        Arraste a afirmação para o campo que representa sua preferência e
+        competência nela:
       </h1>
 
       <div className={styles.dragArea}>
@@ -109,23 +108,71 @@ const Dnd: React.FC<DndProps> = ({
       </div>
 
       <div className={styles.dropZones}>
-        {interesseAptitude === 0 ? (
-          <div className={styles.dropZoneRow}>
-            <DropZone label="Gostaria Muito" onDrop={handleDrop} />
-            <DropZone label="Gostaria Parcialmente" onDrop={handleDrop} />
-            <DropZone label="Indiferente" onDrop={handleDrop} />
-            <DropZone label="Não Gostaria" onDrop={handleDrop} />
-            <DropZone label="Detestaria" onDrop={handleDrop} />
-          </div>
-        ) : (
-          <div className={styles.dropZoneRow}>
-            <DropZone label="Sou Competente" onDrop={handleDrop} />
-            <DropZone label="Parcialmente Competente" onDrop={handleDrop} />
-            <DropZone label="Passável" onDrop={handleDrop} />
-            <DropZone label="Parcialmente Incompetente" onDrop={handleDrop} />
-            <DropZone label="Totalmente Incompetente" onDrop={handleDrop} />
-          </div>
-        )}
+        <div className={styles.dropZoneRow}>
+          <h3 className={styles.label}></h3>
+          <h3 className={styles.label}>Adoro usar</h3>
+          <h3 className={styles.label}>Gosto muito de usar</h3>
+          <h3 className={styles.label}>Gosto de usar</h3>
+          <h3 className={styles.label}>Não gosto de usar</h3>
+          <h3 className={styles.label}>Detestaria</h3>
+        </div>
+        <div className={styles.dropZoneRow}>
+          <h3 className={styles.label}>Altamente Habilidoso</h3>
+          <DropZone
+            label="Adoro usar / Altamente Habilidoso"
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Gosto muito de usar / Altamente Habilidoso"
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Gosto de usar / Altamente Habilidoso"
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Não gosto de usar / Altamente Habilidoso"
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Detestaria / Altamente Habilidoso"
+            onDrop={handleDrop}
+          />
+        </div>
+        <div className={styles.dropZoneRow}>
+          <h3 className={styles.label}>Habilidade Media </h3>
+          <DropZone label="Adoro usar / Habilidade Media" onDrop={handleDrop} />
+          <DropZone
+            label="Gosto muito de usar / Habilidade Media"
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Gosto de usar / Habilidade Media"
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Não gosto de usar / Habilidade Media"
+            onDrop={handleDrop}
+          />
+          <DropZone label="Detestaria / Habilidade Media" onDrop={handleDrop} />
+        </div>
+        <div className={styles.dropZoneRow}>
+          <h3 className={styles.label}>Nada Habilidoso </h3>
+          <DropZone label="Adoro usar / Nada Habilidoso " onDrop={handleDrop} />
+          <DropZone
+            label="Gosto muito de usar / Nada Habilidoso "
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Gosto de usar / Nada Habilidoso "
+            onDrop={handleDrop}
+          />
+          <DropZone
+            label="Não gosto de usar / Nada Habilidoso "
+            onDrop={handleDrop}
+          />
+          <DropZone label="Detestaria / Nada Habilidoso " onDrop={handleDrop} />
+        </div>
       </div>
 
       <div

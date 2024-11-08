@@ -30,9 +30,7 @@ const DropZone: React.FC<DropZoneProps> = ({ label, onDrop }) => {
         margin: "10px",
         textAlign: "center",
       }}
-    >
-      {label}
-    </div>
+    ></div>
   );
 };
 
