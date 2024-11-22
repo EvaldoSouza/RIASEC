@@ -26,7 +26,6 @@ const Dnd: React.FC<DndProps> = ({
   const [droppedData, setDroppedData] = useState<
     { phrase: string; label: string }[]
   >([]);
-  const [interesseAptitude, setInteresseAptitude] = useState(0);
   const router = useRouter(); // Initialize the router
 
   const handleDrop = (phrase: string, label: string) => {
@@ -34,12 +33,7 @@ const Dnd: React.FC<DndProps> = ({
     if (currentPhraseIndex < cartoes.length - 1) {
       setCurrentPhraseIndex(currentPhraseIndex + 1);
     } else {
-      if (interesseAptitude === 0) {
-        setInteresseAptitude(1);
-        setCurrentPhraseIndex(0);
-      } else {
-        setCurrentPhraseIndex(cartoes.length);
-      }
+      setCurrentPhraseIndex(cartoes.length);
     }
   };
 
@@ -50,10 +44,6 @@ const Dnd: React.FC<DndProps> = ({
       return newData;
     });
     setCurrentPhraseIndex((prevIndex) => {
-      if (prevIndex === 0 && interesseAptitude !== 0) {
-        setInteresseAptitude(0);
-        return cartoes.length - 1;
-      }
       return prevIndex > 0 ? prevIndex - 1 : 0;
     });
   };
@@ -63,11 +53,14 @@ const Dnd: React.FC<DndProps> = ({
       for (let index = 0; index < cartoes.length; index++) {
         const cartao = cartoes[index];
 
+        let respostaJunto = droppedData[index]?.label;
+        let respostaDupla = respostaJunto.split(" / ");
+
         // Primeiro set de respostas
-        const respostaAfinidade = droppedData[index]?.label;
+        const respostaAfinidade = respostaDupla[0];
 
         // Segundo set de respostas, do final do array de cartões até o fim das respostas
-        const respostaCompetencia = droppedData[index + cartoes.length]?.label;
+        const respostaCompetencia = respostaDupla[1];
 
         console.log(cartao.pergunta, respostaAfinidade, respostaCompetencia);
 
@@ -95,7 +88,7 @@ const Dnd: React.FC<DndProps> = ({
   return (
     <div className="container">
       <h1>
-        Arraste a afirmação para o campo que representa sua preferência e
+        Arraste a habilidade para o campo que representa sua preferência e
         competência nela:
       </h1>
 
@@ -107,6 +100,9 @@ const Dnd: React.FC<DndProps> = ({
         )}
       </div>
 
+      <div>
+        Cartões: {currentPhraseIndex} / {cartoes.length}
+      </div>
       <div className={styles.dropZones}>
         <div className={styles.dropZoneRow}>
           <h3 className={styles.label}></h3>
@@ -121,57 +117,84 @@ const Dnd: React.FC<DndProps> = ({
           <DropZone
             label="Adoro usar / Altamente Habilidoso"
             onDrop={handleDrop}
+            //prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Gosto muito de usar / Altamente Habilidoso"
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Gosto de usar / Altamente Habilidoso"
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Não gosto de usar / Altamente Habilidoso"
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Detestaria / Altamente Habilidoso"
             onDrop={handleDrop}
+            //prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
         </div>
         <div className={styles.dropZoneRow}>
           <h3 className={styles.label}>Habilidade Media </h3>
-          <DropZone label="Adoro usar / Habilidade Media" onDrop={handleDrop} />
+          <DropZone
+            label="Adoro usar / Habilidade Media"
+            onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
+          />
           <DropZone
             label="Gosto muito de usar / Habilidade Media"
             onDrop={handleDrop}
+            //prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Gosto de usar / Habilidade Media"
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Não gosto de usar / Habilidade Media"
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
-          <DropZone label="Detestaria / Habilidade Media" onDrop={handleDrop} />
+          <DropZone
+            label="Detestaria / Habilidade Media"
+            onDrop={handleDrop}
+            //prevText={cartoes[currentPhraseIndex].pergunta || ""}
+          />
         </div>
         <div className={styles.dropZoneRow}>
           <h3 className={styles.label}>Nada Habilidoso </h3>
-          <DropZone label="Adoro usar / Nada Habilidoso " onDrop={handleDrop} />
+          <DropZone
+            label="Adoro usar / Nada Habilidoso "
+            onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
+          />
           <DropZone
             label="Gosto muito de usar / Nada Habilidoso "
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Gosto de usar / Nada Habilidoso "
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
           <DropZone
             label="Não gosto de usar / Nada Habilidoso "
             onDrop={handleDrop}
+            // prevText={cartoes[currentPhraseIndex].pergunta || ""}
           />
-          <DropZone label="Detestaria / Nada Habilidoso " onDrop={handleDrop} />
+          <DropZone
+            label="Detestaria / Nada Habilidoso "
+            onDrop={handleDrop}
+            //  prevText={cartoes[currentPhraseIndex].pergunta || ""}
+          />
         </div>
       </div>
 
@@ -186,7 +209,7 @@ const Dnd: React.FC<DndProps> = ({
         )}
       </div>
 
-      {droppedData.length > 0 && (
+      {/* {droppedData.length > 0 && (
         <div style={{ marginTop: "20px" }}>
           <h2>Suas Respostas</h2>
           <div className={styles.answerColumns}>
@@ -208,7 +231,7 @@ const Dnd: React.FC<DndProps> = ({
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

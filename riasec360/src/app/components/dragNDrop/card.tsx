@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./card.module.css";
 
 interface DraggableCardProps {
   phrase: string;
@@ -10,21 +11,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({ phrase }) => {
   };
 
   return (
-    <div
-      draggable
-      onDragStart={handleDragStart}
-      style={{
-        width: "150px",
-        height: "150px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        border: "1px solid black",
-        marginBottom: "40px",
-        cursor: "grab",
-        textAlign: "center",
-      }}
-    >
+    <div draggable onDragStart={handleDragStart} className={styles.card}>
       {phrase}
     </div>
   );
