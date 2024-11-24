@@ -20,10 +20,10 @@ export default async function TodasAplicacoes() {
 
       <DataTableAplicacoes columns={columns} data={aplicacoes} />
 
-      <Button style={{ margin: "0.5rem" }}>
+      <Button asChild style={{ margin: "0.5rem" }}>
         <Link href={"/gerenciarAplicacao/criarAplicacao"}>Agendar</Link>
       </Button>
-      <Button>
+      <Button asChild>
         <Link href={"/realizarTeste"}>Realizar</Link>
       </Button>
     </div>

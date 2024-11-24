@@ -1,6 +1,6 @@
 "use client";
 
-import { Cartao } from "../types/types";
+import { Cartao, Posicionando } from "../types/types";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import DraggableCard from "./../components/dragNDrop/card";
@@ -28,6 +28,9 @@ const Dnd: React.FC<DndProps> = ({
   >([]);
   const router = useRouter(); // Initialize the router
 
+  const [posicionados, setPosicionados] = useState<Posicionando[]>([]);
+
+  //
   const handleDrop = (phrase: string, label: string) => {
     setDroppedData((prevData) => [...prevData, { phrase, label }]);
     if (currentPhraseIndex < cartoes.length - 1) {

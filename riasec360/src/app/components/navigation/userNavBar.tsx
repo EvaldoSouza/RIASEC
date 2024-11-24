@@ -78,7 +78,7 @@ export function UserNavBar() {
                   ? "text-white-500 font-semibold"
                   : "text-blue-600"
               } `}
-              href="/perfil"
+              href={`/usuarios/gerenciar/${usuario?.id_user}`}
             >
               <Button>{usuario?.nome}</Button>
             </Link>

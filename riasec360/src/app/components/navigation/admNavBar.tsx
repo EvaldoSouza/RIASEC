@@ -73,7 +73,9 @@ export function AdmNavBar() {
 
         <Link
           className={`link ${
-            pathname === "/gerenciarAplicacao" ? styles.active : styles.inactive
+            pathname.includes("/gerenciarAplicacao")
+              ? styles.active
+              : styles.inactive
           } `}
           href="/gerenciarAplicacao"
         >
@@ -83,17 +85,18 @@ export function AdmNavBar() {
       <div
         style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
       >
-        <Link
-          className={`link ${
-            pathname === "/perfil"
-              ? "text-white-500 font-semibold"
-              : "text-blue-600"
-          } `}
-          href="/perfil"
-        >
-          <Button>{usuario?.nome}</Button>
-        </Link>
-
+        <Button asChild>
+          <Link
+            className={`link ${
+              pathname.includes("/usuarios/gerenciar/")
+                ? "text-white-500 font-semibold"
+                : "text-blue-600"
+            } `}
+            href={`/usuarios/gerenciar/${usuario?.id_user}`}
+          >
+            {usuario?.nome}{" "}
+          </Link>
+        </Button>
         <LogOut />
       </div>
     </Menubar>

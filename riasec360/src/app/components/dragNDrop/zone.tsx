@@ -41,7 +41,9 @@ const DropZone: React.FC<DropZoneProps> = ({ label, onDrop }) => {
       onDragEnter={handleOnDragEnter}
       onDragLeave={handleOnDragLeave}
       className={style}
-    ></div>
+    >
+      {textDisplay}
+    </div>
   );
 };
 
