@@ -1,26 +1,27 @@
 "use client";
 
+import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  // DialogContent,
+  // DialogDescription,
+  // DialogFooter,
+  // DialogHeader,
+  // DialogTitle,
+  // DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
+  //DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+// import { useRouter } from "next/navigation";
+// import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 import { AplicacaoUsuarioComNome } from "@/app/types/types";
@@ -63,10 +64,10 @@ export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
     id: "actions",
     cell: ({ row }) => {
       const aplicacao = row.original;
-      const router = useRouter();
+      //const router = useRouter();
 
-      const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
-      const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
+      // const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
+      // const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
       //fazer as ações aqui!
       //não precisa daquela dor de cabeça do popup!
       //e mesmo que for fazer o popup, abrir aqui
@@ -94,9 +95,9 @@ export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
 
               <DropdownMenuItem
                 onClick={() => {
-                  setDeleteDialogOpen(true);
+                  //setDeleteDialogOpen(true);
                   onDelete(aplicacao.id_aplicacao, aplicacao.id_usuario);
-                  router.refresh();
+                  //router.refresh();
                 }}
               >
                 Remover Usuario
@@ -104,13 +105,13 @@ export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
+          {/* <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Deletando</DialogTitle>
               </DialogHeader>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
         </Dialog>
       );
     },

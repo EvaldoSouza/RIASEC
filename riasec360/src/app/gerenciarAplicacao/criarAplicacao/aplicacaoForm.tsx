@@ -4,13 +4,15 @@ import { columns as columnsTeste } from "./(testeTable)/columns";
 import { DataTableUsers } from "./(usersTable)/data-table-users";
 import DatePickerComponent from "./datepicker";
 import { DataTableTestes } from "./(testeTable)/data-table-testes";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Teste, Usuario } from "@/app/types/types";
 import { Button } from "@/components/ui/button";
 import {
   agendarAplicacao,
   marcarAplicacaoUsuario,
 } from "@/actions/aplicacaoActions";
+import React from "react";
+import { useRouter } from "next/navigation";
 
 interface DadosAplicacao {
   testes: Teste[];
@@ -22,6 +24,7 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
   const [teste, setTeste] = useState<number>();
   const [usuariosSelecionados, setUsuarios] = useState<number[]>();
   const [semLimiteDeTempo, setSemLimiteDeTempo] = useState<boolean>(false);
+  const router = useRouter();
 
   const salvarHorarios = (data: {
     startDate: Date | null;
@@ -48,18 +51,6 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
     }
   };
 
-  useEffect(() => {
-    if (teste) {
-      // Additional logic when the test is selected
-    }
-  }, [teste]);
-
-  useEffect(() => {
-    if (usuariosSelecionados) {
-      // Additional logic when the users are selected
-    }
-  }, [usuariosSelecionados]);
-
   async function salvarDados() {
     const criacao = new Date();
 
@@ -81,6 +72,7 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
           async (usuario) =>
             await marcarAplicacaoUsuario(aplicacao.id_aplicacao, +usuario)
         );
+        //TODO vou ter que fazer uma janela de alerta customizada?
         alert(`Aplicação agendada com sucesso!\n
           ID da Aplicação: ${aplicacao.id_aplicacao}\n
           Teste: ${teste}\n
@@ -91,6 +83,7 @@ const AplicacaoForm = ({ testes, usuarios }: DadosAplicacao) => {
               Horário de Término: ${horarios![1].toLocaleString()}`
           }\n
           Usuários: ${usuariosSelecionados?.join(", ")}`);
+        router.push("/gerenciarAplicacao");
       } else {
         alert("Erro ao agendar a aplicação.");
       }

@@ -3,6 +3,7 @@ import { columns } from "./(aplicacaoTable)/columns";
 import { DataTableAplicacoes } from "./(aplicacaoTable)/data-table-aplicacao";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import React from "react";
 
 export default async function TodasAplicacoes() {
   const aplicacoes = await retornaTodasAplicacoes();

@@ -48,3 +48,5 @@ export default async function handler(
       .json({ message: `Method ${req.method} não permitido.` });
   }
 }
+
+//TODO fazer uma autenticação direito

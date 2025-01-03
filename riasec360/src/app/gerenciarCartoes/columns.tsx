@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
@@ -9,25 +10,25 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
+  //DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DeletarCartao } from "../../actions/cartoesActions";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
+  // DialogDescription,
+  // DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  //DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useState } from "react";
+// import { useState } from "react";
 
-import { ProfileForm } from "./criarCartao/criarCartaoForm";
+// import { ProfileForm } from "./criarCartao/criarCartaoForm";
 import DialogForm from "./dialog-form";
 import { Cartao } from "../types/types";
 
@@ -43,6 +44,10 @@ async function onDelete(id_cartao: number) {
   }
 }
 
+async function onClose() {
+  console.log("É pra fechar a caixa de dialogo");
+}
+
 export const columns: ColumnDef<Cartao>[] = [
   { accessorKey: "id_cartao", header: "ID" },
   { accessorKey: "pergunta", header: "Pergunta" },
@@ -51,13 +56,11 @@ export const columns: ColumnDef<Cartao>[] = [
     id: "actions",
     cell: ({ row }) => {
       const cartao = row.original;
-      const router = useRouter();
+      // const router = useRouter();
 
-      const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
-      const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
-      //fazer as ações aqui!
-      //não precisa daquela dor de cabeça do popup!
-      //e mesmo que for fazer o popup, abrir aqui
+      // const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
+      // const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
+
       if (cartao.em_uso) {
         return <h3>Em Uso</h3>;
       } else {
@@ -75,7 +78,10 @@ export const columns: ColumnDef<Cartao>[] = [
 
                 <DropdownMenuItem
                   onClick={() => {
-                    setEditDialogOpen(true);
+                    //setEditDialogOpen(true);
+                    console.log(
+                      "Devia abrir um dialogo aqui, mas fiz erradoe to consertando"
+                    );
                   }}
                 >
                   Editar
@@ -85,41 +91,36 @@ export const columns: ColumnDef<Cartao>[] = [
                   onClick={() => {
                     const id =
                       cartao.id_cartao !== null ? cartao.id_cartao : -1;
-                    setDeleteDialogOpen(true);
+                    //setDeleteDialogOpen(true);
                     onDelete(id);
-                    router.refresh();
+                    //router.refresh();
                   }}
                 >
                   Apagar Cartão
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Dialog open={openEditDialog} onOpenChange={setEditDialogOpen}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Editando Cartão {cartao.id_cartao}</DialogTitle>
-                </DialogHeader>
-                <DialogForm
-                  idRecebido={cartao.id_cartao}
-                  pergunta={cartao.pergunta || "Escreva uma Pergunta"}
-                  tipoRecebido={cartao.tipo}
-                  onSubmitClosing={setEditDialogOpen}
-                />
-              </DialogContent>
-            </Dialog>
-            <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Deletando</DialogTitle>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Editando Cartão {cartao.id_cartao}</DialogTitle>
+              </DialogHeader>
+              <DialogForm
+                idRecebido={cartao.id_cartao}
+                pergunta={cartao.pergunta || "Escreva uma Pergunta"}
+                tipoRecebido={cartao.tipo}
+                onSubmitClosing={onClose}
+              />
+            </DialogContent>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Deletando</DialogTitle>
+              </DialogHeader>
+            </DialogContent>
           </Dialog>
         );
       }
     },
   },
 ];
-
-//PAra editar: O que está me atrapalhando mais é como fazer a interface. Queria atualizar direto na tabela, mas se pá alert é mais simples
-//O resto é preencher o elemento com os dados da linha, e depois enviar os novos dados para uma função de update do banco

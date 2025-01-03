@@ -1,10 +1,11 @@
 // columns.ts
 "use client";
+import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Usuario } from "@/app/types/types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<Usuario>[] = [
   {
@@ -45,11 +46,19 @@ export const columns: ColumnDef<Usuario>[] = [
     id: "actions",
     header: () => <div className="font-bold">Actions</div>,
     cell: ({ row }) => {
-      const router = useRouter();
+      //const router = useRouter();
       const userId = row.getValue("id_user");
 
       return (
-        <Button onClick={() => router.push(`/usuarios/gerenciar/${userId}`)}>
+        //<Button onClick={() => router.push(`/usuarios/gerenciar/${userId}`)}>
+        <Button
+          onClick={() =>
+            console.log(
+              "Ainda não tá implementado a mudança de pagina para ",
+              userId
+            )
+          }
+        >
           Detalhes
         </Button>
       );

@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
@@ -12,20 +13,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 import { DeletarTeste } from "../../actions/testesActions";
 
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
+  //DialogDescription,
+  //DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  //DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Link from "next/link";
 import { testeUsado } from "../../actions/testesActions";
 //definindo o formado dos dados
@@ -72,24 +73,22 @@ export const columns: ColumnDef<Teste>[] = [
 
     cell: ({ row }) => {
       const teste = row.original;
-      const router = useRouter();
+      // const router = useRouter();
 
-      const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
-      const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
-      //fazer as ações aqui!
-      //não precisa daquela dor de cabeça do popup!
-      //e mesmo que for fazer o popup, abrir aqui
-      //const testeJaRespondido = usado(teste.id_teste).then();
-      const [testeJaRespondido, setTesteJaRespondido] = useState(false);
+      // const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
+      // const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
 
-      useEffect(() => {
-        const checkIfUsed = async () => {
-          const result = await usado(row.original.id_teste);
-          setTesteJaRespondido(result);
-        };
+      const testeJaRespondido = usado(teste.id_teste).then();
+      //const [testeJaRespondido, setTesteJaRespondido] = useState(false);
 
-        checkIfUsed();
-      }, [row.original.id_teste]);
+      // useEffect(() => {
+      //   const checkIfUsed = async () => {
+      //     const result = await usado(row.original.id_teste);
+      //     setTesteJaRespondido(result);
+      //   };
+
+      //   checkIfUsed();
+      // }, [row.original.id_teste]);
 
       return testeJaRespondido ? (
         <Dialog>
@@ -139,29 +138,29 @@ export const columns: ColumnDef<Teste>[] = [
                 className="text-red-600 hover:!text-red-600 hover:!bg-red-100"
                 onClick={() => {
                   const id = teste.id_teste !== null ? teste.id_teste : -1;
-                  setDeleteDialogOpen(true);
+                  //setDeleteDialogOpen(true);
                   onDelete(id);
-                  router.refresh();
+                  //router.refresh();
                 }}
               >
                 Apagar Teste
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Dialog open={openEditDialog} onOpenChange={setEditDialogOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Editando Teste {teste.id_teste}</DialogTitle>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-          <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Deletando</DialogTitle>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+          {/* <Dialog open={openEditDialog} onOpenChange={setEditDialogOpen}> */}
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Editando Teste {teste.id_teste}</DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+          {/* </Dialog> */}
+          {/* <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}> */}
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Deletando</DialogTitle>
+            </DialogHeader>
+          </DialogContent>
+          {/* </Dialog> */}
         </Dialog>
       );
     },
