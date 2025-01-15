@@ -2,42 +2,9 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  Dialog,
-  // DialogContent,
-  // DialogDescription,
-  // DialogFooter,
-  // DialogHeader,
-  // DialogTitle,
-  // DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  //DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-// import { useRouter } from "next/navigation";
-// import { useState } from "react";
-import { Button } from "@/components/ui/button";
-
 import { AplicacaoUsuarioComNome } from "@/app/types/types";
-import Link from "next/link";
-import { removerUsuarioDeAplicacao } from "@/actions/aplicacaoActions";
 import { format } from "date-fns";
-
-async function onDelete(idAplicacao: number, idUsuario: number) {
-  if (idAplicacao > 0) {
-    //const deletado = await DeletarCartao(id_cartao);
-    const deletado = await removerUsuarioDeAplicacao(idAplicacao, idUsuario);
-    console.log(deletado);
-  } else {
-    console.log("ID inválido");
-  }
-}
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
   { accessorKey: "id_usuario", header: "ID Usuario" },
@@ -46,7 +13,7 @@ export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
     accessorKey: "inicio_testagem",
     header: "Horário Inicio",
     cell: ({ row }) => {
-      const date = row.getValue<Date | null>("data_nasc");
+      const date = row.getValue<Date | null>("inicio_testagem");
       const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
       return <div className="text-left">{formattedDate}</div>;
     },
@@ -55,65 +22,19 @@ export const columns: ColumnDef<AplicacaoUsuarioComNome>[] = [
     accessorKey: "fim_testagem",
     header: "Horário Final",
     cell: ({ row }) => {
-      const date = row.getValue<Date | null>("data_nasc");
+      const date = row.getValue<Date | null>("fim_testagem");
       const formattedDate = date ? format(date, "dd/MM/yyyy HH:mm") : "N/A";
       return <div className="text-left">{formattedDate}</div>;
     },
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const aplicacao = row.original;
-      //const router = useRouter();
-
-      // const [openEditDialog, setEditDialogOpen] = useState<boolean>(false);
-      // const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
-      //fazer as ações aqui!
-      //não precisa daquela dor de cabeça do popup!
-      //e mesmo que for fazer o popup, abrir aqui
-      return (
-        <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir Menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
-
-              <DropdownMenuItem>
-                <Link
-                  href={{
-                    pathname: `/gerenciarAplicacao/${aplicacao.id_aplicacao}/${aplicacao.id_usuario}`,
-                  }}
-                >
-                  Resultados de Testes
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                onClick={() => {
-                  //setDeleteDialogOpen(true);
-                  onDelete(aplicacao.id_aplicacao, aplicacao.id_usuario);
-                  //router.refresh();
-                }}
-              >
-                Remover Usuario
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Deletando</DialogTitle>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog> */}
-        </Dialog>
-      );
-    },
+    cell: ({ row }) => (
+      <DataTableRowActions
+        row={row}
+        id_aplicacao={row.original.id_aplicacao}
+        id_usuario={row.original.id_usuario}
+      />
+    ),
   },
 ];

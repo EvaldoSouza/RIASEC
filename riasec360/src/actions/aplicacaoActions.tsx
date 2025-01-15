@@ -1,9 +1,9 @@
 "use server";
 import prisma from "@/db/prisma";
 import {
-  nomesParticipantes,
+  //nomesParticipantes,
   nomeUnicoParticipante,
-  usuarioDaSessao,
+  //usuarioDaSessao,
 } from "./userActions";
 import {
   Aplicacao,
@@ -12,6 +12,7 @@ import {
   RespostaCartao,
   RespostasDisplay,
 } from "@/app/types/types";
+import { Prisma } from "@prisma/client";
 
 //retorna o id do primeiro teste agendado para esse usuário
 export async function idProximoTeste(idUsuario: number): Promise<number> {
@@ -32,9 +33,10 @@ export async function idProximoTeste(idUsuario: number): Promise<number> {
 //retorna o id de todas as aplicações que o usuário já fez ou vai fazer
 async function IDaplicacoesDoUsuario(idUsuario: number): Promise<number[]> {
   try {
-    const todasAplicacoesDoUsuario = await prisma.aplicacao_usuario.findMany({
-      where: { id_usuario: idUsuario },
-    });
+    const todasAplicacoesDoUsuario: { id_aplicacao: number }[] =
+      await prisma.aplicacao_usuario.findMany({
+        where: { id_usuario: idUsuario },
+      });
     return todasAplicacoesDoUsuario.map((aplicacao) => aplicacao.id_aplicacao);
   } catch (error) {
     console.log(error);
@@ -52,8 +54,8 @@ export async function aplicacoesAFazerDoUsuario(
       where: { id_aplicacao: { in: idAplicacoesUsuario } },
     });
 
-    let aplicacoesFuturas: Aplicacao[] = [];
-    for (let aplicacao of aplicacoes) {
+    const aplicacoesFuturas: Aplicacao[] = [];
+    for (const aplicacao of aplicacoes) {
       if (aplicacao.hora_inicial) {
         if (aplicacao.hora_inicial > dataAtual) {
           aplicacoesFuturas.push(aplicacao);
@@ -187,6 +189,7 @@ async function semNomeParaComNome(
   }
 }
 
+//TODO testar se tá deletando usuário de aplicação já respondida
 export async function removerUsuarioDeAplicacao(
   idAplicacao: number,
   idUsuario: number
@@ -269,7 +272,8 @@ export async function deletarECriarAplicacao(
   local?: string
 ): Promise<Aplicacao> {
   try {
-    const deletando = await deletarAplicacao(idAplicacao);
+    //const deletando = await deletarAplicacao(idAplicacao);
+    await deletarAplicacao(idAplicacao);
     const aplicacaoEditada = await prisma.aplicacao.create({
       data: {
         id_aplicacao: idAplicacao,

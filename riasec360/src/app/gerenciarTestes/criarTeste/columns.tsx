@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Cartao } from "@/app/types/types";
+import React from "react";
 
 export const columns: ColumnDef<Cartao>[] = [
   {

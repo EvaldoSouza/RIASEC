@@ -1,9 +1,10 @@
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { BuscarTodosCartoes, updateCartoesUso } from "@/actions/cartoesActions";
-import { ProfileForm } from "./criarCartao/criarCartaoForm";
+//import { ProfileForm } from "./criarCartao/criarCartaoForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import React from "react";
 
 export default async function GerenciarCartoes() {
   const cartoes = await BuscarTodosCartoes();

@@ -65,3 +65,4 @@ export const columns: ColumnDef<Usuario>[] = [
     },
   },
 ];
+//TODO fazer o evento como componente

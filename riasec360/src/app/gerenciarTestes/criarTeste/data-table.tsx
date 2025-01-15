@@ -41,13 +41,7 @@ import { SavedDialog } from "./saved-dialog";
 import { criarTeste } from "../../../actions/testesActions";
 import { useRouter } from "next/navigation";
 
-//resolver um erro de tipo com o chatGPT, pode quebrar as coisas
-// Define an interface that includes the id_cartao property
-interface DataWithIdCartao {
-  id_cartao: string; // or `number` if appropriate
-}
-// Extend DataTableProps to include the constraint that TData must have an id_cartao property
-interface DataTableProps<TData extends DataWithIdCartao, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
@@ -58,7 +52,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function DataTable<TData extends DataWithIdCartao, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -80,7 +74,8 @@ export function DataTable<TData extends DataWithIdCartao, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getRowId: (row) => row.id_cartao,
+    getRowId: (row) => (row as { id_cartao: string }).id_cartao,
+    //Type assertion é errado
     state: {
       columnFilters,
       rowSelection,

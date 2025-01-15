@@ -1,8 +1,8 @@
 "use server";
 import { saltAndHashPassword } from "@/lib/passwords";
-import { Prisma, usuario } from "@prisma/client";
+//import { Prisma, usuario } from "@prisma/client";
 import prisma from "@/db/prisma";
-import { getServerSession } from "next-auth";
+//import { getServerSession } from "next-auth";
 import { Usuario } from "@/app/types/types";
 
 export async function elevateToAdmin(userId: number) {

@@ -5,7 +5,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import { Cartao } from "@/app/types/types";
 
 export async function DeletarCartao(idCartao: number) {
-  var em_uso = await prisma.resposta_cartao.findFirst({
+  const em_uso = await prisma.resposta_cartao.findFirst({
     where: { id_cartao: idCartao },
   });
   if (em_uso) {
@@ -57,7 +57,7 @@ export async function EditarCartao(params: {
   pergunta: string;
   tipo: string;
 }) {
-  var em_uso = await prisma.resposta_cartao.findFirst({
+  const em_uso = await prisma.resposta_cartao.findFirst({
     where: { id_cartao: params.id },
   });
   if (em_uso) {
@@ -84,8 +84,8 @@ export async function updateCartoesUso() {
     //se estiver, dar um update no status de usado
     const cartoes = await prisma.cartao.findMany();
 
-    for (var cartao of cartoes) {
-      var usado = await prisma.resposta_cartao.findFirst({
+    for (const cartao of cartoes) {
+      const usado = await prisma.resposta_cartao.findFirst({
         where: { id_cartao: cartao.id_cartao },
       });
       if (usado?.id_resposta) {

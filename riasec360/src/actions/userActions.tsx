@@ -124,12 +124,12 @@ export async function cadastrarUsuario(
     return usuario;
   } catch (error) {
     console.log(error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        console.log("Email ja cadastrado");
-        throw error;
-      }
+    //  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    if (error.code === "P2002") {
+      console.log("Email ja cadastrado");
+      throw error;
     }
+    // }
   }
 }
 

@@ -42,7 +42,7 @@ export const columns: ColumnDef<Aplicacao>[] = [
   {
     id: "actions",
     cell: ({ row }) => (
-      <DataTableRowActions row={row} id={row.original.id_aplicacao} />
+      <DataTableRowActions row={row} id_aplicacao={row.original.id_aplicacao} />
     ),
   },
 ];

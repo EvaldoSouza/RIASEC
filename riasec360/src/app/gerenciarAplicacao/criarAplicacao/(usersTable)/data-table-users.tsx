@@ -51,7 +51,8 @@ export function DataTableUsers<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getRowId: (row) => row.id_user,
+    getRowId: (row) => (row as { id_user: string }).id_user,
+    //Type assertion é do mal
     state: {
       columnFilters,
       rowSelection,

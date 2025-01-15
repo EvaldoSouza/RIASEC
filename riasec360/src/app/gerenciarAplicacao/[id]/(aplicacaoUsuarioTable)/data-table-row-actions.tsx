@@ -4,12 +4,10 @@
 import { Row } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deletarAplicacao } from "@/actions/aplicacaoActions";
+import { removerUsuarioDeAplicacao } from "@/actions/aplicacaoActions";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   // DialogTrigger,
@@ -32,33 +30,34 @@ import { MoreHorizontal } from "lucide-react";
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
   id_aplicacao: number;
+  id_usuario: number;
 }
 
 export function DataTableRowActions<TData>({
-  id_aplicacao: id,
+  id_aplicacao,
+  id_usuario,
 }: DataTableRowActionsProps<TData>) {
-  const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
-  const [deleteMessage, setDeleteMessage] = useState<string>("");
   const router = useRouter();
 
-  async function handleDelete(idAplicacao: number) {
-    try {
-      await deletarAplicacao(idAplicacao);
-      setDeleteMessage("Aplicação deletada com sucesso.");
-    } catch (error) {
-      let errorMessage = "Erro ao deletar a aplicação.";
-      if (error instanceof Error) errorMessage = error.message;
-      setDeleteMessage(errorMessage);
-      console.log(error);
-    } finally {
-      setDeleteDialogOpen(true);
-      router.refresh();
+  const [openDeleteDialog, setDeleteDialogOpen] = useState<boolean>(false);
+  const [openDropdown, setOpenDropdown] = useState<boolean>(false);
+
+  async function onDelete(idAplicacao: number, idUsuario: number) {
+    if (idAplicacao > 0) {
+      const deletado = await removerUsuarioDeAplicacao(idAplicacao, idUsuario);
+      console.log(deletado);
+    } else {
+      console.log("ID inválido");
     }
   }
-
   return (
-    <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
-      <DropdownMenu>
+    <>
+      <DropdownMenu
+        open={openDropdown}
+        onOpenChange={(isOpen) => {
+          setOpenDropdown(isOpen);
+        }}
+      >
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Abrir Menu</span>
@@ -67,30 +66,26 @@ export function DataTableRowActions<TData>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
+
           <DropdownMenuItem>
             <Link
               href={{
-                pathname: `/gerenciarAplicacao/${id}`,
+                pathname: `/gerenciarAplicacao/${id_aplicacao}/${id_usuario}`,
               }}
             >
-              Participantes
+              Resultados de Testes
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href={{
-                pathname: `/gerenciarAplicacao/editarAplicacao/${id}`,
-              }}
-            >
-              Editar
-            </Link>
-          </DropdownMenuItem>
+
           <DropdownMenuItem
             onClick={() => {
-              handleDelete(id);
+              setDeleteDialogOpen(true);
+              setOpenDropdown(false);
+              onDelete(id_aplicacao, id_usuario);
+              router.refresh();
             }}
           >
-            Apagar Aplicação
+            Remover Usuario
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -98,17 +93,12 @@ export function DataTableRowActions<TData>({
       <Dialog open={openDeleteDialog} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Deletar Aplicação</DialogTitle>
-            <DialogDescription>{deleteMessage}</DialogDescription>
+            <DialogTitle>Removendo Usuario da Aplicação</DialogTitle>
           </DialogHeader>
-          <DialogFooter>
-            <Button onClick={() => setDeleteDialogOpen(false)}>Fechar</Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
-    </Dialog>
+    </>
   );
 }
 //TODO mudar a logica para confirmar se vai deletar uma aplicação na janela, e não só deletar
-//É nessa logica do Dialog de Delete que tenho de mexer pra fazer isso!
-//Esse tambḿe tá com o mesmo bug do pointer-events?
+//Ta dando o mesmo problema do pointer actions

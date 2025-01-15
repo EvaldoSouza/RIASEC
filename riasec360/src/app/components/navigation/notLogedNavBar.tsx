@@ -4,7 +4,6 @@ import { alignProperty } from "@mui/material/styles/cssUtils";
 import { Menubar } from "@radix-ui/react-menubar";
 import Link from "next/link";
 
-//TODO Como colocar esses botões na direita?
 export function NotLogedNavBar() {
   return (
     <Menubar>

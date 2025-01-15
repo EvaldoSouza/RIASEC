@@ -69,7 +69,8 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getRowId: (row) => row.id_cartao,
+    getRowId: (row) => (row as { id_cartao: string }).id_cartao,
+    //Type assertion é errado
     state: {
       columnFilters,
       rowSelection,

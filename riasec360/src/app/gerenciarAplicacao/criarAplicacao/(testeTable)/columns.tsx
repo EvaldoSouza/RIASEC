@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Teste } from "@/app/types/types";
 import { format } from "date-fns";
-
+import React from "react";
 //TODO Dar um jeito de selecionar apenas um teste. Provavelmente vou usar um RadioGroup, mas tá meio bugado na minha cabeça
 export const columns: ColumnDef<Teste>[] = [
   {

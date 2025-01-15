@@ -24,8 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { CriarCartao, EditarCartao } from "../../actions/cartoesActions";
-import { useRouter } from "next/navigation";
+import { EditarCartao } from "../../actions/cartoesActions";
+import React, { Dispatch, SetStateAction } from "react";
 
 enum TipoPerguntaEnum {
   Realista = "Realista",
@@ -51,7 +51,7 @@ interface DialogFormProps {
   idRecebido: number;
   pergunta: string;
   tipoRecebido: string | null;
-  onSubmitClosing: Function;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 function stringToEnum(valor: string | null): TipoPerguntaEnum | undefined {
@@ -62,13 +62,13 @@ function stringToEnum(valor: string | null): TipoPerguntaEnum | undefined {
   }
   return undefined;
 }
-const DialogForm: React.FC<DialogFormProps> = ({
+const EditarCartaoForm: React.FC<DialogFormProps> = ({
   idRecebido,
   pergunta,
   tipoRecebido,
-  onSubmitClosing,
+  setIsOpen: onSubmitClosing,
 }) => {
-  const router = useRouter();
+  //const router = useRouter();
   // 1. Define your form.
 
   const tipo = stringToEnum(tipoRecebido);
@@ -80,19 +80,19 @@ const DialogForm: React.FC<DialogFormProps> = ({
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const cartao = await EditarCartao({
       id: idRecebido,
       pergunta: values.pergunta,
       tipo: values.tipoPergunta,
     });
+
     if (cartao == "Cartão em uso") {
       alert(cartao);
+    } else {
+      onSubmitClosing(false);
     }
-    console.log(cartao);
-    router.refresh();
-    onSubmitClosing();
+    //console.log(cartao);
   }
 
   return (
@@ -146,4 +146,4 @@ const DialogForm: React.FC<DialogFormProps> = ({
   );
 };
 
-export default DialogForm;
+export default EditarCartaoForm;
