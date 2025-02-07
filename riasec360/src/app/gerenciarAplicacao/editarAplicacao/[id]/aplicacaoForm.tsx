@@ -2,15 +2,13 @@
 import { columns as columnsUsers } from "./(usersTable)/columns";
 import { columns as columnsTeste } from "./(testeTable)/columns";
 import { DataTableUsers } from "./(usersTable)/data-table-users";
-import DatePickerComponent from "./datepicker";
+import DatePickerComponent from "@/actions/datepicker";
 import { DataTableTestes } from "./(testeTable)/data-table-testes";
 import { useState } from "react";
-
+import React from "react";
 import { Teste, Usuario } from "@/app/types/types";
-import { Butterfly_Kids } from "next/font/google";
 import { Button } from "@mui/material";
 import {
-  agendarAplicacao,
   deletarECriarAplicacao,
   marcarAplicacaoUsuario,
 } from "@/actions/aplicacaoActions";

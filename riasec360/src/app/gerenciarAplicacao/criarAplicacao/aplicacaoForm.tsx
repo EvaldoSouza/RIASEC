@@ -2,7 +2,7 @@
 import { columns as columnsUsers } from "./(usersTable)/columns";
 import { columns as columnsTeste } from "./(testeTable)/columns";
 import { DataTableUsers } from "./(usersTable)/data-table-users";
-import DatePickerComponent from "./datepicker";
+import DatePickerComponent from "@/actions/datepicker";
 import { DataTableTestes } from "./(testeTable)/data-table-testes";
 import { useState } from "react";
 import { Teste, Usuario } from "@/app/types/types";
