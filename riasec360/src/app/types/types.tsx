@@ -72,3 +72,5 @@ export type RespostasDisplay = {
   pergunta: string | null;
   tipo: string | null;
 };
+
+export type Posicionando = { cartao: Cartao; posX: number; posY: number };

@@ -23,8 +23,6 @@ const ResultsPage = ({
   useEffect(() => {
     const fetchAnswers = async () => {
       try {
-        console.log("params:", params);
-        console.log(params.idAplicacao, params.id);
         const data = await getRespostasCartao(+params.idAplicacao, +params.id);
         setAnswers(data);
       } catch (error) {
@@ -35,6 +33,12 @@ const ResultsPage = ({
     fetchAnswers();
   }, [params.idAplicacao, params.id]);
 
+  //Vamos quebrar esse problema em vários
+  //Primeiro, o que eu quero fazer: Uma matriz 3x5, onde fica as frases, de acordo com a resposta delas, igual na hora de responder
+  //se pa ele é 4x6, pois tem as nomeclaturas tmb! e é isso que estou errando?
+  //Ok, como vou fazer isso?
+  //Preciso de algo para organizar as frases na matriz, de acordo com a resposta, talvez mudar o BD para isso
+  //E algo para mostrar a matriz, a renderização da matriz
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>
@@ -72,6 +76,8 @@ const ResultsPage = ({
           </Card>
         ))}
       </div>
+
+      <div></div>
     </div>
   );
 };

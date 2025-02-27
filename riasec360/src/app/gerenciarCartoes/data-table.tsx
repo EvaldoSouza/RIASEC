@@ -118,7 +118,7 @@ export function DataTable<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Anteriro
+          Anterir
         </Button>
         <Button
           variant="outline"

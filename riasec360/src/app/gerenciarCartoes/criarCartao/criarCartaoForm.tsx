@@ -26,6 +26,7 @@ import {
 
 import { CriarCartao } from "@/actions/cartoesActions";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 const formSchema = z.object({
   pergunta: z.string().min(4, {
@@ -51,14 +52,13 @@ export function ProfileForm() {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const cartao = await CriarCartao({
       pergunta: values.pergunta,
       tipo: values.tipoPergunta,
     });
     console.log(cartao);
-    router.back();
+    router.push("/gerenciarCartoes");
   }
 
   return (

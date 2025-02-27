@@ -10,7 +10,8 @@ import styles from "./listaAplicacoes.module.css"; // Import the CSS module
 import { usuarioDaSessao } from "@/actions/userActions";
 
 interface ListaAplicacoesProps {
-  aplicacoes: Aplicacao[]; // Adjust the type to match your data structure
+  disponiveis: Aplicacao[];
+  indisponiveis: Aplicacao[];
 }
 
 interface SelectedApplication {
@@ -18,7 +19,10 @@ interface SelectedApplication {
   cartoes: Cartao[];
 }
 
-export default function ListaAplicacoes({ aplicacoes }: ListaAplicacoesProps) {
+export default function ListaAplicacoes({
+  disponiveis: aplicacoes,
+  indisponiveis,
+}: ListaAplicacoesProps) {
   const [selectedApplication, setSelectedApplication] =
     useState<SelectedApplication | null>(null);
   const [usuarioId, setUsuarioId] = useState<number>(-1);
@@ -83,6 +87,27 @@ export default function ListaAplicacoes({ aplicacoes }: ListaAplicacoesProps) {
           </li>
         ))}
       </ul>
+
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Aplicações que não estão disponíveis</h1>
+        <ul className={styles.list}>
+          {indisponiveis.map((aplicacao) => (
+            <li key={aplicacao.id_aplicacao} className={styles.listItem}>
+              <div className={styles.cardOff}>
+                <p className={styles.titleOff}>
+                  {aplicacao.hora_inicial
+                    ? `Teste Agendado para ${format(
+                        new Date(aplicacao.hora_inicial),
+                        "dd-MM-yyyy HH:mm"
+                      )}`
+                    : "Teste Sem Limite de Tempo"}
+                </p>
+                <p className={styles.subtitle}>Fora de Horário</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

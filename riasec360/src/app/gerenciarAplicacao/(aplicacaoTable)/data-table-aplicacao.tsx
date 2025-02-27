@@ -1,5 +1,6 @@
 "use client";
 
+//Aqui que fica a interatividade!
 import {
   ColumnDef,
   flexRender,
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+//import { Input } from "@/components/ui/input";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -29,7 +30,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function DataTableAplicacaoUsuario<TData, TValue>({
+export function DataTableAplicacoes<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -51,11 +52,17 @@ export function DataTableAplicacaoUsuario<TData, TValue>({
       columnFilters,
       rowSelection,
     },
+    initialState: {
+      pagination: {
+        pageSize: 7,
+      },
+    },
   });
 
   return (
     <div>
       <div className="rounded-md border">
+        <h1>Aplicações Agendadas</h1>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -112,7 +119,7 @@ export function DataTableAplicacaoUsuario<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Proxima
+          Anterior
         </Button>
         <Button
           variant="outline"
@@ -120,7 +127,7 @@ export function DataTableAplicacaoUsuario<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Anterior
+          Proxima
         </Button>
       </div>
     </div>

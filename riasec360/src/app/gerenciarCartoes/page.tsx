@@ -1,9 +1,10 @@
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { BuscarTodosCartoes, updateCartoesUso } from "@/actions/cartoesActions";
-import { ProfileForm } from "./criarCartao/criarCartaoForm";
+//import { ProfileForm } from "./criarCartao/criarCartaoForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import React from "react";
 
 export default async function GerenciarCartoes() {
   const cartoes = await BuscarTodosCartoes();
@@ -11,7 +12,13 @@ export default async function GerenciarCartoes() {
   await updateCartoesUso();
   return (
     <div>
-      <h1 style={{ display: "flex", justifyContent: "center" }}>
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "1.5rem",
+        }}
+      >
         Cartões já cadastrados
       </h1>
       <Button>

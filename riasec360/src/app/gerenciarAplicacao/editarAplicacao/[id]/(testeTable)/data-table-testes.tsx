@@ -48,7 +48,8 @@ export function DataTableTestes<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getRowId: (row) => row.id_teste,
+    getRowId: (row) => (row as { id_teste: string }).id_teste,
+    //Type assertion é ruim
     state: {
       columnFilters,
       rowSelection,

@@ -8,8 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { RespostasDisplay } from "../types/types";
-import { Car } from "lucide-react";
+import { RespostasDisplay } from "@/app/types/types";
 
 interface CardAplicacaoProps {
   dataInicio: Date | null;

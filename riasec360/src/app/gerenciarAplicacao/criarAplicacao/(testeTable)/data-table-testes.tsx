@@ -27,7 +27,7 @@ import React, { useEffect, useRef } from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  callbackFunction: any;
+  callbackFunction: Function;
 }
 
 export function DataTableTestes<TData, TValue>({
@@ -51,7 +51,8 @@ export function DataTableTestes<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getRowId: (row) => row.id_teste,
+    getRowId: (row) => (row as { id_teste: string }).id_teste, //Isso não é uma boa solução, mas preciso melhorar a tabela toda pra tirar o erro
+
     state: {
       columnFilters,
       rowSelection,

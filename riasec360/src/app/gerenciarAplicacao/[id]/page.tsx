@@ -1,7 +1,7 @@
 import { retornaParticipantesComNome } from "@/actions/aplicacaoActions";
 import { columns } from "./(aplicacaoUsuarioTable)/columns";
 import { DataTableAplicacaoUsuario } from "./(aplicacaoUsuarioTable)/data-table-aplicacao-usuario";
-import { nomesParticipantes } from "@/actions/userActions";
+import React from "react";
 
 export default async function Participantes({
   params,
@@ -12,6 +12,7 @@ export default async function Participantes({
 
   return (
     <div>
+      <h1>Participantes da Aplicação</h1>
       <DataTableAplicacaoUsuario
         columns={columns}
         data={participantesMarcados}

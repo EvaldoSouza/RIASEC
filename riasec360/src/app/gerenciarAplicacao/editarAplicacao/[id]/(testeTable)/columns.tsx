@@ -2,17 +2,16 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Teste } from "@/app/types/types";
+import React from "react";
 
 //TODO Dar um jeito de selecionar apenas um teste. Provavelmente vou usar um RadioGroup, mas tá meio bugado na minha cabeça
 export const columns: ColumnDef<Teste>[] = [
   {
     id: "select",
-
     cell: ({ row }) => (
       <Checkbox
-        checked={row.getIsSelected()}
+        checked={row.getIsSelected() ? true : false} // Ensure it's a boolean
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />

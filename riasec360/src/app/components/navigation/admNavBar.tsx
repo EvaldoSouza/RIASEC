@@ -13,12 +13,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Usuario } from "@/app/types/types";
 import { redirect, usePathname } from "next/navigation";
-import styles from "./admNavBar.module.css";
+import styles from "./navBar.module.css";
 // This function simulates fetching the user's name from a database
 export function AdmNavBar() {
   const [usuario, setUsuario] = useState<Usuario>();
   const pathname = usePathname();
-  const [isActive, setActive] = useState(false);
   //Acho que tá toda hora checando o estado, e renderizando o botão de novo
 
   useEffect(() => {
@@ -74,9 +73,11 @@ export function AdmNavBar() {
 
         <Link
           className={`link ${
-            pathname === "/realizarTeste" ? styles.active : styles.inactive
+            pathname.includes("/gerenciarAplicacao")
+              ? styles.active
+              : styles.inactive
           } `}
-          href="/realizarTeste"
+          href="/gerenciarAplicacao"
         >
           Aplicações
         </Link>
@@ -84,17 +85,18 @@ export function AdmNavBar() {
       <div
         style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
       >
-        <Link
-          className={`link ${
-            pathname === "/perfil"
-              ? "text-white-500 font-semibold"
-              : "text-blue-600"
-          } `}
-          href="/perfil"
-        >
-          <Button>{usuario?.nome}</Button>
-        </Link>
-
+        <Button asChild>
+          <Link
+            className={`link ${
+              pathname.includes("/usuarios/gerenciar/")
+                ? "text-white-500 font-semibold"
+                : "text-blue-600"
+            } `}
+            href={`/usuarios/gerenciar/${usuario?.id_user}`}
+          >
+            {usuario?.nome}{" "}
+          </Link>
+        </Button>
         <LogOut />
       </div>
     </Menubar>

@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import React from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -29,7 +28,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function DataTableAplicacoes<TData, TValue>({
+export function DataTableAplicacaoUsuario<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -56,7 +55,6 @@ export function DataTableAplicacoes<TData, TValue>({
   return (
     <div>
       <div className="rounded-md border">
-        <h1>Aplicações Agendadas</h1>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -113,7 +111,7 @@ export function DataTableAplicacoes<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Anterior
+          Proxima
         </Button>
         <Button
           variant="outline"
@@ -121,7 +119,7 @@ export function DataTableAplicacoes<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Proxima
+          Anterior
         </Button>
       </div>
     </div>

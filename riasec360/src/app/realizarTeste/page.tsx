@@ -77,7 +77,10 @@ export default async function Page() {
         </div>
       )}
       {aplicacoesNaoRespondidas.length > 0 && (
-        <ListaAplicacoes aplicacoes={aplicacoesNaoRespondidas} />
+        <ListaAplicacoes
+          disponiveis={aplicacoesNaoRespondidas}
+          indisponiveis={aplicacoes}
+        />
       )}
     </div>
   );
