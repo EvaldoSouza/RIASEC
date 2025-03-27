@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material";
 import fs from "fs/promises";
-import Link from "next/link";
 import { getServerSession } from "next-auth";
+import React from "react";
 import { LogOut } from "./components/forms/logout-button";
 
 export default async function Inicial() {

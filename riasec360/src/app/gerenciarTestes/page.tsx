@@ -6,7 +6,6 @@ import { columns } from "./columns";
 import { BuscarTodosTestes } from "../../actions/testesActions";
 
 export default async function gerenciarTestes() {
-  //Perguntar
   const testes = await BuscarTodosTestes();
   return (
     <div>

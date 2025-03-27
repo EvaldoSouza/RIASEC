@@ -1,7 +1,6 @@
 "use server";
 
 import { saltAndHashPassword } from "@/lib/passwords";
-import { Prisma } from "@prisma/client";
 import prisma from "@/db/prisma";
 import { getServerSession } from "next-auth";
 import { Usuario } from "@/app/types/types";

@@ -14,7 +14,7 @@ import { redirect, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Usuario } from "@/app/types/types";
 import { Button } from "@/components/ui/button";
-
+import React from "react";
 export function UserNavBar() {
   const [usuario, setUsuario] = useState<Usuario>();
   const pathname = usePathname();

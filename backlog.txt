@@ -6,7 +6,6 @@ Correções:
 
 
 Funcionalidades:
-- Perguntas apropriadas (apagar os dados do banco e colocar dados apropriadas)
 - Ver a possibilidade de implementar a função de Grupos
 - Colocar tabela na janela de Aplicações, deixar mais dados a mostra
 - Modo simulação
@@ -18,3 +17,9 @@ Notas:
 
 
 
+To-do
+fazer a página perfil, que vai mostrar só o usuário
+Melhorar a autenticação
+Fazer o display de resultados
+
+senha mysql no servidor

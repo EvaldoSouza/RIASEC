@@ -39,7 +39,8 @@ const LoginForm: React.FC = () => {
       return;
     }
 
-    console.log("Fazendo login...");
+    //isso daqui ta muito estranho...mas ao mesmo tempo funciona
+    //essa funcao signIn eh do next-auth, a lib que estou usando
     const response = await signIn("credentials", {
       email: formData.email,
       password: formData.password,

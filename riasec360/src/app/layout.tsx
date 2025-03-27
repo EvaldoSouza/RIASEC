@@ -9,7 +9,8 @@ import { NotLogedNavBar } from "./components/navigation/notLogedNavBar";
 import { AdmNavBar } from "./components/navigation/admNavBar";
 import { UserNavBar } from "./components/navigation/userNavBar";
 import { privilegioUsuario } from "@/actions/userActions";
-
+import React from "react";
+import SessionWrapper from "./components/authentication/SessionWrapper";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -35,33 +36,35 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <main>
-              <div className="navigationBar">
-                {!session && (
-                  <div>
-                    <NotLogedNavBar />
-                  </div>
-                )}
-                {session && privilegio === "administrador" && (
-                  <div>
-                    <AdmNavBar />
-                  </div>
-                )}
-                {session && privilegio === "usuario" && (
-                  <div>
-                    <UserNavBar />
-                  </div>
-                )}
-              </div>
-              {children}
-            </main>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body className={inter.className}>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <main>
+                <div className="navigationBar">
+                  {!session && (
+                    <div>
+                      <NotLogedNavBar />
+                    </div>
+                  )}
+                  {session && privilegio === "administrador" && (
+                    <div>
+                      <AdmNavBar />
+                    </div>
+                  )}
+                  {session && privilegio === "usuario" && (
+                    <div>
+                      <UserNavBar />
+                    </div>
+                  )}
+                </div>
+                {children}
+              </main>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }
